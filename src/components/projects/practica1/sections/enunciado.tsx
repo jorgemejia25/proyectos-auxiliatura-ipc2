@@ -107,7 +107,7 @@ export function Practica1EnunciadoSection() {
               </div>
 
               <p style={css("font-size:15px;line-height:1.6;margin:10px 0 0")}>
-                {"Para hacer funcional el sistema debe implementarse un menú que permita al usuario:"}
+                {"Para que el sistema sea operable, debe implementarse un menú que permita al usuario:"}
               </p>
 
               <ul style={css("font-size:14.5px;line-height:1.65;margin:12px 0 0;padding-left:20px")}>

@@ -127,7 +127,7 @@ export function Proyecto1MissionControls({ v }: Props) {
                   </button>
 
                   <button onClick={v.onReset} style={css("flex:0 0 auto;padding:12px 14px;background:#fff;border:4px solid #120720;box-shadow:4px 4px 0 #120720;font-size:13px;font-weight:700;cursor:pointer")}>
-                    {"RESET"}
+                    {"RESTABLECER"}
                   </button>
 
                 </div>

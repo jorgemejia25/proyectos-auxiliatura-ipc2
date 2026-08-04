@@ -3,11 +3,27 @@ import { ArrowUpRightIcon } from "lucide-react"
 
 import { GithubIcon } from "@/components/github-icon"
 import { buttonVariants } from "@/components/ui/button"
+import { getLabPalette } from "@/lib/lab-palettes"
+import { labs } from "@/lib/labs"
 import { GITHUB_URL, GITHUB_USER, projects } from "@/lib/projects"
 import { cn } from "@/lib/utils"
 
 /**
- * Landing hub: GitHub identity + interactive project tiles.
+ * Inline tile styles for laboratory themes (aligned with lab palettes).
+ */
+function labThemeStyles(theme: (typeof labs)[number]["theme"]) {
+  const p = getLabPalette(theme)
+  return {
+    card: { background: p.accent, color: p.accentInk },
+    title: { color: p.accentInk },
+    body: { color: `${p.accentInk}D9` },
+    accent: { color: p.highlight },
+    icon: { color: p.highlight },
+  }
+}
+
+/**
+ * Landing hub: GitHub identity + project tiles + laboratories.
  */
 export function ProjectSelector() {
   return (
@@ -25,7 +41,7 @@ export function ProjectSelector() {
         className="pointer-events-none absolute bottom-[-120px] left-[-80px] size-[380px] rounded-full bg-[#7C3AED]/20 blur-3xl"
       />
 
-      <div className="relative mx-auto flex min-h-dvh w-full max-w-5xl flex-col justify-center gap-10 px-5 py-16 sm:px-8">
+      <div className="relative mx-auto flex min-h-dvh w-full max-w-5xl flex-col justify-center gap-12 px-5 py-16 sm:px-8">
         <header className="flex flex-col gap-6 animate-hub-rise">
           <a
             href={GITHUB_URL}
@@ -46,10 +62,7 @@ export function ProjectSelector() {
           </h1>
         </header>
 
-        <section
-          aria-label="Proyectos disponibles"
-          className="grid gap-5 md:grid-cols-2"
-        >
+        <section aria-label="Proyectos disponibles" className="grid gap-5 md:grid-cols-2">
           {projects.map((project, index) => {
             const isCyan = project.theme === "cyan"
             return (
@@ -105,7 +118,71 @@ export function ProjectSelector() {
           })}
         </section>
 
-        <footer className="flex flex-wrap items-center gap-3 animate-hub-rise [animation-delay:320ms]">
+        <section aria-labelledby="labs-heading" className="flex flex-col gap-5">
+          <div className="animate-hub-rise [animation-delay:280ms]">
+            <p className="font-mono text-xs font-bold tracking-[0.2em] text-[#1E4FD8] uppercase">
+              Material de clase
+            </p>
+            <h2
+              id="labs-heading"
+              className="mt-2 font-[family-name:var(--font-display)] text-4xl leading-none tracking-tight text-[#06142E] uppercase sm:text-5xl"
+            >
+              Laboratorios
+            </h2>
+          </div>
+
+          <div className="grid gap-5 sm:grid-cols-2">
+            {labs.map((lab, index) => {
+              const theme = labThemeStyles(lab.theme)
+              return (
+                <Link
+                  key={lab.slug}
+                  href={`/laboratorios/${lab.slug}`}
+                  className={cn(
+                    "group relative flex flex-col gap-4 border-4 border-[#06142E] p-5 shadow-[10px_10px_0_#06142E] transition-all duration-200",
+                    "hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[14px_14px_0_#06142E]",
+                    "focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#35E0FF]",
+                    "animate-hub-rise"
+                  )}
+                  style={{
+                    animationDelay: `${360 + index * 80}ms`,
+                    ...theme.card,
+                  }}
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex flex-col gap-1">
+                      <h3
+                        className="font-[family-name:var(--font-display)] text-2xl leading-none tracking-tight uppercase sm:text-3xl"
+                        style={theme.title}
+                      >
+                        {lab.label}
+                      </h3>
+                      <p
+                        className="font-mono text-xs font-bold tracking-wide uppercase"
+                        style={theme.accent}
+                      >
+                        {lab.title}
+                      </p>
+                    </div>
+                    <ArrowUpRightIcon
+                      className="size-5 shrink-0 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                      style={theme.icon}
+                    />
+                  </div>
+
+                  <p
+                    className="font-mono text-sm leading-relaxed"
+                    style={theme.body}
+                  >
+                    {lab.summary}
+                  </p>
+                </Link>
+              )
+            })}
+          </div>
+        </section>
+
+        <footer className="flex flex-wrap items-center gap-3 animate-hub-rise [animation-delay:680ms]">
           <a
             href={GITHUB_URL}
             target="_blank"
@@ -118,9 +195,6 @@ export function ProjectSelector() {
             <GithubIcon data-icon="inline-start" />
             github.com/{GITHUB_USER}
           </a>
-          <span className="font-mono text-xs text-[#082A63]/80">
-            Auxiliatura IPC2 · 1S 2026
-          </span>
         </footer>
       </div>
     </main>

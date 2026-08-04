@@ -316,7 +316,7 @@ export function Proyecto1VersionamientoSection() {
               {"POR QUÉ ESTE FLUJO"}
             </div>
             <p style={css("font-size:14px;line-height:1.6;margin:10px 0 0")}>
-              {"Demuestra avance continuo, deja historial legible para revisión y evita perder trabajo si algo se rompe. No necesita hotfix/release branches: con tags semanales basta para este curso."}
+              {"Demuestra avance continuo, deja historial legible para revisión y evita perder trabajo ante fallos o regresiones. No necesita hotfix/release branches: con tags semanales basta para este curso."}
             </p>
           </div>
         </div>

@@ -262,7 +262,7 @@ export function Practica1RutaSection({ treeText }: Practica1RutaSectionProps) {
                 </div>
 
                 <div style={css("font-size:13.5px;line-height:1.55;margin-top:6px")}>
-                  {"Mensaje que diga qué quedó funcionando. Sirve de respaldo si algo se rompe y demuestra autoría del código."}
+                  {"Mensaje que diga qué quedó funcionando. Sirve de respaldo ante fallos y demuestra autoría del código."}
                 </div>
 
               </div>

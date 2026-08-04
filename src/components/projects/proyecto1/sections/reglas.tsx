@@ -54,7 +54,7 @@ export function Proyecto1ReglasSection() {
                 </li>
 
                 <li>
-                  {"Si hay varias unidades civiles se elige a cuál rescatar; con una sola no se pregunta."}
+                  {"Si hay varias unidades civiles, el usuario selecciona a cuál rescatar; con una sola no se solicita elección."}
                 </li>
 
                 <li>
@@ -106,7 +106,7 @@ export function Proyecto1ReglasSection() {
                 </li>
 
                 <li>
-                  {"Si hay varios recursos se elige cuál extraer; con uno solo no se pregunta."}
+                  {"Si hay varios recursos, el usuario selecciona cuál extraer; con uno solo no se solicita elección."}
                 </li>
 
                 <li>
@@ -180,7 +180,7 @@ export function Proyecto1ReglasSection() {
               </p>
 
               <div style={css("margin-top:14px;background:#120720;color:#FF6FD8;border:3px solid #120720;padding:12px;font-size:13.5px;font-weight:700;animation:blink 1.8s steps(1,end) infinite")}>
-                {"PROHIBIDO: List · LinkedList · Queue · Stack de C# → penalización del 100%"}
+                {"NO PERMITIDO: List · LinkedList · Queue · Stack de C# → penalización del 100%"}
               </div>
 
             </div>

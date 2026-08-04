@@ -133,7 +133,7 @@ export function Proyecto1RutaSection({ treeText }: Proyecto1RutaSectionProps) {
                 </div>
 
                 <p style={css("font-size:14.5px;line-height:1.6;margin:6px 0 0")}>
-                  {"Lector que llena la matriz, coloca las unidades militares y registra robots. Pruebe la carga de dos archivos seguidos: nombres repetidos deben actualizar, no duplicar."}
+                  {"Lector que carga la matriz, coloca las unidades militares y registra robots. Pruebe la carga de dos archivos seguidos: nombres repetidos deben actualizar, no duplicar."}
                 </p>
 
                 <div style={css("display:flex;gap:8px;flex-wrap:wrap;margin-top:10px")}>

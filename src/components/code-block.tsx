@@ -12,15 +12,17 @@ import { createPortal } from "react-dom"
 import { Maximize2Icon, Minimize2Icon, XIcon, ZoomInIcon, ZoomOutIcon } from "lucide-react"
 import { PrismLight as SyntaxHighlighter } from "react-syntax-highlighter"
 import csharp from "react-syntax-highlighter/dist/esm/languages/prism/csharp"
+import json from "react-syntax-highlighter/dist/esm/languages/prism/json"
 import markup from "react-syntax-highlighter/dist/esm/languages/prism/markup"
 import oneDark from "react-syntax-highlighter/dist/esm/styles/prism/one-dark"
 import oneLight from "react-syntax-highlighter/dist/esm/styles/prism/one-light"
 
 SyntaxHighlighter.registerLanguage("csharp", csharp)
+SyntaxHighlighter.registerLanguage("json", json)
 SyntaxHighlighter.registerLanguage("xml", markup)
 SyntaxHighlighter.registerLanguage("markup", markup)
 
-export type CodeBlockLanguage = "csharp" | "xml" | "markup"
+export type CodeBlockLanguage = "csharp" | "json" | "xml" | "markup"
 export type CodeBlockVariant = "light" | "dark"
 
 type CodeBlockProps = {

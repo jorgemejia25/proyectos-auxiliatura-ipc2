@@ -28,7 +28,7 @@ export function Practica1HeroSection() {
               </div>
 
               <p style={css("font-size:15px;line-height:1.6;margin:14px 0 0;text-wrap:pretty")}>
-                {"Una veterinaria necesita una aplicación que permita registrar y gestionar las citas de sus pacientes de forma sencilla. El sistema modela cuatro tipos de mascotas: "}
+                {"Una veterinaria necesita una aplicación que permita registrar y gestionar las citas de sus pacientes de manera ordenada. El sistema modela cuatro tipos de mascotas: "}
                 <strong>
                   {"perros"}
                 </strong>

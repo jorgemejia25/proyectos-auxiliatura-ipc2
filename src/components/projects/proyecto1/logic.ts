@@ -771,7 +771,7 @@ public class ReporteRuta
       cityDims: city.rows + ' filas × ' + city.cols + ' columnas',
       cityId: st.cityId, mission: st.mission, robotId: st.robotId,
       entryIdx: String(st.entryIdx), targetIdx: String(st.targetIdx),
-      cityOptions: this.cities().map(c => ({ id: c.id, name: c.name + (c.id === 'beta' ? ' · demo misión imposible' : '') })),
+      cityOptions: this.cities().map(c => ({ id: c.id, name: c.name + (c.id === 'beta' ? ' · práctica misión imposible' : '') })),
       onPresetOk: () => this.preset('ok'), onPresetFight: () => this.preset('fight'), onPresetBad: () => this.preset('bad'),
       robotOptions: this.robotsFor(st.mission).map(r => ({ id: r.id, label: r.name + ' · ' + r.type + (r.cap ? ' · cap ' + r.cap : '') })),
       entryOptions: entries.map((e, i) => ({ idx: String(i), label: 'E en fila ' + e.r + ', columna ' + e.c })),
