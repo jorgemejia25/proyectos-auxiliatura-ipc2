@@ -16,7 +16,7 @@ export function Proyecto1EntregaSection({ repoName }: Proyecto1EntregaSectionPro
             <div style={css("display:flex;align-items:baseline;gap:14px;flex-wrap:wrap")}>
 
               <div style={css("font-family:'Archivo Black',sans-serif;font-size:15px;background:#C6FF3D;color:#120720;padding:4px 10px")}>
-                {"10"}
+                {"11"}
               </div>
 
               <h2 style={css("font-family:'Archivo Black',sans-serif;font-size:clamp(30px,5vw,54px);margin:0;text-transform:uppercase;letter-spacing:-2px;color:#fff")}>

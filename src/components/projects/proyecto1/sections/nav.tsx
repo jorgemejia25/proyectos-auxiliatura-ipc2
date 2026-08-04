@@ -45,6 +45,10 @@ export function Proyecto1Nav() {
             {"Fases"}
           </a>
 
+          <a href="#versionamiento" style={css("color:#EDE4FF;border-bottom:3px solid #7C3AED")}>
+            {"Git"}
+          </a>
+
           <a href="#reglas" style={css("color:#EDE4FF;border-bottom:3px solid #7C3AED")}>
             {"Reglas"}
           </a>

@@ -12,6 +12,7 @@ import { Proyecto1ProblemaSection } from "@/components/projects/proyecto1/sectio
 import { Proyecto1ReglasSection } from "@/components/projects/proyecto1/sections/reglas"
 import { Proyecto1RobotsSection } from "@/components/projects/proyecto1/sections/robots"
 import { Proyecto1RutaSection } from "@/components/projects/proyecto1/sections/ruta"
+import { Proyecto1VersionamientoSection } from "@/components/projects/proyecto1/sections/versionamiento"
 import { ArtifactStyles } from "@/components/projects/proyecto1/styles"
 import { getProject } from "@/lib/projects"
 
@@ -41,6 +42,7 @@ export function Proyecto1View() {
         <Proyecto1Interactive />
         <Proyecto1EstructurasSection />
         <Proyecto1RutaSection treeText={PROYECTO1_TREE_TEXT} />
+        <Proyecto1VersionamientoSection />
         <Proyecto1ReglasSection />
         <Proyecto1EntregaSection repoName={PROYECTO1_REPO_NAME} />
       </div>

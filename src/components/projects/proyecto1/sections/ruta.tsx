@@ -289,7 +289,11 @@ export function Proyecto1RutaSection({ treeText }: Proyecto1RutaSectionProps) {
                 </div>
 
                 <div style={css("font-size:13.5px;line-height:1.55;margin-top:6px")}>
-                  {"Un commit por fase terminada, con mensaje que diga qué quedó funcionando. Los cuatro releases salen solos."}
+                  {"Use Conventional Commits y tags semanales. Detalle completo en "}
+                  <a href="#versionamiento" style={css("color:#120720;border-bottom:3px solid #120720;font-weight:700")}>
+                    {"Commits y GitFlow"}
+                  </a>
+                  {"."}
                 </div>
 
               </div>

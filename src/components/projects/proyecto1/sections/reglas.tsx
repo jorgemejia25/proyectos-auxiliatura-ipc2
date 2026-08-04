@@ -10,7 +10,7 @@ export function Proyecto1ReglasSection() {
           <div style={css("display:flex;align-items:baseline;gap:14px;flex-wrap:wrap")}>
 
             <div style={css("font-family:'Archivo Black',sans-serif;font-size:15px;background:#120720;color:#C6FF3D;padding:4px 10px")}>
-              {"09"}
+              {"10"}
             </div>
 
             <h2 style={css("font-family:'Archivo Black',sans-serif;font-size:clamp(30px,5vw,54px);margin:0;text-transform:uppercase;letter-spacing:-2px")}>
