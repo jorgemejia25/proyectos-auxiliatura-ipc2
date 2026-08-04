@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Práctica 1 · IPC2 · Veterinaria POO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&amp;family=IBM+Plex+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;background:#A8C6FF;color:#06142E;font-family:'IBM Plex Mono',monospace;-webkit-font-smoothing:antialiased}
+  a{color:#082A63;text-decoration:none;border-bottom:3px solid #06142E}
+  a:hover{color:#1E4FD8;background:#35E0FF}
+  select,button,input{font-family:'IBM Plex Mono',monospace}
+  ::selection{background:#35E0FF;color:#06142E}
+  @keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  @keyframes blink{0%,49%{opacity:1}50%,100%{opacity:.15}}
+  @keyframes drift{from{background-position:0 0}to{background-position:30px 30px}}
+  @keyframes rise{from{transform:translateY(14px);opacity:0}to{transform:translateY(0);opacity:1}}
+</style>
+</helmet>
+
+<div style="min-height:100vh;background-image:linear-gradient(rgba(6,20,46,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(6,20,46,.08) 1px,transparent 1px);background-size:30px 30px;animation:drift 6s linear infinite">
+
+<div style="position:sticky;top:0;z-index:50;display:flex;flex-wrap:wrap;align-items:center;gap:18px;padding:12px 22px;background:#06142E;border-bottom:5px solid #35E0FF">
+  <div style="font-family:'Archivo Black',sans-serif;font-size:16px;letter-spacing:-.5px;color:#35E0FF">IPC2 // PRACT01</div>
+  <div style="display:flex;flex-wrap:wrap;gap:14px;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase">
+    <a href="#enunciado" style="color:#E4EEFF;border-bottom:3px solid #1E4FD8">Enunciado</a>
+    <a href="#clases" style="color:#E4EEFF;border-bottom:3px solid #1E4FD8">Clases</a>
+    <a href="#simulador" style="color:#E4EEFF;border-bottom:3px solid #1E4FD8">Simulador</a>
+    <a href="#codigo" style="color:#E4EEFF;border-bottom:3px solid #1E4FD8">Código</a>
+    <a href="#ruta" style="color:#E4EEFF;border-bottom:3px solid #1E4FD8">Fases</a>
+    <a href="#hc" style="color:#E4EEFF;border-bottom:3px solid #1E4FD8">Hoja de calificación</a>
+    <a href="#entrega" style="color:#E4EEFF;border-bottom:3px solid #1E4FD8">Entrega</a>
+  </div>
+</div>
+
+<section style="max-width:1240px;margin:0 auto;padding:56px 22px 30px">
+  <div style="display:inline-block;background:#35E0FF;border:4px solid #06142E;box-shadow:7px 7px 0 #06142E;padding:6px 14px;font-size:13px;font-weight:700;letter-spacing:2px">USAC · FIUSAC · ESCUELA DE CIENCIAS Y SISTEMAS</div>
+  <h1 style="font-family:'Archivo Black',sans-serif;font-size:clamp(48px,9.4vw,140px);line-height:.86;letter-spacing:-5px;margin:22px 0 0;text-transform:uppercase;color:#06142E;text-shadow:8px 8px 0 #1E4FD8">Veterinaria<br>POO en C#</h1>
+  <div style="display:flex;flex-wrap:wrap;gap:20px;margin-top:26px;align-items:stretch">
+    <div style="flex:2 1 420px;background:#FFFFFF;border:5px solid #06142E;box-shadow:12px 12px 0 #06142E;padding:24px">
+      <div style="font-family:'Archivo Black',sans-serif;font-size:26px;line-height:1.05;text-transform:uppercase">Sistema de citas<br>para una veterinaria</div>
+      <p style="font-size:15px;line-height:1.6;margin:14px 0 0;text-wrap:pretty">Una veterinaria necesita una aplicación que permita registrar y gestionar las citas de sus pacientes de forma sencilla. El sistema modela cuatro tipos de mascotas: <strong>perros</strong>, <strong>gatos</strong>, <strong>aves</strong> y <strong>tortugas</strong>, cada uno con características y comportamientos específicos, sobre una clase base <strong>Mascota</strong> y un menú interactivo en consola.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:18px">
+        <span style="background:#1E4FD8;color:#fff;border:3px solid #06142E;padding:5px 10px;font-size:12px;font-weight:700">C#</span>
+        <span style="background:#35E0FF;border:3px solid #06142E;padding:5px 10px;font-size:12px;font-weight:700">CONSOLA</span>
+        <span style="background:#7FB2FF;border:3px solid #06142E;padding:5px 10px;font-size:12px;font-weight:700">POO</span>
+        <span style="background:#06142E;color:#35E0FF;border:3px solid #06142E;padding:5px 10px;font-size:12px;font-weight:700">HERENCIA</span>
+        <span style="background:#fff;border:3px solid #06142E;padding:5px 10px;font-size:12px;font-weight:700">POLIMORFISMO</span>
+      </div>
+    </div>
+    <div style="flex:1 1 260px;background:#082A63;color:#E4EEFF;border:5px solid #06142E;box-shadow:12px 12px 0 #06142E;padding:24px;display:flex;flex-direction:column;justify-content:space-between;gap:18px">
+      <div>
+        <div style="font-size:12px;letter-spacing:2px;font-weight:700;color:#35E0FF">ENTREGA</div>
+        <div style="font-family:'Archivo Black',sans-serif;font-size:44px;line-height:1;margin-top:6px">14 AGO</div>
+        <div style="font-size:13px;margin-top:4px">viernes · 11:59 pm · UEDI</div>
+      </div>
+      <div style="border-top:3px dashed #1E4FD8;padding-top:14px;font-size:13px;line-height:1.6">
+        <div><strong style="color:#35E0FF">100</strong> puntos de ponderación</div>
+        <div style="margin-top:6px"><strong style="color:#35E0FF">10</strong> horas aproximadas</div>
+        <div style="margin-top:6px">Auxiliar como colaborador: <strong style="color:#35E0FF">jorgemejia25</strong></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<section id="objetivos" style="max-width:1240px;margin:0 auto;padding:56px 22px">
+  <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap">
+    <div style="font-family:'Archivo Black',sans-serif;font-size:15px;background:#06142E;color:#35E0FF;padding:4px 10px">00</div>
+    <h2 style="font-family:'Archivo Black',sans-serif;font-size:clamp(30px,5vw,54px);margin:0;text-transform:uppercase;letter-spacing:-2px">Objetivos</h2>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;margin-top:26px">
+    <div style="grid-column:1/-1;background:#1E4FD8;color:#fff;border:5px solid #06142E;box-shadow:10px 10px 0 #06142E;padding:22px">
+      <div style="font-size:12px;letter-spacing:2px;font-weight:700;color:#35E0FF">OBJETIVO GENERAL</div>
+      <p style="margin:8px 0 0;font-size:19px;line-height:1.45;font-weight:500;text-wrap:pretty">Aplicar los conceptos de Programación Orientada a Objetos en C# desarrollando un sistema que gestione la administración del sistema de citas de una veterinaria, diferenciando entre especies de mascotas.</p>
+    </div>
+    <div style="background:#fff;border:4px solid #06142E;box-shadow:8px 8px 0 #06142E;padding:18px"><div style="font-family:'Archivo Black',sans-serif;font-size:28px;color:#1E4FD8">01</div><div style="font-size:14px;line-height:1.55;margin-top:6px">Comprender la <strong>abstracción</strong> al modelar un sistema de veterinaria real.</div></div>
+    <div style="background:#fff;border:4px solid #06142E;box-shadow:8px 8px 0 #06142E;padding:18px"><div style="font-family:'Archivo Black',sans-serif;font-size:28px;color:#1E4FD8">02</div><div style="font-size:14px;line-height:1.55;margin-top:6px">Utilizar <strong>herencia</strong> para definir diferentes tipos de animales.</div></div>
+    <div style="background:#fff;border:4px solid #06142E;box-shadow:8px 8px 0 #06142E;padding:18px"><div style="font-family:'Archivo Black',sans-serif;font-size:28px;color:#1E4FD8">03</div><div style="font-size:14px;line-height:1.55;margin-top:6px">Implementar una clase base que permita <strong>encapsular</strong> la información de los animales.</div></div>
+    <div style="background:#fff;border:4px solid #06142E;box-shadow:8px 8px 0 #06142E;padding:18px"><div style="font-family:'Archivo Black',sans-serif;font-size:28px;color:#1E4FD8">04</div><div style="font-size:14px;line-height:1.55;margin-top:6px">Aplicar <strong>polimorfismo</strong> para personalizar el comportamiento según el tipo de animal.</div></div>
+  </div>
+</section>
+
+<section id="enunciado" style="max-width:1240px;margin:0 auto;padding:20px 22px 56px">
+  <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap">
+    <div style="font-family:'Archivo Black',sans-serif;font-size:15px;background:#06142E;color:#35E0FF;padding:4px 10px">01</div>
+    <h2 style="font-family:'Archivo Black',sans-serif;font-size:clamp(30px,5vw,54px);margin:0;text-transform:uppercase;letter-spacing:-2px">Enunciado</h2>
+  </div>
+  <div style="display:flex;flex-wrap:wrap;gap:20px;margin-top:26px">
+    <div style="flex:1 1 420px;background:#fff;border:5px solid #06142E;box-shadow:12px 12px 0 #06142E;padding:24px">
+      <div style="font-size:12px;letter-spacing:2px;font-weight:700;color:#1E4FD8">CLASE BASE · MASCOTA</div>
+      <p style="font-size:15px;line-height:1.6;margin:10px 0 0">El sistema debe contar con una clase base llamada <strong>Mascota</strong>, que representará un paciente genérico de la veterinaria, con los atributos comunes:</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-top:14px">
+        <div style="background:#E4EEFF;border:3px solid #06142E;padding:8px 10px;font-size:13px;font-weight:700">Nombre</div>
+        <div style="background:#E4EEFF;border:3px solid #06142E;padding:8px 10px;font-size:13px;font-weight:700">Peso (kg)</div>
+        <div style="background:#E4EEFF;border:3px solid #06142E;padding:8px 10px;font-size:13px;font-weight:700">Sexo</div>
+        <div style="background:#E4EEFF;border:3px solid #06142E;padding:8px 10px;font-size:13px;font-weight:700">Edad</div>
+        <div style="background:#E4EEFF;border:3px solid #06142E;padding:8px 10px;font-size:13px;font-weight:700">Propietario</div>
+        <div style="background:#E4EEFF;border:3px solid #06142E;padding:8px 10px;font-size:13px;font-weight:700">Código (8 alfanum.)</div>
+        <div style="background:#E4EEFF;border:3px solid #06142E;padding:8px 10px;font-size:13px;font-weight:700">Estado: enfermo / sano</div>
+      </div>
+      <p style="font-size:15px;line-height:1.6;margin:16px 0 0">También debe incluir métodos para:</p>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-top:10px">
+        <div style="background:#35E0FF;border:3px solid #06142E;padding:10px;font-size:13.5px"><strong>Calcular dosis de medicamento</strong> — recibe <code>dosis_por_Kg</code> (double), los miligramos que deben administrarse por cada kilogramo de peso (mg/kg).</div>
+        <div style="background:#35E0FF;border:3px solid #06142E;padding:10px;font-size:13.5px"><strong>Cambiar estado del paciente</strong></div>
+        <div style="background:#35E0FF;border:3px solid #06142E;padding:10px;font-size:13.5px"><strong>Mostrar su información general</strong></div>
+      </div>
+    </div>
+    <div style="flex:1 1 300px;background:#082A63;color:#E4EEFF;border:5px solid #06142E;box-shadow:12px 12px 0 #06142E;padding:24px">
+      <div style="font-size:12px;letter-spacing:2px;font-weight:700;color:#35E0FF">MENÚ INTERACTIVO EN CONSOLA</div>
+      <p style="font-size:15px;line-height:1.6;margin:10px 0 0">Para hacer funcional el sistema debe implementarse un menú que permita al usuario:</p>
+      <ul style="font-size:14.5px;line-height:1.65;margin:12px 0 0;padding-left:20px">
+        <li>Registrar nuevas mascotas en la veterinaria.</li>
+        <li>Gestionar los pacientes ya registrados: cambiar estado del paciente, calcular la dosis del medicamento, devolver o consultar información de cada uno.</li>
+      </ul>
+      <p style="font-size:14.5px;line-height:1.6;margin:14px 0 0;border-top:3px dashed #1E4FD8;padding-top:14px">El programa debe estar diseñado de manera que se mantenga en ejecución hasta que el usuario decida salir.</p>
+    </div>
+  </div>
+</section>
+
+<section id="clases" style="background:#06142E;color:#E4EEFF;border-top:5px solid #06142E;border-bottom:5px solid #06142E;padding:56px 0">
+  <div style="max-width:1240px;margin:0 auto;padding:0 22px">
+    <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap">
+      <div style="font-family:'Archivo Black',sans-serif;font-size:15px;background:#35E0FF;color:#06142E;padding:4px 10px">02</div>
+      <h2 style="font-family:'Archivo Black',sans-serif;font-size:clamp(30px,5vw,54px);margin:0;text-transform:uppercase;letter-spacing:-2px;color:#fff">Jerarquía de clases</h2>
+    </div>
+    <p style="font-size:15px;line-height:1.6;margin:16px 0 0;max-width:760px">Cada clase derivada hereda de <strong style="color:#35E0FF">Mascota</strong>, agrega sus atributos propios y sobrescribe el cálculo de dosis con su factor de ajuste.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px;margin-top:28px">
+      <div style="background:#1E4FD8;border:4px solid #35E0FF;box-shadow:9px 9px 0 #35E0FF;padding:20px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline"><div style="font-family:'Archivo Black',sans-serif;font-size:26px;text-transform:uppercase;color:#fff">Perro</div><div style="background:#35E0FF;color:#06142E;font-weight:700;font-size:13px;padding:3px 8px;border:3px solid #06142E">100 %</div></div>
+        <div style="font-size:13px;margin-top:10px;line-height:1.6;color:#E4EEFF">Atributos adicionales: <strong>raza</strong>, <strong>tamaño</strong>, etc.</div>
+        <div style="font-size:13px;margin-top:10px;line-height:1.6;color:#E4EEFF">Dosis estándar: peso × mg/kg, sin ajuste adicional.</div>
+        <div style="margin-top:14px;background:#06142E;color:#35E0FF;border:3px solid #06142E;padding:8px;font-size:12.5px">peso * dosisPorKg</div>
+      </div>
+      <div style="background:#1E4FD8;border:4px solid #35E0FF;box-shadow:9px 9px 0 #35E0FF;padding:20px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline"><div style="font-family:'Archivo Black',sans-serif;font-size:26px;text-transform:uppercase;color:#fff">Gato</div><div style="background:#35E0FF;color:#06142E;font-weight:700;font-size:13px;padding:3px 8px;border:3px solid #06142E">90 %</div></div>
+        <div style="font-size:13px;margin-top:10px;line-height:1.6;color:#E4EEFF">Atributos adicionales: <strong>raza</strong>, <strong>esterilizado</strong>, etc.</div>
+        <div style="font-size:13px;margin-top:10px;line-height:1.6;color:#E4EEFF">Misma dosis base con factor de ajuste del 90 %.</div>
+        <div style="margin-top:14px;background:#06142E;color:#35E0FF;border:3px solid #06142E;padding:8px;font-size:12.5px">peso * dosisPorKg * 0.90</div>
+      </div>
+      <div style="background:#1E4FD8;border:4px solid #35E0FF;box-shadow:9px 9px 0 #35E0FF;padding:20px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline"><div style="font-family:'Archivo Black',sans-serif;font-size:26px;text-transform:uppercase;color:#fff">Ave</div><div style="background:#35E0FF;color:#06142E;font-weight:700;font-size:13px;padding:3px 8px;border:3px solid #06142E">50 %</div></div>
+        <div style="font-size:13px;margin-top:10px;line-height:1.6;color:#E4EEFF">Atributos adicionales: <strong>envergadura de alas</strong>, <strong>puede volar</strong>, etc.</div>
+        <div style="font-size:13px;margin-top:10px;line-height:1.6;color:#E4EEFF">Factor del 50 % por sus características fisiológicas.</div>
+        <div style="margin-top:14px;background:#06142E;color:#35E0FF;border:3px solid #06142E;padding:8px;font-size:12.5px">peso * dosisPorKg * 0.50</div>
+      </div>
+      <div style="background:#1E4FD8;border:4px solid #35E0FF;box-shadow:9px 9px 0 #35E0FF;padding:20px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline"><div style="font-family:'Archivo Black',sans-serif;font-size:26px;text-transform:uppercase;color:#fff">Tortuga</div><div style="background:#35E0FF;color:#06142E;font-weight:700;font-size:13px;padding:3px 8px;border:3px solid #06142E">80 %</div></div>
+        <div style="font-size:13px;margin-top:10px;line-height:1.6;color:#E4EEFF">Atributos adicionales: <strong>tipo de caparazón</strong>, <strong>es acuática</strong>, etc.</div>
+        <div style="font-size:13px;margin-top:10px;line-height:1.6;color:#E4EEFF">Factor del 80 %, dosis ligeramente inferior a la estándar.</div>
+        <div style="margin-top:14px;background:#06142E;color:#35E0FF;border:3px solid #06142E;padding:8px;font-size:12.5px">peso * dosisPorKg * 0.80</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="simulador" style="max-width:1240px;margin:0 auto;padding:56px 22px">
+  <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap">
+    <div style="font-family:'Archivo Black',sans-serif;font-size:15px;background:#06142E;color:#35E0FF;padding:4px 10px">03</div>
+    <h2 style="font-family:'Archivo Black',sans-serif;font-size:clamp(30px,5vw,54px);margin:0;text-transform:uppercase;letter-spacing:-2px">Simulador de consola</h2>
+  </div>
+  <p style="font-size:15px;line-height:1.6;margin:16px 0 0;max-width:760px">Registra pacientes, cambia su estado y calcula la dosis. El panel derecho imita la salida del menú en consola.</p>
+
+  <div style="display:flex;flex-wrap:wrap;gap:20px;margin-top:26px;align-items:flex-start">
+    <div style="flex:1 1 380px;background:#fff;border:5px solid #06142E;box-shadow:12px 12px 0 #06142E;padding:22px">
+      <div style="font-family:'Archivo Black',sans-serif;font-size:20px;text-transform:uppercase">1 · Registrar mascota</div>
+      <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
+        <button onClick="{{ pickPerro }}" style="flex:1 1 80px;background:{{ bgPerro }};color:{{ fgPerro }};border:4px solid #06142E;box-shadow:4px 4px 0 #06142E;padding:10px 6px;font-size:13px;font-weight:700;cursor:pointer">PERRO</button>
+        <button onClick="{{ pickGato }}" style="flex:1 1 80px;background:{{ bgGato }};color:{{ fgGato }};border:4px solid #06142E;box-shadow:4px 4px 0 #06142E;padding:10px 6px;font-size:13px;font-weight:700;cursor:pointer">GATO</button>
+        <button onClick="{{ pickAve }}" style="flex:1 1 80px;background:{{ bgAve }};color:{{ fgAve }};border:4px solid #06142E;box-shadow:4px 4px 0 #06142E;padding:10px 6px;font-size:13px;font-weight:700;cursor:pointer">AVE</button>
+        <button onClick="{{ pickTortuga }}" style="flex:1 1 80px;background:{{ bgTortuga }};color:{{ fgTortuga }};border:4px solid #06142E;box-shadow:4px 4px 0 #06142E;padding:10px 6px;font-size:13px;font-weight:700;cursor:pointer">TORTUGA</button>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:18px">
+        <label style="display:flex;flex-direction:column;gap:5px;font-size:11.5px;font-weight:700;letter-spacing:1px">NOMBRE
+          <input value="{{ nombre }}" onChange="{{ onNombre }}" placeholder="Firulais" style="border:4px solid #06142E;background:#E4EEFF;padding:9px;font-size:14px">
+        </label>
+        <label style="display:flex;flex-direction:column;gap:5px;font-size:11.5px;font-weight:700;letter-spacing:1px">PESO (KG)
+          <input value="{{ peso }}" onChange="{{ onPeso }}" placeholder="12.5" style="border:4px solid #06142E;background:#E4EEFF;padding:9px;font-size:14px">
+        </label>
+        <label style="display:flex;flex-direction:column;gap:5px;font-size:11.5px;font-weight:700;letter-spacing:1px">EDAD (AÑOS)
+          <input value="{{ edad }}" onChange="{{ onEdad }}" placeholder="3" style="border:4px solid #06142E;background:#E4EEFF;padding:9px;font-size:14px">
+        </label>
+        <label style="display:flex;flex-direction:column;gap:5px;font-size:11.5px;font-weight:700;letter-spacing:1px">SEXO
+          <select value="{{ sexo }}" onChange="{{ onSexo }}" style="border:4px solid #06142E;background:#E4EEFF;padding:9px;font-size:14px">
+            <option value="Macho">Macho</option>
+            <option value="Hembra">Hembra</option>
+          </select>
+        </label>
+        <label style="display:flex;flex-direction:column;gap:5px;font-size:11.5px;font-weight:700;letter-spacing:1px">PROPIETARIO
+          <input value="{{ propietario }}" onChange="{{ onPropietario }}" placeholder="Ana López" style="border:4px solid #06142E;background:#E4EEFF;padding:9px;font-size:14px">
+        </label>
+        <label style="display:flex;flex-direction:column;gap:5px;font-size:11.5px;font-weight:700;letter-spacing:1px">ESTADO
+          <select value="{{ estado }}" onChange="{{ onEstado }}" style="border:4px solid #06142E;background:#E4EEFF;padding:9px;font-size:14px">
+            <option value="Enfermo">Enfermo</option>
+            <option value="Sano">Sano</option>
+          </select>
+        </label>
+      </div>
+
+      <div style="margin-top:16px;border:4px dashed #1E4FD8;padding:14px;background:#E4EEFF">
+        <div style="font-size:11.5px;font-weight:700;letter-spacing:1.5px;color:#082A63">ATRIBUTOS DE {{ tipoUpper }}</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:10px">
+          <label style="display:flex;flex-direction:column;gap:5px;font-size:11.5px;font-weight:700;letter-spacing:1px">{{ extraALabel }}
+            <input value="{{ extraA }}" onChange="{{ onExtraA }}" placeholder="{{ extraAPlaceholder }}" style="border:4px solid #06142E;background:#fff;padding:9px;font-size:14px">
+          </label>
+          <label style="display:flex;flex-direction:column;gap:5px;font-size:11.5px;font-weight:700;letter-spacing:1px">{{ extraBLabel }}
+            <select value="{{ extraB }}" onChange="{{ onExtraB }}" style="border:4px solid #06142E;background:#fff;padding:9px;font-size:14px">
+              <option value="Sí">Sí</option>
+              <option value="No">No</option>
+            </select>
+          </label>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px">
+        <button onClick="{{ registrar }}" style="flex:1 1 160px;background:#06142E;color:#35E0FF;border:4px solid #06142E;box-shadow:6px 6px 0 #1E4FD8;padding:14px;font-family:'Archivo Black',sans-serif;font-size:15px;text-transform:uppercase;cursor:pointer">Registrar paciente</button>
+        <button onClick="{{ demo }}" style="background:#35E0FF;border:4px solid #06142E;box-shadow:6px 6px 0 #06142E;padding:14px;font-size:13px;font-weight:700;cursor:pointer">CARGAR EJEMPLOS</button>
+      </div>
+      <div style="margin-top:12px;font-size:13px;font-weight:700;color:#1E4FD8;min-height:18px">{{ aviso }}</div>
+    </div>
+
+    <div style="flex:1 1 340px;background:#06142E;border:5px solid #06142E;box-shadow:12px 12px 0 #1E4FD8;padding:0;display:flex;flex-direction:column;min-height:520px">
+      <div style="display:flex;align-items:center;gap:8px;padding:12px 16px;background:#082A63;border-bottom:4px solid #35E0FF">
+        <div style="width:12px;height:12px;background:#35E0FF;animation:blink 1.2s steps(1) infinite"></div>
+        <div style="font-size:12px;font-weight:700;letter-spacing:2px;color:#35E0FF">VeterinariaApp.exe</div>
+        <div style="margin-left:auto;font-size:11.5px;color:#7FB2FF">{{ totalPacientes }} pacientes</div>
+      </div>
+      <div style="flex:1;padding:16px;overflow:auto;max-height:520px">
+        <sc-for list="{{ consola }}" as="linea" hint-placeholder-count="4">
+          <div style="font-size:13px;line-height:1.6;color:#E4EEFF;white-space:pre-wrap;animation:rise .18s ease-out">{{ linea }}</div>
+        </sc-for>
+      </div>
+      <div style="padding:12px 16px;border-top:4px solid #1E4FD8;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+        <div style="font-size:11.5px;font-weight:700;letter-spacing:1px;color:#35E0FF">DOSIS MG/KG</div>
+        <input value="{{ dosisKg }}" onChange="{{ onDosisKg }}" style="width:80px;border:3px solid #35E0FF;background:#06142E;color:#35E0FF;padding:7px;font-size:13px">
+        <button onClick="{{ limpiar }}" style="margin-left:auto;background:#1E4FD8;color:#fff;border:3px solid #35E0FF;padding:7px 12px;font-size:12px;font-weight:700;cursor:pointer">LIMPIAR</button>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:34px">
+    <div style="font-family:'Archivo Black',sans-serif;font-size:20px;text-transform:uppercase">2 · Gestionar pacientes registrados</div>
+    <sc-if value="{{ vacio }}" hint-placeholder-val="{{ false }}">
+      <div style="margin-top:14px;background:#E4EEFF;border:4px dashed #06142E;padding:26px;text-align:center;font-size:14px;font-weight:700;color:#082A63">Sin pacientes registrados. Registra uno arriba o carga los ejemplos.</div>
+    </sc-if>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px;margin-top:16px">
+      <sc-for list="{{ pacientes }}" as="p" hint-placeholder-count="2">
+        <div style="background:#fff;border:5px solid #06142E;box-shadow:9px 9px 0 #06142E;padding:18px;animation:rise .22s ease-out">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px">
+            <div>
+              <div style="font-family:'Archivo Black',sans-serif;font-size:22px;text-transform:uppercase;line-height:1">{{ p.nombre }}</div>
+              <div style="font-size:12px;font-weight:700;letter-spacing:1px;color:#1E4FD8;margin-top:4px">{{ p.tipo }} · FACTOR {{ p.factorTxt }}</div>
+            </div>
+            <div style="background:#06142E;color:#35E0FF;padding:5px 8px;font-size:12px;font-weight:700;letter-spacing:1px">{{ p.codigo }}</div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:14px;font-size:13px">
+            <div style="background:#E4EEFF;border:3px solid #06142E;padding:6px 8px">Peso: <strong>{{ p.pesoTxt }}</strong></div>
+            <div style="background:#E4EEFF;border:3px solid #06142E;padding:6px 8px">Edad: <strong>{{ p.edadTxt }}</strong></div>
+            <div style="background:#E4EEFF;border:3px solid #06142E;padding:6px 8px">Sexo: <strong>{{ p.sexo }}</strong></div>
+            <div style="background:#E4EEFF;border:3px solid #06142E;padding:6px 8px">Dueño: <strong>{{ p.propietario }}</strong></div>
+            <div style="grid-column:1/-1;background:#E4EEFF;border:3px solid #06142E;padding:6px 8px">{{ p.extraTxt }}</div>
+            <div style="grid-column:1/-1;background:{{ p.estadoBg }};color:{{ p.estadoFg }};border:3px solid #06142E;padding:6px 8px;font-weight:700">Estado: {{ p.estado }}</div>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">
+            <button onClick="{{ p.onEstado }}" style="flex:1 1 130px;background:#35E0FF;border:4px solid #06142E;box-shadow:4px 4px 0 #06142E;padding:10px;font-size:12.5px;font-weight:700;cursor:pointer">CAMBIAR ESTADO</button>
+            <button onClick="{{ p.onDosis }}" style="flex:1 1 130px;background:#1E4FD8;color:#fff;border:4px solid #06142E;box-shadow:4px 4px 0 #06142E;padding:10px;font-size:12.5px;font-weight:700;cursor:pointer">CALCULAR DOSIS</button>
+            <button onClick="{{ p.onInfo }}" style="flex:1 1 130px;background:#fff;border:4px solid #06142E;box-shadow:4px 4px 0 #06142E;padding:10px;font-size:12.5px;font-weight:700;cursor:pointer">VER INFORMACIÓN</button>
+          </div>
+          <div style="margin-top:12px;background:#06142E;color:#35E0FF;padding:10px;font-size:13px;border:3px solid #06142E">{{ p.dosisTxt }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<sc-if value="{{ mostrarCodigo }}" hint-placeholder-val="{{ true }}">
+<section id="codigo" style="max-width:1240px;margin:0 auto;padding:20px 22px 56px">
+  <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap">
+    <div style="font-family:'Archivo Black',sans-serif;font-size:15px;background:#06142E;color:#35E0FF;padding:4px 10px">04</div>
+    <h2 style="font-family:'Archivo Black',sans-serif;font-size:clamp(30px,5vw,54px);margin:0;text-transform:uppercase;letter-spacing:-2px">Esqueleto en C#</h2>
+  </div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:22px">
+    <button onClick="{{ tabMascota }}" style="background:{{ bgTabMascota }};color:{{ fgTabMascota }};border:4px solid #06142E;box-shadow:5px 5px 0 #06142E;padding:10px 14px;font-size:13px;font-weight:700;cursor:pointer">Mascota.cs</button>
+    <button onClick="{{ tabPerro }}" style="background:{{ bgTabPerro }};color:{{ fgTabPerro }};border:4px solid #06142E;box-shadow:5px 5px 0 #06142E;padding:10px 14px;font-size:13px;font-weight:700;cursor:pointer">Perro.cs</button>
+    <button onClick="{{ tabOtras }}" style="background:{{ bgTabOtras }};color:{{ fgTabOtras }};border:4px solid #06142E;box-shadow:5px 5px 0 #06142E;padding:10px 14px;font-size:13px;font-weight:700;cursor:pointer">Gato · Ave · Tortuga</button>
+    <button onClick="{{ tabProgram }}" style="background:{{ bgTabProgram }};color:{{ fgTabProgram }};border:4px solid #06142E;box-shadow:5px 5px 0 #06142E;padding:10px 14px;font-size:13px;font-weight:700;cursor:pointer">Program.cs</button>
+  </div>
+  <div style="margin-top:18px;background:#06142E;border:5px solid #06142E;box-shadow:12px 12px 0 #1E4FD8;padding:20px;overflow:auto">
+    <div style="font-size:13px;line-height:1.65;color:#E4EEFF;white-space:pre;font-family:'IBM Plex Mono',monospace">{{ codigo }}</div>
+  </div>
+</section>
+</sc-if>
+
+<section id="ruta" style="max-width:1240px;margin:0 auto;padding:20px 22px 56px">
+  <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap">
+    <div style="font-family:'Archivo Black',sans-serif;font-size:15px;background:#06142E;color:#35E0FF;padding:4px 10px">05</div>
+    <h2 style="font-family:'Archivo Black',sans-serif;font-size:clamp(30px,5vw,54px);margin:0;text-transform:uppercase;letter-spacing:-2px">Ruta de trabajo</h2>
+  </div>
+  <p style="max-width:840px;font-size:17px;line-height:1.65;margin:18px 0 0;text-wrap:pretty">Seis fases en orden de dependencia. Cada una se prueba en consola antes de pasar a la siguiente, y el orden sigue la hoja de calificación: primero lo que vale puntos de POO, al final la funcionalidad completa.</p>
+
+  <div style="display:flex;flex-direction:column;gap:16px;margin-top:28px">
+    <div style="display:flex;gap:18px;flex-wrap:wrap;background:#fff;border:5px solid #06142E;box-shadow:10px 10px 0 #06142E;padding:20px">
+      <div style="flex:0 0 84px;background:#35E0FF;border:4px solid #06142E;display:grid;place-items:center;font-family:'Archivo Black',sans-serif;font-size:34px;min-height:84px">01</div>
+      <div style="flex:1 1 320px">
+        <div style="font-family:'Archivo Black',sans-serif;font-size:22px;text-transform:uppercase">Proyecto y repositorio</div>
+        <p style="font-size:14.5px;line-height:1.6;margin:6px 0 0">Aplicación de consola en C#, repositorio creado y el auxiliar agregado como colaborador desde el primer día. Primer commit con README y .gitignore.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><span style="background:#E4EEFF;border:3px solid #06142E;padding:3px 8px;font-size:11.5px;font-weight:700">SE PRUEBA: COMPILA Y CORRE</span></div>
+      </div>
+    </div>
+    <div style="display:flex;gap:18px;flex-wrap:wrap;background:#fff;border:5px solid #06142E;box-shadow:10px 10px 0 #06142E;padding:20px">
+      <div style="flex:0 0 84px;background:#1E4FD8;color:#fff;border:4px solid #06142E;display:grid;place-items:center;font-family:'Archivo Black',sans-serif;font-size:34px;min-height:84px">02</div>
+      <div style="flex:1 1 320px">
+        <div style="font-family:'Archivo Black',sans-serif;font-size:22px;text-transform:uppercase">Clase abstracta Mascota</div>
+        <p style="font-size:14.5px;line-height:1.6;margin:6px 0 0">Atributos <strong>privados</strong>, constructor, getters y setters, y el generador del código único de 8 caracteres alfanuméricos. Aquí se ganan abstracción y encapsulamiento.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><span style="background:#E4EEFF;border:3px solid #06142E;padding:3px 8px;font-size:11.5px;font-weight:700">35 PTS DE LA HOJA</span><span style="background:#E4EEFF;border:3px solid #06142E;padding:3px 8px;font-size:11.5px;font-weight:700">NADA PÚBLICO</span></div>
+      </div>
+    </div>
+    <div style="display:flex;gap:18px;flex-wrap:wrap;background:#fff;border:5px solid #06142E;box-shadow:10px 10px 0 #06142E;padding:20px">
+      <div style="flex:0 0 84px;background:#1E4FD8;color:#fff;border:4px solid #06142E;display:grid;place-items:center;font-family:'Archivo Black',sans-serif;font-size:34px;min-height:84px">03</div>
+      <div style="flex:1 1 320px">
+        <div style="font-family:'Archivo Black',sans-serif;font-size:22px;text-transform:uppercase">Métodos de la clase base</div>
+        <p style="font-size:14.5px;line-height:1.6;margin:6px 0 0">CalcularDosis con <code>dosis_por_Kg</code>, CambiarEstado y MostrarInformacion. Declare como <code>virtual</code> lo que las especies van a sobrescribir.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><span style="background:#E4EEFF;border:3px solid #06142E;padding:3px 8px;font-size:11.5px;font-weight:700">PROBAR CON UN OBJETO SUELTO</span></div>
+      </div>
+    </div>
+    <div style="display:flex;gap:18px;flex-wrap:wrap;background:#fff;border:5px solid #06142E;box-shadow:10px 10px 0 #06142E;padding:20px">
+      <div style="flex:0 0 84px;background:#1E4FD8;color:#fff;border:4px solid #06142E;display:grid;place-items:center;font-family:'Archivo Black',sans-serif;font-size:34px;min-height:84px">04</div>
+      <div style="flex:1 1 320px">
+        <div style="font-family:'Archivo Black',sans-serif;font-size:22px;text-transform:uppercase">Las cuatro especies</div>
+        <p style="font-size:14.5px;line-height:1.6;margin:6px 0 0">Perro, Gato, Ave y Tortuga con sus atributos propios y el <code>override</code> de la dosis: 100 %, 90 %, 50 % y 80 %. Aquí entran herencia y polimorfismo.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><span style="background:#E4EEFF;border:3px solid #06142E;padding:3px 8px;font-size:11.5px;font-weight:700">30 PTS DE LA HOJA</span><span style="background:#E4EEFF;border:3px solid #06142E;padding:3px 8px;font-size:11.5px;font-weight:700">base.CalcularDosis</span></div>
+      </div>
+    </div>
+    <div style="display:flex;gap:18px;flex-wrap:wrap;background:#fff;border:5px solid #06142E;box-shadow:10px 10px 0 #06142E;padding:20px">
+      <div style="flex:0 0 84px;background:#082A63;color:#35E0FF;border:4px solid #06142E;display:grid;place-items:center;font-family:'Archivo Black',sans-serif;font-size:34px;min-height:84px">05</div>
+      <div style="flex:1 1 320px">
+        <div style="font-family:'Archivo Black',sans-serif;font-size:22px;text-transform:uppercase">Menú interactivo</div>
+        <p style="font-size:14.5px;line-height:1.6;margin:6px 0 0">Registrar mascota (una opción por especie) y gestionar pacientes: cambiar estado, calcular dosis y consultar información. En bucle hasta que el usuario decida salir.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><span style="background:#E4EEFF;border:3px solid #06142E;padding:3px 8px;font-size:11.5px;font-weight:700">30 PTS DE LA HOJA</span><span style="background:#E4EEFF;border:3px solid #06142E;padding:3px 8px;font-size:11.5px;font-weight:700">BUSCAR POR CÓDIGO</span></div>
+      </div>
+    </div>
+    <div style="display:flex;gap:18px;flex-wrap:wrap;background:#fff;border:5px solid #06142E;box-shadow:10px 10px 0 #06142E;padding:20px">
+      <div style="flex:0 0 84px;background:#082A63;color:#35E0FF;border:4px solid #06142E;display:grid;place-items:center;font-family:'Archivo Black',sans-serif;font-size:34px;min-height:84px">06</div>
+      <div style="flex:1 1 320px">
+        <div style="font-family:'Archivo Black',sans-serif;font-size:22px;text-transform:uppercase">Pruebas y entrega</div>
+        <p style="font-size:14.5px;line-height:1.6;margin:6px 0 0">Recorra la hoja de calificación fila por fila con el programa corriendo: registre las cuatro especies, cambie estados, calcule dosis y valide entradas inválidas. Suba a UEDI antes del cierre.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><span style="background:#35E0FF;border:3px solid #06142E;padding:3px 8px;font-size:11.5px;font-weight:700">14 AGO · 11:59 PM</span><span style="background:#E4EEFF;border:3px solid #06142E;padding:3px 8px;font-size:11.5px;font-weight:700">PREPARAR LA PREGUNTA · 5 PTS</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-wrap:wrap;gap:20px;margin-top:34px;align-items:stretch">
+    <div style="flex:1 1 400px;background:#06142E;color:#E4EEFF;border:5px solid #06142E;box-shadow:12px 12px 0 #1E4FD8;padding:24px">
+      <div style="font-size:12px;letter-spacing:2px;font-weight:700;color:#35E0FF">ESTRUCTURA RECOMENDADA DEL PROYECTO</div>
+      <div style="margin-top:14px;font-size:13px;line-height:1.75;white-space:pre;overflow:auto">{{ treeText }}</div>
+    </div>
+    <div style="flex:1 1 280px;display:flex;flex-direction:column;gap:14px">
+      <div style="background:#35E0FF;border:5px solid #06142E;box-shadow:8px 8px 0 #06142E;padding:18px">
+        <div style="font-weight:700;font-size:13px;letter-spacing:1.5px">UNA CLASE POR ARCHIVO</div>
+        <div style="font-size:13.5px;line-height:1.55;margin-top:6px">El archivo se llama igual que la clase. Cinco archivos en Modelos, no un Program.cs de mil líneas.</div>
+      </div>
+      <div style="background:#fff;border:5px solid #06142E;box-shadow:8px 8px 0 #06142E;padding:18px">
+        <div style="font-weight:700;font-size:13px;letter-spacing:1.5px">LA CONSOLA NO CALCULA</div>
+        <div style="font-size:13.5px;line-height:1.55;margin-top:6px">Program.cs solo pide datos y muestra resultados. La dosis y el estado viven dentro de las clases: eso es lo que se califica.</div>
+      </div>
+      <div style="background:#1E4FD8;color:#fff;border:5px solid #06142E;box-shadow:8px 8px 0 #06142E;padding:18px">
+        <div style="font-weight:700;font-size:13px;letter-spacing:1.5px;color:#35E0FF">UN COMMIT POR FASE</div>
+        <div style="font-size:13.5px;line-height:1.55;margin-top:6px">Mensaje que diga qué quedó funcionando. Sirve de respaldo si algo se rompe y demuestra autoría del código.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="hc" style="background:#06142E;color:#E4EEFF;border-top:5px solid #06142E;border-bottom:5px solid #06142E;padding:56px 0">
+  <div style="max-width:1240px;margin:0 auto;padding:0 22px">
+    <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap">
+      <div style="font-family:'Archivo Black',sans-serif;font-size:15px;background:#35E0FF;color:#06142E;padding:4px 10px">06</div>
+      <h2 style="font-family:'Archivo Black',sans-serif;font-size:clamp(30px,5vw,54px);margin:0;text-transform:uppercase;letter-spacing:-2px;color:#fff">Hoja de calificación</h2>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:14px;margin-top:18px;font-size:13px">
+      <div style="background:#082A63;border:3px solid #35E0FF;padding:8px 12px">Introducción a la Programación y Computación 2</div>
+      <div style="background:#082A63;border:3px solid #35E0FF;padding:8px 12px">Fecha calificación: ___ / ___ / ______</div>
+      <div style="background:#082A63;border:3px solid #35E0FF;padding:8px 12px">Nombre: ______________________</div>
+      <div style="background:#082A63;border:3px solid #35E0FF;padding:8px 12px">Carné: ______________</div>
+    </div>
+
+    <div style="margin-top:24px;background:#fff;color:#06142E;border:5px solid #35E0FF;box-shadow:12px 12px 0 #1E4FD8;overflow:auto">
+      <div style="display:grid;grid-template-columns:minmax(220px,3fr) 70px 1fr 80px;min-width:640px">
+        <div style="background:#06142E;color:#35E0FF;padding:12px;font-size:12px;font-weight:700;letter-spacing:1.5px">DESCRIPCIÓN DE PONDERACIÓN</div>
+        <div style="background:#06142E;color:#35E0FF;padding:12px;font-size:12px;font-weight:700;letter-spacing:1.5px">VALOR</div>
+        <div style="background:#06142E;color:#35E0FF;padding:12px;font-size:12px;font-weight:700;letter-spacing:1.5px">OBSERVACIÓN</div>
+        <div style="background:#06142E;color:#35E0FF;padding:12px;font-size:12px;font-weight:700;letter-spacing:1.5px">PUNTEO</div>
+        <sc-for list="{{ hcFilas }}" as="f" hint-placeholder-count="8">
+          <div style="padding:10px 12px;font-size:13.5px;font-weight:{{ f.peso }};background:{{ f.bg }};outline:2px solid #06142E;padding-left:{{ f.sangria }}">{{ f.nombre }}</div>
+          <div style="padding:10px 12px;font-size:13.5px;font-weight:700;background:{{ f.bg }};outline:2px solid #06142E">{{ f.valor }}</div>
+          <div style="background:{{ f.bg }};outline:2px solid #06142E"></div>
+          <div style="background:{{ f.bg }};outline:2px solid #06142E"></div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-wrap:wrap;gap:20px;margin-top:26px">
+      <div style="flex:1 1 300px;background:#082A63;border:4px solid #35E0FF;padding:20px">
+        <div style="font-size:12px;letter-spacing:2px;font-weight:700;color:#35E0FF">CONFORMIDAD</div>
+        <p style="font-size:14px;line-height:1.6;margin:8px 0 22px">Estoy conforme con la nota obtenida.</p>
+        <div style="display:flex;gap:20px;flex-wrap:wrap;font-size:12px">
+          <div style="flex:1 1 120px;border-top:3px solid #35E0FF;padding-top:6px">Firma del Alumno</div>
+          <div style="flex:1 1 120px;border-top:3px solid #35E0FF;padding-top:6px">Firma del Auxiliar</div>
+        </div>
+      </div>
+      <div style="flex:1 1 300px;background:#1E4FD8;border:4px solid #35E0FF;padding:20px">
+        <div style="font-size:12px;letter-spacing:2px;font-weight:700;color:#35E0FF">RÚBRICA DEL ENUNCIADO</div>
+        <div style="display:flex;flex-direction:column;gap:7px;margin-top:12px;font-size:13.5px">
+          <div style="display:flex;justify-content:space-between;gap:10px;background:#06142E;padding:7px 10px"><span>Abstracción · clase abstracta</span><strong style="color:#35E0FF">10</strong></div>
+          <div style="display:flex;justify-content:space-between;gap:10px;background:#06142E;padding:7px 10px"><span>Herencia en atributos y métodos</span><strong style="color:#35E0FF">20</strong></div>
+          <div style="display:flex;justify-content:space-between;gap:10px;background:#06142E;padding:7px 10px"><span>Encapsulamiento · privados, get/set</span><strong style="color:#35E0FF">25</strong></div>
+          <div style="display:flex;justify-content:space-between;gap:10px;background:#06142E;padding:7px 10px"><span>Polimorfismo · sobrescritura</span><strong style="color:#35E0FF">10</strong></div>
+          <div style="display:flex;justify-content:space-between;gap:10px;background:#06142E;padding:7px 10px"><span>Funcionalidad del sistema</span><strong style="color:#35E0FF">30</strong></div>
+          <div style="display:flex;justify-content:space-between;gap:10px;background:#06142E;padding:7px 10px"><span>Preguntas · autoría</span><strong style="color:#35E0FF">5</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="entrega" style="max-width:1240px;margin:0 auto;padding:56px 22px">
+  <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap">
+    <div style="font-family:'Archivo Black',sans-serif;font-size:15px;background:#06142E;color:#35E0FF;padding:4px 10px">07</div>
+    <h2 style="font-family:'Archivo Black',sans-serif;font-size:clamp(30px,5vw,54px);margin:0;text-transform:uppercase;letter-spacing:-2px">Entrega y reglas</h2>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;margin-top:26px">
+    <div style="background:#fff;border:5px solid #06142E;box-shadow:10px 10px 0 #06142E;padding:20px">
+      <div style="font-size:12px;letter-spacing:2px;font-weight:700;color:#1E4FD8">CRONOGRAMA</div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-top:12px;font-size:13.5px">
+        <div style="display:flex;justify-content:space-between;gap:10px;background:#E4EEFF;border:3px solid #06142E;padding:8px 10px"><span>Asignación / enunciado</span><strong>04 AGO 2026</strong></div>
+        <div style="display:flex;justify-content:space-between;gap:10px;background:#35E0FF;border:3px solid #06142E;padding:8px 10px"><span>Entrega</span><strong>14 AGO 11:59 PM</strong></div>
+        <div style="display:flex;justify-content:space-between;gap:10px;background:#E4EEFF;border:3px solid #06142E;padding:8px 10px"><span>Calificación</span><strong>15 AGO 2026</strong></div>
+      </div>
+    </div>
+    <div style="background:#fff;border:5px solid #06142E;box-shadow:10px 10px 0 #06142E;padding:20px">
+      <div style="font-size:12px;letter-spacing:2px;font-weight:700;color:#1E4FD8">ENTREGABLES</div>
+      <ul style="font-size:14px;line-height:1.7;margin:10px 0 0;padding-left:20px">
+        <li>Entrega el viernes 14 de agosto a más tardar a las 11:59 pm.</li>
+        <li>La entrega será por medio de la plataforma UEDI.</li>
+        <li>Agregar al auxiliar como colaborador al repositorio: <strong>jorgemejia25</strong> (Sección N).</li>
+      </ul>
+    </div>
+    <div style="background:#082A63;color:#E4EEFF;border:5px solid #06142E;box-shadow:10px 10px 0 #06142E;padding:20px">
+      <div style="font-size:12px;letter-spacing:2px;font-weight:700;color:#35E0FF">CONSIDERACIONES</div>
+      <ul style="font-size:14px;line-height:1.7;margin:10px 0 0;padding-left:20px">
+        <li>La aplicación será ejecutada en consola.</li>
+        <li>El lenguaje será C#.</li>
+        <li>El código debe cumplir con los principios de POO.</li>
+        <li>Se evalúa el uso de clases, herencia, encapsulamiento y polimorfismo.</li>
+        <li>Cualquier caso de copia parcial o total tendrá nota de 0 y será reportada.</li>
+        <li>Las dudas se resuelven en los foros de UEDI.</li>
+      </ul>
+    </div>
+    <div style="background:#1E4FD8;color:#fff;border:5px solid #06142E;box-shadow:10px 10px 0 #06142E;padding:20px">
+      <div style="font-size:12px;letter-spacing:2px;font-weight:700;color:#35E0FF">VALORES</div>
+      <ol style="font-size:14px;line-height:1.7;margin:10px 0 0;padding-left:20px">
+        <li><strong>Originalidad del trabajo:</strong> cada estudiante desarrolla su propio código y documentación.</li>
+        <li><strong>Prohibición de copias y plagio:</strong> copia total o parcial equivale a 0 puntos, incluida la reutilización de proyectos anteriores o código externo sin referencia.</li>
+        <li><strong>Uso responsable de recursos externos:</strong> bibliotecas y ejemplos permitidos si se referencian y se comprenden.</li>
+        <li><strong>Revisión y detección de plagio:</strong> se podrán usar herramientas automatizadas y revisiones manuales; el estudiante deberá justificar su código.</li>
+      </ol>
+    </div>
+    <div style="grid-column:1/-1;background:#fff;border:5px solid #06142E;box-shadow:10px 10px 0 #06142E;padding:20px">
+      <div style="font-size:12px;letter-spacing:2px;font-weight:700;color:#1E4FD8">REFERENCIAS</div>
+      <div style="display:flex;flex-wrap:wrap;gap:14px;margin-top:10px;font-size:14px">
+        <a href="https://learn.microsoft.com/dotnet/csharp/" target="_blank">C# Guide · Microsoft Learn</a>
+        <a href="https://learn.microsoft.com/dotnet/csharp/fundamentals/object-oriented/" target="_blank">Object-Oriented Programming in C#</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div style="background:#06142E;color:#7FB2FF;padding:26px 22px;font-size:12.5px;display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;border-top:5px solid #35E0FF">
+  <div>USAC · Facultad de Ingeniería · Escuela de Ciencias y Sistemas · IPC2 · 1S 2026</div>
+  <div>Práctica 1 · Ponderación 100 pts · 10 horas aproximadas</div>
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;mostrarCodigo&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Contenido&quot;},&quot;pacientesDemo&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Simulador&quot;},&quot;dosisPorKgDefault&quot;:{&quot;editor&quot;:&quot;float&quot;,&quot;default&quot;:5,&quot;min&quot;:0.5,&quot;max&quot;:50,&quot;step&quot;:0.5,&quot;unit&quot;:&quot;mg/kg&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Simulador&quot;}}">
+const FACTORES = { Perro: 1, Gato: 0.9, Ave: 0.5, Tortuga: 0.8 };
+const EXTRAS = {
+  Perro:   { a: 'RAZA', ap: 'Labrador', b: 'TAMAÑO GRANDE' },
+  Gato:    { a: 'RAZA', ap: 'Siamés', b: 'ESTERILIZADO' },
+  Ave:     { a: 'ENVERGADURA (CM)', ap: '32', b: 'PUEDE VOLAR' },
+  Tortuga: { a: 'TIPO DE CAPARAZÓN', ap: 'Duro', b: 'ES ACUÁTICA' }
+};
+const EXTRA_TXT = {
+  Perro: (a, b) => 'Raza: ' + (a || 'N/D') + ' · Tamaño grande: ' + b,
+  Gato: (a, b) => 'Raza: ' + (a || 'N/D') + ' · Esterilizado: ' + b,
+  Ave: (a, b) => 'Envergadura: ' + (a || 'N/D') + ' cm · Puede volar: ' + b,
+  Tortuga: (a, b) => 'Caparazón: ' + (a || 'N/D') + ' · Acuática: ' + b
+};
+const CODE = {
+  mascota: `public abstract class Mascota
+{
+    private string nombre;
+    private double peso;          // kilogramos
+    private string sexo;
+    private int edad;
+    private string propietario;
+    private string codigo;        // 8 caracteres alfanuméricos
+    private bool enfermo;
+
+    public Mascota(string nombre, double peso, string sexo,
+                   int edad, string propietario, bool enfermo)
+    {
+        this.nombre = nombre;
+        this.peso = peso;
+        this.sexo = sexo;
+        this.edad = edad;
+        this.propietario = propietario;
+        this.enfermo = enfermo;
+        this.codigo = GenerarCodigo();
+    }
+
+    public string Nombre { get { return nombre; } set { nombre = value; } }
+    public double Peso   { get { return peso; }   set { peso = value; } }
+    public int Edad      { get { return edad; }   set { edad = value; } }
+    public string Codigo { get { return codigo; } }
+    public bool Enfermo  { get { return enfermo; } }
+
+    private string GenerarCodigo()
+    {
+        const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        Random r = new Random();
+        char[] c = new char[8];
+        for (int i = 0; i < 8; i++) c[i] = chars[r.Next(chars.Length)];
+        return new string(c);
+    }
+
+    public virtual double CalcularDosis(double dosis_por_Kg)
+    {
+        return peso * dosis_por_Kg;
+    }
+
+    public void CambiarEstado()
+    {
+        enfermo = !enfermo;
+    }
+
+    public virtual void MostrarInformacion()
+    {
+        Console.WriteLine($"[{codigo}] {nombre} | {sexo} | {edad} años");
+        Console.WriteLine($"Peso: {peso} kg | Propietario: {propietario}");
+        Console.WriteLine($"Estado: {(enfermo ? "Enfermo" : "Sano")}");
+    }
+}`,
+  perro: `public class Perro : Mascota
+{
+    private string raza;
+    private string tamano;
+
+    public Perro(string nombre, double peso, string sexo, int edad,
+                 string propietario, bool enfermo,
+                 string raza, string tamano)
+        : base(nombre, peso, sexo, edad, propietario, enfermo)
+    {
+        this.raza = raza;
+        this.tamano = tamano;
+    }
+
+    public string Raza { get { return raza; } set { raza = value; } }
+
+    // Dosis estándar: peso x mg/kg, sin ajuste adicional
+    public override double CalcularDosis(double dosis_por_Kg)
+    {
+        return base.CalcularDosis(dosis_por_Kg);
+    }
+
+    public override void MostrarInformacion()
+    {
+        Console.WriteLine("== PERRO ==");
+        base.MostrarInformacion();
+        Console.WriteLine($"Raza: {raza} | Tamaño: {tamano}");
+    }
+}`,
+  otras: `public class Gato : Mascota
+{
+    private string raza;
+    private bool esterilizado;
+
+    public Gato(...) : base(...) { }
+
+    // Factor de ajuste del 90 %
+    public override double CalcularDosis(double dosis_por_Kg)
+    {
+        return base.CalcularDosis(dosis_por_Kg) * 0.90;
+    }
+}
+
+public class Ave : Mascota
+{
+    private double envergaduraAlas;
+    private bool puedeVolar;
+
+    public Ave(...) : base(...) { }
+
+    // Factor de ajuste del 50 %
+    public override double CalcularDosis(double dosis_por_Kg)
+    {
+        return base.CalcularDosis(dosis_por_Kg) * 0.50;
+    }
+}
+
+public class Tortuga : Mascota
+{
+    private string tipoCaparazon;
+    private bool esAcuatica;
+
+    public Tortuga(...) : base(...) { }
+
+    // Factor de ajuste del 80 %
+    public override double CalcularDosis(double dosis_por_Kg)
+    {
+        return base.CalcularDosis(dosis_por_Kg) * 0.80;
+    }
+}`,
+  program: `class Program
+{
+    static List<Mascota> pacientes = new List<Mascota>();
+
+    static void Main()
+    {
+        bool salir = false;
+        while (!salir)
+        {
+            Console.WriteLine("=== VETERINARIA ===");
+            Console.WriteLine("1. Registrar mascota");
+            Console.WriteLine("2. Gestionar pacientes");
+            Console.WriteLine("3. Salir");
+            Console.Write("Opción: ");
+
+            switch (Console.ReadLine())
+            {
+                case "1": RegistrarMascota(); break;
+                case "2": GestionarPacientes(); break;
+                case "3": salir = true; break;
+                default: Console.WriteLine("Opción inválida."); break;
+            }
+        }
+    }
+
+    static void GestionarPacientes()
+    {
+        // 1. Cambiar estado del paciente
+        // 2. Calcular dosis de medicamento
+        // 3. Consultar información
+    }
+}`
+};
+const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+
+const HC = [
+  ['Implementación de abstracción', 10, 1],
+  ['Creación de clase abstracta', 10, 0],
+  ['Implementación de Herencia', 20, 1],
+  ['Herencia en atributos', 10, 0],
+  ['Herencia en métodos', 10, 0],
+  ['Implementación de encapsulamiento', 25, 1],
+  ['Atributos privados', 5, 0],
+  ['Uso de getters', 10, 0],
+  ['Uso de setters', 10, 0],
+  ['Implementación de Polimorfismo', 10, 1],
+  ['Sobrescritura de métodos', 10, 0],
+  ['Registrar Paciente', 16, 1],
+  ['Perros', 4, 0],
+  ['Gatos', 4, 0],
+  ['Aves', 4, 0],
+  ['Tortugas', 4, 0],
+  ['Gestionar pacientes', 14, 1],
+  ['Cambiar estado de paciente', 4, 0],
+  ['Ver información', 10, 0],
+  ['Preguntas', 5, 1],
+  ['Pregunta', 5, 0],
+  ['TOTAL', 100, 2]
+];
+
+class Component extends DCLogic {
+  state = {
+    tipo: 'Perro', nombre: '', peso: '', edad: '', sexo: 'Macho', propietario: '',
+    estado: 'Enfermo', extraA: '', extraB: 'Sí', dosisKg: '5', aviso: '',
+    pacientes: [], consola: [
+      '> VeterinariaApp iniciada.',
+      '=== VETERINARIA ===',
+      '1. Registrar mascota   2. Gestionar pacientes   3. Salir',
+      '> esperando registro de pacientes...'
+    ], tab: 'mascota'
+  };
+
+  componentDidMount() {
+    if (this.props.pacientesDemo) this.cargarDemo();
+    if (this.props.dosisPorKgDefault) this.setState({ dosisKg: String(this.props.dosisPorKgDefault) });
+  }
+
+  log(...lineas) {
+    this.setState(s => ({ consola: s.consola.concat(lineas).slice(-60) }));
+  }
+
+  codigo() {
+    let c = '';
+    for (let i = 0; i < 8; i++) c += CHARS[Math.floor(Math.random() * CHARS.length)];
+    return c;
+  }
+
+  crear(tipo, nombre, peso, edad, sexo, propietario, estado, extraA, extraB) {
+    return { id: Math.random().toString(36).slice(2), codigo: this.codigo(), tipo, nombre, peso, edad, sexo, propietario, estado, extraA, extraB, dosisTxt: '> dosis sin calcular' };
+  }
+
+  cargarDemo() {
+    const demo = [
+      this.crear('Perro', 'Firulais', 12.5, 3, 'Macho', 'Ana López', 'Enfermo', 'Labrador', 'Sí'),
+      this.crear('Gato', 'Michi', 4.2, 2, 'Hembra', 'Luis Pérez', 'Sano', 'Siamés', 'Sí'),
+      this.crear('Ave', 'Pico', 0.4, 1, 'Macho', 'Sara Gómez', 'Enfermo', '32', 'Sí'),
+      this.crear('Tortuga', 'Caparazón', 2.8, 9, 'Hembra', 'Jorge Ruiz', 'Sano', 'Duro', 'No')
+    ];
+    this.setState({ pacientes: demo, aviso: '4 pacientes de ejemplo cargados.' });
+    this.log('> 4 pacientes de ejemplo registrados: ' + demo.map(p => p.codigo).join(', '));
+  }
+
+  registrar = () => {
+    const s = this.state;
+    const peso = parseFloat(s.peso), edad = parseInt(s.edad, 10);
+    if (!s.nombre.trim()) return this.setState({ aviso: 'Falta el nombre del paciente.' });
+    if (!(peso > 0)) return this.setState({ aviso: 'El peso debe ser un número mayor que 0.' });
+    if (!s.propietario.trim()) return this.setState({ aviso: 'Falta el propietario.' });
+    const p = this.crear(s.tipo, s.nombre.trim(), peso, isNaN(edad) ? 0 : edad, s.sexo, s.propietario.trim(), s.estado, s.extraA.trim(), s.extraB);
+    this.setState(st => ({ pacientes: st.pacientes.concat([p]), nombre: '', peso: '', edad: '', propietario: '', extraA: '', aviso: s.tipo + ' registrado con código ' + p.codigo }));
+    this.log('> Registrar mascota > ' + s.tipo.toUpperCase(), '  Código generado: ' + p.codigo + ' | ' + s.nombre.trim() + ' | ' + peso + ' kg');
+  };
+
+  toggleEstado(p) {
+    const nuevo = p.estado === 'Enfermo' ? 'Sano' : 'Enfermo';
+    this.setState(s => ({ pacientes: s.pacientes.map(x => x.id === p.id ? Object.assign({}, x, { estado: nuevo }) : x) }));
+    this.log('> Gestionar > Cambiar estado [' + p.codigo + '] ' + p.estado + ' -> ' + nuevo);
+  }
+
+  calcularDosis(p) {
+    const d = parseFloat(this.state.dosisKg);
+    if (!(d > 0)) { this.log('! dosis_por_Kg inválida'); return; }
+    const f = FACTORES[p.tipo];
+    const mg = p.peso * d * f;
+    const txt = 'Dosis: ' + mg.toFixed(2) + ' mg  (' + p.peso + ' kg × ' + d + ' mg/kg × ' + (f * 100) + '%)';
+    this.setState(s => ({ pacientes: s.pacientes.map(x => x.id === p.id ? Object.assign({}, x, { dosisTxt: txt }) : x) }));
+    this.log('> Gestionar > Calcular dosis [' + p.codigo + '] ' + p.tipo, '  ' + txt);
+  }
+
+  info(p) {
+    this.log(
+      '> Gestionar > Ver información [' + p.codigo + ']',
+      '  ' + p.nombre + ' | ' + p.sexo + ' | ' + p.edad + ' años | ' + p.peso + ' kg',
+      '  Propietario: ' + p.propietario + ' | Estado: ' + p.estado,
+      '  ' + EXTRA_TXT[p.tipo](p.extraA, p.extraB)
+    );
+  }
+
+  set = (k) => (e) => this.setState({ [k]: e.target.value });
+  pick = (tipo) => () => this.setState({ tipo, extraA: '', extraB: 'Sí', aviso: '' });
+  tab = (tab) => () => this.setState({ tab });
+
+  renderVals() {
+    const s = this.state;
+    const ex = EXTRAS[s.tipo];
+    const on = (t) => s.tipo === t ? '#06142E' : '#E4EEFF';
+    const onFg = (t) => s.tipo === t ? '#35E0FF' : '#06142E';
+    const tb = (t) => s.tab === t ? '#06142E' : '#fff';
+    const tf = (t) => s.tab === t ? '#35E0FF' : '#06142E';
+    return {
+      nombre: s.nombre, peso: s.peso, edad: s.edad, sexo: s.sexo, propietario: s.propietario,
+      estado: s.estado, extraA: s.extraA, extraB: s.extraB, dosisKg: s.dosisKg, aviso: s.aviso,
+      tipoUpper: s.tipo.toUpperCase(),
+      extraALabel: ex.a, extraAPlaceholder: ex.ap, extraBLabel: ex.b,
+      onNombre: this.set('nombre'), onPeso: this.set('peso'), onEdad: this.set('edad'),
+      onSexo: this.set('sexo'), onPropietario: this.set('propietario'), onEstado: this.set('estado'),
+      onExtraA: this.set('extraA'), onExtraB: this.set('extraB'), onDosisKg: this.set('dosisKg'),
+      pickPerro: this.pick('Perro'), pickGato: this.pick('Gato'), pickAve: this.pick('Ave'), pickTortuga: this.pick('Tortuga'),
+      bgPerro: on('Perro'), bgGato: on('Gato'), bgAve: on('Ave'), bgTortuga: on('Tortuga'),
+      fgPerro: onFg('Perro'), fgGato: onFg('Gato'), fgAve: onFg('Ave'), fgTortuga: onFg('Tortuga'),
+      registrar: this.registrar,
+      demo: () => this.cargarDemo(),
+      limpiar: () => this.setState({ consola: ['> consola limpia.', '=== VETERINARIA ==='] }),
+      consola: s.consola,
+      totalPacientes: s.pacientes.length,
+      vacio: s.pacientes.length === 0,
+      pacientes: s.pacientes.map(p => ({
+        nombre: p.nombre, tipo: p.tipo.toUpperCase(), codigo: p.codigo, sexo: p.sexo,
+        propietario: p.propietario, pesoTxt: p.peso + ' kg', edadTxt: p.edad + ' años',
+        factorTxt: (FACTORES[p.tipo] * 100) + '%',
+        extraTxt: EXTRA_TXT[p.tipo](p.extraA, p.extraB),
+        estado: p.estado,
+        estadoBg: p.estado === 'Enfermo' ? '#1E4FD8' : '#35E0FF',
+        estadoFg: p.estado === 'Enfermo' ? '#fff' : '#06142E',
+        dosisTxt: p.dosisTxt,
+        onEstado: () => this.toggleEstado(p),
+        onDosis: () => this.calcularDosis(p),
+        onInfo: () => this.info(p)
+      })),
+      treeText: 'Practica1_Veterinaria/\n'
+        + '├─ Program.cs                menú en bucle\n'
+        + '├─ Modelos/\n'
+        + '│  ├─ Mascota.cs             abstracta\n'
+        + '│  ├─ Perro.cs               dosis 100 %\n'
+        + '│  ├─ Gato.cs                dosis 90 %\n'
+        + '│  ├─ Ave.cs                 dosis 50 %\n'
+        + '│  └─ Tortuga.cs             dosis 80 %\n'
+        + '├─ Servicios/\n'
+        + '│  ├─ Veterinaria.cs         registro de pacientes\n'
+        + '│  └─ MenuConsola.cs         lectura y validación\n'
+        + '├─ Utilidades/\n'
+        + '│  └─ GeneradorCodigo.cs     8 alfanuméricos\n'
+        + '├─ .gitignore\n'
+        + '└─ README.md                 cómo compilar y correr',
+      mostrarCodigo: this.props.mostrarCodigo ?? true,
+      codigo: CODE[s.tab],
+      tabMascota: this.tab('mascota'), tabPerro: this.tab('perro'), tabOtras: this.tab('otras'), tabProgram: this.tab('program'),
+      bgTabMascota: tb('mascota'), bgTabPerro: tb('perro'), bgTabOtras: tb('otras'), bgTabProgram: tb('program'),
+      fgTabMascota: tf('mascota'), fgTabPerro: tf('perro'), fgTabOtras: tf('otras'), fgTabProgram: tf('program'),
+      hcFilas: HC.map(([nombre, valor, nivel]) => ({
+        nombre, valor,
+        peso: nivel ? 700 : 400,
+        sangria: nivel ? '12px' : '30px',
+        bg: nivel === 2 ? '#35E0FF' : (nivel ? '#E4EEFF' : '#fff')
+      }))
+    };
+  }
+}
+</script>
+</body>
+</html>
