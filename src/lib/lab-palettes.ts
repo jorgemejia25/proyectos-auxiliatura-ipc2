@@ -41,6 +41,19 @@ export const labPalettes = {
     wash: "#C9D5E8",
     chrome: "#12161F",
   },
+  /** C# Básico — raspberry notebook + lime marker. */
+  rose: {
+    bg: "#FFEAF1",
+    ink: "#260914",
+    inkSoft: "#FFF1F6",
+    accent: "#C2185B",
+    accentInk: "#FFFFFF",
+    highlight: "#B9F227",
+    highlightInk: "#162000",
+    surface: "#FFF8FA",
+    wash: "#FFD0E0",
+    chrome: "#260914",
+  },
   /** JSON Lab — ice field + signal blue. */
   blue: {
     bg: "#E8F0FF",

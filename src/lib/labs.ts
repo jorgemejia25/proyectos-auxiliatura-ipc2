@@ -1,7 +1,13 @@
 /**
  * Catalog of IPC2 auxiliary laboratories exposed by the hub.
  */
-export type LabSlug = "git-flow" | "json-lab" | "xml-lab" | "tda-lab" | "poo-lab"
+export type LabSlug =
+  | "git-flow"
+  | "csharp-basico"
+  | "json-lab"
+  | "xml-lab"
+  | "tda-lab"
+  | "poo-lab"
 
 export type Lab = {
   /** URL segment under /laboratorios. */
@@ -13,7 +19,7 @@ export type Lab = {
   /** One-line summary for the selector. */
   summary: string
   /** Accent theme for chrome and selector tiles. */
-  theme: "ink" | "blue" | "green" | "violet" | "orange"
+  theme: "ink" | "rose" | "blue" | "green" | "violet" | "orange"
   /** Tech tags for the selector. */
   tags: string[]
 }
@@ -27,6 +33,15 @@ export const labs: Lab[] = [
       "Modelo de ramificación con roles fijos: main, develop, feature, release y hotfix.",
     theme: "ink",
     tags: ["Git", "Ramas", "Flujo"],
+  },
+  {
+    slug: "csharp-basico",
+    label: "C# Básico",
+    title: "Fundamentos desde cero",
+    summary:
+      "Sintaxis, tipos, entrada y salida, decisiones, ciclos, colecciones, métodos y excepciones con práctica guiada.",
+    theme: "rose",
+    tags: ["C#", "Fundamentos", "Consola", "Métodos"],
   },
   {
     slug: "poo-lab",
