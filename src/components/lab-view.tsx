@@ -32,6 +32,13 @@ const CsharpBasicsView = dynamic(
     ),
   { ssr: false }
 )
+const GraphvizCsharpView = dynamic(
+  () =>
+    import("@/components/labs/graphviz-csharp").then(
+      (mod) => mod.GraphvizCsharpView
+    ),
+  { ssr: false }
+)
 
 type LabViewProps = {
   lab: Lab
@@ -48,6 +55,7 @@ export function LabView({ lab }: LabViewProps) {
       <div className="min-h-0 flex-1 overflow-auto pt-[58px]">
         {lab.slug === "git-flow" ? <GitFlowView /> : null}
         {lab.slug === "csharp-basico" ? <CsharpBasicsView /> : null}
+        {lab.slug === "graphviz-csharp" ? <GraphvizCsharpView /> : null}
         {lab.slug === "poo-lab" ? <PooLabView /> : null}
         {lab.slug === "tda-lab" ? <TdaLabView /> : null}
         {lab.slug === "json-lab" ? <JsonLabView /> : null}

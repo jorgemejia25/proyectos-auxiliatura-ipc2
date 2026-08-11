@@ -4,6 +4,7 @@
 export type LabSlug =
   | "git-flow"
   | "csharp-basico"
+  | "graphviz-csharp"
   | "json-lab"
   | "xml-lab"
   | "tda-lab"
@@ -19,7 +20,7 @@ export type Lab = {
   /** One-line summary for the selector. */
   summary: string
   /** Accent theme for chrome and selector tiles. */
-  theme: "ink" | "rose" | "blue" | "green" | "violet" | "orange"
+  theme: "ink" | "rose" | "yellow" | "blue" | "green" | "violet" | "orange"
   /** Tech tags for the selector. */
   tags: string[]
 }
@@ -42,6 +43,15 @@ export const labs: Lab[] = [
       "Sintaxis, tipos, entrada y salida, decisiones, ciclos, colecciones, métodos y excepciones con práctica guiada.",
     theme: "rose",
     tags: ["C#", "Fundamentos", "Consola", "Métodos"],
+  },
+  {
+    slug: "graphviz-csharp",
+    label: "Graphviz + C#",
+    title: "Grafos con DOT",
+    summary:
+      "Sintaxis DOT, grafos dirigidos, atributos, generación desde C# y visor SVG interactivo.",
+    theme: "yellow",
+    tags: ["C#", "Graphviz", "DOT", "SVG"],
   },
   {
     slug: "poo-lab",

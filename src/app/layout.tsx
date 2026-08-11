@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     template: "%s · IPC2 Hub",
   },
   description:
-    "Selector de proyectos y laboratorios de auxiliatura IPC2: Practica1, Proyecto1, C# Básico, Git Flow, POO, TDA, JSON y XML.",
+    "Selector de proyectos y laboratorios de auxiliatura IPC2: Practica1, Proyecto1, C# Básico, Graphviz, Git Flow, POO, TDA, JSON y XML.",
   authors: [{ name: "jorgemejia25", url: "https://github.com/jorgemejia25" }],
 }
 

@@ -54,6 +54,19 @@ export const labPalettes = {
     wash: "#FFD0E0",
     chrome: "#260914",
   },
+  /** Graphviz + C# — drafting paper + royal blue. */
+  yellow: {
+    bg: "#FFF6CC",
+    ink: "#171810",
+    inkSoft: "#FFF9DF",
+    accent: "#2639D4",
+    accentInk: "#FFFFFF",
+    highlight: "#FF5D00",
+    highlightInk: "#FFFFFF",
+    surface: "#FFFBEB",
+    wash: "#FFE68A",
+    chrome: "#171810",
+  },
   /** JSON Lab — ice field + signal blue. */
   blue: {
     bg: "#E8F0FF",

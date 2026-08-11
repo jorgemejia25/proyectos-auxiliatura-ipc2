@@ -380,10 +380,10 @@ export function CsharpBasicsView() {
               </Badge>
             </div>
             <h1 className="font-[family-name:var(--font-display)] text-[clamp(4.4rem,11vw,10rem)] leading-[0.78] tracking-[-0.06em] uppercase">
-              C#<br />desde<br /><span className="text-[var(--cs-accent)]">cero.</span>
+              C#<br /><span className="text-[var(--cs-accent)]">básico.</span>
             </h1>
             <p className="max-w-2xl text-lg leading-relaxed font-bold sm:text-2xl">
-              Una ruta práctica para leer, escribir y razonar programas de consola antes de entrar a POO, estructuras y archivos.
+              Fundamentos para programas de consola: sintaxis, datos, control, colecciones, métodos y errores.
             </p>
           </div>
 
@@ -404,7 +404,7 @@ export function CsharpBasicsView() {
         <div className="mx-auto grid max-w-[1500px] gap-8 px-5 py-16 sm:px-10 lg:grid-cols-[.8fr_1.2fr] lg:px-12">
           <div className="flex flex-col gap-5">
             <p className="text-xs font-extrabold tracking-[0.2em] text-[var(--cs-lime)] uppercase">00 · Preparar el entorno</p>
-            <h2 className="font-[family-name:var(--font-display)] text-4xl leading-none uppercase sm:text-6xl">Crear y ejecutar</h2>
+            <h2 className="font-[family-name:var(--font-display)] text-4xl leading-none uppercase sm:text-6xl">Entorno</h2>
             <p className="max-w-xl text-base leading-relaxed font-semibold text-white/75 sm:text-lg">
               Instala el SDK de .NET, crea una aplicación de consola y ejecútala. <code className="text-[var(--cs-lime)]">Program.cs</code> es el archivo inicial.
             </p>
@@ -423,7 +423,7 @@ export function CsharpBasicsView() {
 
       <section id="tipos" className="cs-section bg-[var(--cs-paper)]">
         <div className="mx-auto max-w-[1500px] px-5 py-20 sm:px-10 lg:px-12">
-          <SectionHeading number="01" eyebrow="Variables y tipos" title="Cada dato tiene una forma" description="Una variable reserva un nombre para un valor. C# es fuertemente tipado: el compilador sabe qué operaciones permite cada tipo." />
+          <SectionHeading number="01" eyebrow="Fundamentos" title="Tipos de datos" description="Una variable asocia un nombre con un valor. C# verifica el tipo y las operaciones permitidas durante la compilación." />
           <div className="grid gap-8 lg:grid-cols-[1.1fr_.9fr]">
             <div className="grid gap-3 sm:grid-cols-2">
               {dataTypes.map(([type, purpose, example], index) => (
@@ -452,7 +452,7 @@ export function CsharpBasicsView() {
       <section id="entrada" className="cs-section">
         <div className="mx-auto grid max-w-[1500px] gap-10 px-5 py-20 sm:px-10 lg:grid-cols-[.85fr_1.15fr] lg:px-12">
           <div>
-            <SectionHeading number="02" eyebrow="Entrada, salida y conversión" title="Conversar con la consola" description="Console.Write muestra texto; Console.ReadLine devuelve string?. Antes de calcular, convierte y valida la entrada." />
+            <SectionHeading number="02" eyebrow="Consola y conversión" title="Entrada y salida" description="Console.Write muestra texto y Console.ReadLine devuelve string?. Convierte y valida la entrada antes de utilizarla." />
             <div className="grid gap-3">
               {[
                 ["Write", "Escribe sin salto de línea"],
@@ -469,9 +469,9 @@ export function CsharpBasicsView() {
 
       <section id="control" className="cs-section bg-[var(--cs-wash)]">
         <div className="mx-auto max-w-[1500px] px-5 py-20 sm:px-10 lg:px-12">
-          <SectionHeading number="03" eyebrow="Flujo de control" title="Decidir y repetir" description="Las condiciones eligen una ruta; los ciclos repiten instrucciones. Las llaves hacen visible qué pertenece a cada bloque." />
+          <SectionHeading number="03" eyebrow="Flujo de control" title="Condicionales y ciclos" description="if y switch seleccionan bloques de código. for, while y foreach repiten instrucciones bajo condiciones definidas." />
           <div className="grid gap-10 lg:grid-cols-2">
-            <div className="flex min-w-0 flex-col gap-5"><h3 className="font-[family-name:var(--font-display)] text-3xl uppercase">Decisiones</h3><CodePanel label="if-switch.cs" code={decisionsProgram} /><Note>Usa <code>==</code> para comparar y <code>=</code> para asignar. Esta confusión es un clásico de los primeros programas.</Note></div>
+            <div className="flex min-w-0 flex-col gap-5"><h3 className="font-[family-name:var(--font-display)] text-3xl uppercase">Decisiones</h3><CodePanel label="if-switch.cs" code={decisionsProgram} /><Note>Usa <code>==</code> para comparar valores. Usa <code>=</code> para asignar un valor.</Note></div>
             <div className="flex min-w-0 flex-col gap-5"><h3 className="font-[family-name:var(--font-display)] text-3xl uppercase">Ciclos</h3><CodePanel label="for-while-foreach.cs" code={loopsProgram} /><div className="grid grid-cols-2 gap-3"><div className="border-4 border-[var(--cs-ink)] bg-white p-4"><code className="font-bold">break</code><p className="mt-2 text-sm">Sale del ciclo.</p></div><div className="border-4 border-[var(--cs-ink)] bg-[var(--cs-lime)] p-4"><code className="font-bold">continue</code><p className="mt-2 text-sm">Salta a la siguiente vuelta.</p></div></div></div>
           </div>
         </div>
@@ -480,7 +480,7 @@ export function CsharpBasicsView() {
       <section id="colecciones" className="cs-section bg-[var(--cs-paper)]">
         <div className="mx-auto grid max-w-[1500px] gap-10 px-5 py-20 sm:px-10 lg:grid-cols-[.9fr_1.1fr] lg:px-12">
           <div>
-            <SectionHeading number="04" eyebrow="Arreglos y colecciones" title="Trabajar con muchos datos" description="Agrupa valores del mismo tipo. Elige la estructura según la forma en que necesitas guardar y encontrar la información." />
+            <SectionHeading number="04" eyebrow="Estructuras básicas" title="Arreglos y colecciones" description="Los arreglos, listas y diccionarios almacenan conjuntos de valores. Cada estructura ofrece operaciones y formas de acceso distintas." />
             <div className="grid gap-4">
               {[
                 ["T[]", "Tamaño fijo", "Acceso rápido por índice"],
@@ -495,7 +495,7 @@ export function CsharpBasicsView() {
 
       <section id="metodos" className="cs-section">
         <div className="mx-auto max-w-[1500px] px-5 py-20 sm:px-10 lg:px-12">
-          <SectionHeading number="05" eyebrow="Métodos" title="Nombrar una solución" description="Un método agrupa una tarea reutilizable. Puede recibir parámetros y devolver un resultado; eso evita duplicación y permite probar cada parte." />
+          <SectionHeading number="05" eyebrow="Reutilización" title="Métodos" description="Un método agrupa instrucciones reutilizables. Puede recibir parámetros, definir valores predeterminados y devolver un resultado." />
           <div className="grid gap-10 lg:grid-cols-[1.15fr_.85fr]">
             <CodePanel label="metodos.cs" code={methodsProgram} />
             <div className="flex flex-col gap-4">
@@ -515,7 +515,7 @@ export function CsharpBasicsView() {
       <section id="errores" className="cs-section bg-[var(--cs-ink)] text-[var(--cs-bg)]">
         <div className="mx-auto grid max-w-[1500px] gap-10 px-5 py-20 sm:px-10 lg:grid-cols-[.82fr_1.18fr] lg:px-12">
           <div>
-            <SectionHeading number="06" eyebrow="Errores y excepciones" title="Fallar con claridad" description="El compilador detecta errores de sintaxis y tipos. En ejecución, valida lo esperado y captura solo las excepciones que sabes resolver." />
+            <SectionHeading number="06" eyebrow="Validación" title="Errores y excepciones" description="El compilador detecta errores de sintaxis y tipos. Durante la ejecución, valida entradas y captura excepciones específicas." />
             <div className="grid gap-3 text-[var(--cs-ink)]">
               <div className="bg-[var(--cs-lime)] p-4 font-bold">Compilación · el código no puede construirse.</div>
               <div className="bg-[var(--cs-blue)] p-4 font-bold">Ejecución · ocurre una excepción al usar el programa.</div>
@@ -528,7 +528,7 @@ export function CsharpBasicsView() {
 
       <section id="reto" className="cs-section bg-[var(--cs-wash)]">
         <div className="mx-auto max-w-[1500px] px-5 py-20 sm:px-10 lg:px-12">
-          <SectionHeading number="07" eyebrow="Integración" title="Un programa completo" description="Este registro de notas junta entrada, validación, condicionales, ciclos, una lista, operadores y salida formateada." />
+          <SectionHeading number="07" eyebrow="Integración" title="Programa integrador" description="El registro de notas combina entrada, validación, condicionales, ciclos, una lista, operadores y salida formateada." />
           <CodePanel label="reto-registro-notas.cs" code={completeProgram} />
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {["Cambia la nota mínima a 70", "Muestra la nota mayor", "Cuenta cuántos aprobaron", "Extrae el promedio a un método"].map((task, index) => <div key={task} className={cn("border-4 border-[var(--cs-ink)] p-5 text-sm font-extrabold shadow-[5px_5px_0_var(--cs-ink)]", index === 3 ? "bg-[var(--cs-lime)]" : "bg-white")}><span className="mb-3 block text-[var(--cs-accent)]">EXTENSIÓN 0{index + 1}</span>{task}</div>)}
@@ -538,12 +538,12 @@ export function CsharpBasicsView() {
 
       <section className="cs-section bg-[var(--cs-paper)]">
         <div className="mx-auto max-w-4xl px-5 py-20 sm:px-10">
-          <SectionHeading number="08" eyebrow="Comprobación rápida" title="¿Listo para continuar?" description="Tres preguntas para verificar las decisiones fundamentales antes de pasar a programación orientada a objetos." />
+          <SectionHeading number="08" eyebrow="Comprobación" title="Evaluación" description="Tres preguntas sobre conversión, colecciones y control de ciclos antes de continuar con programación orientada a objetos." />
           <div className="border-[6px] border-[var(--cs-ink)] bg-white p-5 shadow-[10px_10px_0_var(--cs-accent)] sm:p-8">
             {finished ? (
               <div className="flex flex-col items-center gap-6 py-8 text-center">
                 <div className="flex size-24 items-center justify-center rounded-full border-[6px] border-[var(--cs-ink)] bg-[var(--cs-lime)] font-[family-name:var(--font-display)] text-4xl">{score}/3</div>
-                <h3 className="font-[family-name:var(--font-display)] text-3xl uppercase">{score === 3 ? "Base sólida" : "Una vuelta más"}</h3>
+                <h3 className="font-[family-name:var(--font-display)] text-3xl uppercase">Resultado</h3>
                 <p className="max-w-lg font-semibold">{score === 3 ? "Ya tienes el vocabulario mínimo para abordar clases y objetos." : "Revisa las secciones marcadas por las preguntas y vuelve a intentarlo."}</p>
                 <div className="flex flex-wrap justify-center gap-3">
                   <Button onClick={resetQuiz} variant="outline" className="h-auto rounded-none border-4 border-[var(--cs-ink)] px-5 py-3 font-mono font-extrabold"><RotateCcwIcon data-icon="inline-start" />Repetir</Button>
@@ -570,7 +570,7 @@ export function CsharpBasicsView() {
 
       <footer className="bg-[var(--cs-accent)] px-5 py-12 text-white sm:px-10">
         <div className="mx-auto flex max-w-[1500px] flex-col justify-between gap-6 sm:flex-row sm:items-end">
-          <div><p className="font-mono text-xs font-extrabold tracking-[0.2em] uppercase">Siguiente parada</p><h2 className="mt-2 font-[family-name:var(--font-display)] text-4xl uppercase sm:text-6xl">Clases y objetos.</h2></div>
+          <div><p className="font-mono text-xs font-extrabold tracking-[0.2em] uppercase">Siguiente tema</p><h2 className="mt-2 font-[family-name:var(--font-display)] text-4xl uppercase sm:text-6xl">Programación orientada a objetos</h2></div>
           <Link href="/laboratorios/poo-lab" className="inline-flex w-fit items-center gap-2 border-4 border-[var(--cs-ink)] bg-[var(--cs-lime)] px-5 py-3 font-mono font-extrabold text-[var(--cs-ink)] no-underline shadow-[6px_6px_0_var(--cs-ink)] transition-transform hover:-translate-y-1">Continuar a POO <ArrowRightIcon className="size-4" /></Link>
         </div>
       </footer>
