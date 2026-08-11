@@ -31,6 +31,233 @@ const COLORS = {
   wash: "#FFE68A",
 }
 
+const dotArray = `digraph Arreglo {
+  graph [bgcolor="transparent", pad=0.25];
+  node [shape=plain];
+
+  arreglo [label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="10">
+      <TR>
+        <TD BGCOLOR="#2639D4"><FONT COLOR="white"><B>índice</B></FONT></TD>
+        <TD>0</TD><TD>1</TD><TD>2</TD><TD>3</TD><TD>4</TD>
+      </TR>
+      <TR>
+        <TD BGCOLOR="#FF5D00"><FONT COLOR="white"><B>valor</B></FONT></TD>
+        <TD PORT="i0">12</TD><TD PORT="i1">7</TD><TD PORT="i2">25</TD>
+        <TD PORT="i3">4</TD><TD PORT="i4">18</TD>
+      </TR>
+    </TABLE>
+  >];
+}`
+
+const dotMatrix = `digraph Matriz {
+  graph [bgcolor="transparent", pad=0.25];
+  node [shape=plain];
+
+  matriz [label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="10">
+      <TR><TD BGCOLOR="#171810"><FONT COLOR="white"><B>f/c</B></FONT></TD><TD BGCOLOR="#FFE68A">0</TD><TD BGCOLOR="#FFE68A">1</TD><TD BGCOLOR="#FFE68A">2</TD></TR>
+      <TR><TD BGCOLOR="#FFE68A">0</TD><TD PORT="f0c0">5</TD><TD PORT="f0c1">8</TD><TD PORT="f0c2">2</TD></TR>
+      <TR><TD BGCOLOR="#FFE68A">1</TD><TD PORT="f1c0">0</TD><TD PORT="f1c1">7</TD><TD PORT="f1c2">4</TD></TR>
+      <TR><TD BGCOLOR="#FFE68A">2</TD><TD PORT="f2c0">9</TD><TD PORT="f2c1">1</TD><TD PORT="f2c2">6</TD></TR>
+    </TABLE>
+  >];
+}`
+
+const dotSparseMatrix = `digraph MatrizDispersa {
+  graph [bgcolor="transparent", pad=0.35, nodesep=0.45, ranksep=0.55];
+  node [shape=box, style=filled, color="#171810", penwidth=2];
+  edge [penwidth=2, arrowsize=0.7];
+
+  raiz [label="M", fillcolor="#171810", fontcolor="white"];
+  c0 [label="C0", fillcolor="#2639D4", fontcolor="white"];
+  c1 [label="C1", fillcolor="#2639D4", fontcolor="white"];
+  c2 [label="C2", fillcolor="#2639D4", fontcolor="white"];
+  f0 [label="F0", fillcolor="#FF5D00", fontcolor="white"];
+  f1 [label="F1", fillcolor="#FF5D00", fontcolor="white"];
+  f2 [label="F2", fillcolor="#FF5D00", fontcolor="white"];
+  a02 [label="8", fillcolor="#FFF6CC"];
+  a11 [label="7", fillcolor="#FFF6CC"];
+  a20 [label="9", fillcolor="#FFF6CC"];
+  a22 [label="6", fillcolor="#FFF6CC"];
+
+  { rank=same; raiz; c0; c1; c2; }
+  { rank=same; f0; a02; }
+  { rank=same; f1; a11; }
+  { rank=same; f2; a20; a22; }
+
+  raiz -> c0 -> c1 -> c2 [color="#2639D4"];
+  raiz -> f0 -> f1 -> f2 [color="#FF5D00"];
+  c0 -> a20 [color="#2639D4"];
+  c1 -> a11 [color="#2639D4"];
+  c2 -> a02 -> a22 [color="#2639D4"];
+  f0 -> a02 [color="#FF5D00"];
+  f1 -> a11 [color="#FF5D00"];
+  f2 -> a20 -> a22 [color="#FF5D00"];
+}`
+
+const dotSinglyLinkedList = `digraph ListaSimple {
+  rankdir=LR;
+  graph [bgcolor="transparent", pad=0.3];
+  node [shape=record, style=filled, fillcolor="#FFF6CC", penwidth=2];
+  edge [color="#2639D4", penwidth=2];
+
+  cabeza [shape=plaintext, label="CABEZA"];
+  n1 [label="{<dato> 10|<sig> sig}"];
+  n2 [label="{<dato> 20|<sig> sig}"];
+  n3 [label="{<dato> 30|<sig> sig}"];
+  nulo [shape=plaintext, label="NULL"];
+
+  cabeza -> n1:dato;
+  n1:sig -> n2:dato;
+  n2:sig -> n3:dato;
+  n3:sig -> nulo;
+}`
+
+const dotDoublyLinkedList = `digraph ListaDoble {
+  rankdir=LR;
+  graph [bgcolor="transparent", pad=0.3, splines=spline];
+  node [shape=plain];
+  edge [penwidth=2, arrowsize=0.7];
+
+  n1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0"><TR><TD PORT="ant" BGCOLOR="#FFE68A">ant</TD><TD PORT="dato" CELLPADDING="10">10</TD><TD PORT="sig" BGCOLOR="#FFF6CC">sig</TD></TR></TABLE>>];
+  n2 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0"><TR><TD PORT="ant" BGCOLOR="#FFE68A">ant</TD><TD PORT="dato" CELLPADDING="10">20</TD><TD PORT="sig" BGCOLOR="#FFF6CC">sig</TD></TR></TABLE>>];
+  n3 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0"><TR><TD PORT="ant" BGCOLOR="#FFE68A">ant</TD><TD PORT="dato" CELLPADDING="10">30</TD><TD PORT="sig" BGCOLOR="#FFF6CC">sig</TD></TR></TABLE>>];
+
+  n1:sig:e -> n2:dato:w [color="#2639D4"];
+  n2:sig:e -> n3:dato:w [color="#2639D4"];
+  n2:ant:w -> n1:dato:e [color="#FF5D00", constraint=false];
+  n3:ant:w -> n2:dato:e [color="#FF5D00", constraint=false];
+}`
+
+const dotCircularLinkedList = `digraph ListaCircular {
+  rankdir=LR;
+  graph [bgcolor="transparent", pad=0.4, splines=spline];
+  node [shape=record, style=filled, fillcolor="#FFF6CC", penwidth=2];
+  edge [color="#2639D4", penwidth=2];
+
+  cabeza [shape=plaintext, label="CABEZA"];
+  n1 [label="{<dato> 10|<sig> sig}"];
+  n2 [label="{<dato> 20|<sig> sig}"];
+  n3 [label="{<dato> 30|<sig> sig}"];
+
+  cabeza -> n1:dato;
+  n1:sig -> n2:dato;
+  n2:sig -> n3:dato;
+  n3:sig -> n1:dato [constraint=false, color="#FF5D00", label=" retorno"];
+}`
+
+const dotStack = `digraph Pila {
+  rankdir=TB;
+  graph [bgcolor="transparent", pad=0.3, ranksep=0.2];
+  node [shape=box, style=filled, fillcolor="#FFF6CC", width=2, penwidth=2];
+  edge [color="#2639D4", penwidth=2];
+
+  tope [shape=plaintext, label="TOPE"];
+  n30 [label="30"];
+  n20 [label="20"];
+  n10 [label="10"];
+
+  tope -> n30 [label=" pop / push", color="#FF5D00"];
+  n30 -> n20 -> n10 [arrowhead=none];
+}`
+
+const dotQueue = `digraph Cola {
+  rankdir=LR;
+  graph [bgcolor="transparent", pad=0.3];
+  node [shape=box, style=filled, fillcolor="#FFF6CC", penwidth=2];
+  edge [color="#2639D4", penwidth=2];
+
+  frente [shape=plaintext, label="FRENTE"];
+  n10 [label="10"];
+  n20 [label="20"];
+  n30 [label="30"];
+  final [shape=plaintext, label="FINAL"];
+
+  frente -> n10 [label=" desencolar", color="#FF5D00"];
+  n10 -> n20 -> n30;
+  final -> n30 [label=" encolar", color="#FF5D00", dir=back];
+}`
+
+const dotBinarySearchTree = `digraph ArbolBinarioBusqueda {
+  graph [bgcolor="transparent", pad=0.3, nodesep=0.45, ranksep=0.55];
+  node [shape=circle, style=filled, fillcolor="#FFF6CC", penwidth=2];
+  edge [color="#2639D4", penwidth=2];
+
+  n8 [label="8"];
+  n4 [label="4"];
+  n12 [label="12"];
+  n2 [label="2"];
+  n6 [label="6"];
+  n10 [label="10"];
+  n14 [label="14"];
+
+  n8 -> n4 [label=" <"];
+  n8 -> n12 [label=" >"];
+  n4 -> n2;
+  n4 -> n6;
+  n12 -> n10;
+  n12 -> n14;
+}`
+
+const dotHeap = `digraph HeapMaximo {
+  graph [bgcolor="transparent", pad=0.3, nodesep=0.45, ranksep=0.55];
+  node [shape=circle, style=filled, fillcolor="#FFE68A", penwidth=2];
+  edge [color="#2639D4", penwidth=2];
+
+  i0 [label="50\n[0]"];
+  i1 [label="30\n[1]"];
+  i2 [label="40\n[2]"];
+  i3 [label="10\n[3]"];
+  i4 [label="20\n[4]"];
+  i5 [label="35\n[5]"];
+
+  i0 -> i1;
+  i0 -> i2;
+  i1 -> i3;
+  i1 -> i4;
+  i2 -> i5;
+}`
+
+const dotHashTable = `digraph TablaHash {
+  rankdir=LR;
+  graph [bgcolor="transparent", pad=0.35, nodesep=0.35];
+  node [shape=record, style=filled, fillcolor="#FFF6CC", penwidth=2];
+  edge [color="#2639D4", penwidth=2];
+
+  tabla [label="{<b0> 0|<b1> 1|<b2> 2|<b3> 3|<b4> 4}", fillcolor="#FFE68A"];
+  ana [label="Ana | 25"];
+  luis [label="Luis | 31"];
+  eva [label="Eva | 19"];
+  mario [label="Mario | 42"];
+
+  tabla:b0 -> ana;
+  tabla:b2 -> luis -> eva;
+  tabla:b4 -> mario;
+}`
+
+const dotAdjacencyList = `graph ListaAdyacencia {
+  rankdir=LR;
+  graph [bgcolor="transparent", pad=0.35, nodesep=0.35];
+  node [shape=record, style=filled, fillcolor="#FFF6CC", penwidth=2];
+  edge [color="#2639D4", penwidth=2];
+
+  vertices [label="{<a> A|<b> B|<c> C|<d> D}", fillcolor="#FFE68A"];
+  a1 [label="B"];
+  a2 [label="C"];
+  b1 [label="A"];
+  b2 [label="D"];
+  c1 [label="A"];
+  c2 [label="D"];
+  d1 [label="B"];
+  d2 [label="C"];
+
+  vertices:a -- a1 -- a2;
+  vertices:b -- b1 -- b2;
+  vertices:c -- c1 -- c2;
+  vertices:d -- d1 -- d2;
+}`
+
 const examples = {
   flujo: `digraph Flujo {
   rankdir=LR;
@@ -109,6 +336,18 @@ const examples = {
   A -- B -- C -- D -- A;
   A -- C;
 }`,
+  arreglo: dotArray,
+  matriz: dotMatrix,
+  matrizDispersa: dotSparseMatrix,
+  listaSimple: dotSinglyLinkedList,
+  listaDoble: dotDoublyLinkedList,
+  listaCircular: dotCircularLinkedList,
+  pila: dotStack,
+  cola: dotQueue,
+  arbolBusqueda: dotBinarySearchTree,
+  heap: dotHeap,
+  tablaHash: dotHashTable,
+  listaAdyacencia: dotAdjacencyList,
 } as const
 
 const dotBasic = `digraph Cursos {
@@ -242,6 +481,37 @@ foreach (Relacion relacion in relaciones)
 dot.AppendLine("}");
 File.WriteAllText("usuarios.dot", dot.ToString());`
 
+const csharpMatrix = `using System.Net;
+using System.Text;
+
+static string MatrizADot(int[,] matriz)
+{
+    var dot = new StringBuilder();
+    dot.AppendLine("digraph Matriz {");
+    dot.AppendLine("  node [shape=plain];");
+    dot.AppendLine("  matriz [label=<");
+    dot.AppendLine("    <TABLE BORDER=\"0\" CELLBORDER=\"1\" CELLSPACING=\"0\">");
+
+    for (int fila = 0; fila < matriz.GetLength(0); fila++)
+    {
+        dot.AppendLine("      <TR>");
+        for (int columna = 0; columna < matriz.GetLength(1); columna++)
+        {
+            string valor = WebUtility.HtmlEncode(matriz[fila, columna].ToString());
+            dot.AppendLine($"        <TD PORT=\"f{fila}c{columna}\">{valor}</TD>");
+        }
+        dot.AppendLine("      </TR>");
+    }
+
+    dot.AppendLine("    </TABLE>");
+    dot.AppendLine("  >];");
+    dot.AppendLine("}");
+    return dot.ToString();
+}
+
+int[,] datos = { { 5, 8, 2 }, { 0, 7, 4 }, { 9, 1, 6 } };
+File.WriteAllText("matriz.dot", MatrizADot(datos));`
+
 const csharpProcess = `using System.Diagnostics;
 
 var proceso = new ProcessStartInfo
@@ -288,6 +558,36 @@ const layoutEngines: Array<{
   { id: "sfdp", use: "Redes grandes", detail: "Versión escalable de fdp para muchos nodos." },
   { id: "circo", use: "Ciclos", detail: "Distribución circular para estructuras cíclicas." },
   { id: "twopi", use: "Radiales", detail: "Niveles concéntricos alrededor de un nodo raíz." },
+]
+
+const guideViewerExamples: Array<{
+  label: string
+  source: string
+  engine?: LayoutEngine
+}> = [
+  { label: "Flujo", source: examples.flujo },
+  { label: "Árbol", source: examples.arbol },
+  { label: "Clases", source: examples.clases },
+  { label: "Clústeres", source: examples.clusters },
+  { label: "Posiciones", source: examples.posicion, engine: "neato" },
+]
+
+const structureViewerExamples: Array<{
+  label: string
+  source: string
+}> = [
+  { label: "Arreglo", source: examples.arreglo },
+  { label: "Matriz", source: examples.matriz },
+  { label: "Matriz dispersa", source: examples.matrizDispersa },
+  { label: "Lista simple", source: examples.listaSimple },
+  { label: "Lista doble", source: examples.listaDoble },
+  { label: "Lista circular", source: examples.listaCircular },
+  { label: "Pila", source: examples.pila },
+  { label: "Cola", source: examples.cola },
+  { label: "Árbol BST", source: examples.arbolBusqueda },
+  { label: "Heap", source: examples.heap },
+  { label: "Tabla hash", source: examples.tablaHash },
+  { label: "Lista de adyacencia", source: examples.listaAdyacencia },
 ]
 
 let vizPromise: ReturnType<typeof import("@viz-js/viz")["instance"]> | undefined
@@ -431,6 +731,7 @@ export function GraphvizCsharpView() {
             ["#posicion", "POSICIÓN"],
             ["#clusters", "CLÚSTERES"],
             ["#motores", "MOTORES"],
+            ["#estructuras", "ESTRUCTURAS"],
             ["#csharp", "C#"],
             ["#visor", "VISOR"],
             ["#referencia", "SALIDA"],
@@ -453,13 +754,13 @@ export function GraphvizCsharpView() {
               Graphviz<br /><span className="text-[var(--gv-accent)]">y C#</span>
             </h1>
             <p className="max-w-2xl text-lg leading-relaxed font-bold sm:text-2xl">
-              Definición de grafos con DOT, generación desde C# y exportación a SVG, PNG o PDF.
+              Definición de grafos con DOT, estructuras de datos, generación desde C# y exportación a SVG, PNG o PDF.
             </p>
           </div>
           <div className="flex min-w-0 flex-col justify-center gap-5">
             <DotBlock code={dotBasic} label="cursos.dot" />
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-              {["Nodos", "Aristas", "Atributos", "Exportación"].map((item, index) => (
+              {["Nodos", "Atributos", "Estructuras", "Exportación"].map((item, index) => (
                 <div key={item} className={cn("border-4 border-[var(--gv-ink)] p-3 text-center text-xs font-extrabold uppercase", index === 3 ? "bg-[var(--gv-orange)] text-white" : "bg-[var(--gv-surface)]")}>{item}</div>
               ))}
             </div>
@@ -647,12 +948,87 @@ export function GraphvizCsharpView() {
         </div>
       </section>
 
+      <section id="estructuras" className="bg-[var(--gv-wash)]">
+        <div className="mx-auto max-w-[1500px] px-5 py-20 sm:px-10 lg:px-12">
+          <SectionTitle number="08" title="Estructuras de datos" description="Graphviz representa la estructura y sus referencias. Las etiquetas HTML muestran celdas; los puertos identifican campos; las aristas modelan enlaces, índices y relaciones." />
+
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {[
+              ["Arreglo", "Tabla de una fila", "shape=plain + TABLE", "dot"],
+              ["Matriz", "Filas y columnas", "TABLE + puertos fNcN", "dot"],
+              ["Matriz dispersa", "Cabeceras y celdas ocupadas", "rank=same + dos colores", "dot"],
+              ["Lista simple", "Dato y siguiente", "record + puertos", "dot"],
+              ["Lista doble", "Anterior, dato y siguiente", "TABLE + constraint=false", "dot"],
+              ["Lista circular", "Último enlaza al primero", "constraint=false", "dot / circo"],
+              ["Pila", "Acceso LIFO desde el tope", "rankdir=TB", "dot"],
+              ["Cola", "Frente y final FIFO", "rankdir=LR", "dot"],
+              ["Árbol BST", "Hijos menores y mayores", "jerarquía dirigida", "dot"],
+              ["Heap", "Árbol completo e índices", "niveles jerárquicos", "dot"],
+              ["Tabla hash", "Cubetas y colisiones", "record + encadenamiento", "dot"],
+              ["Lista de adyacencia", "Vértices y vecinos", "record + listas", "dot"],
+            ].map(([name, model, technique, recommendedEngine]) => (
+              <article key={name} className="border-4 border-[var(--gv-ink)] bg-[var(--gv-surface)] p-5 shadow-[5px_5px_0_var(--gv-accent)]">
+                <h3 className="font-[family-name:var(--font-display)] text-2xl uppercase">{name}</h3>
+                <p className="mt-2 text-sm leading-relaxed font-semibold">{model}</p>
+                <code className="mt-4 block border-t-2 border-[var(--gv-ink)] pt-3 text-xs font-extrabold text-[var(--gv-accent)]">{technique}</code>
+                <Badge className="mt-3 h-auto rounded-none bg-[var(--gv-orange)] font-mono text-[10px] uppercase">Motor: {recommendedEngine}</Badge>
+              </article>
+            ))}
+          </div>
+
+          <div className="mt-14 grid gap-10 xl:grid-cols-2">
+            <div>
+              <h3 className="mb-4 font-[family-name:var(--font-display)] text-3xl uppercase">Arreglo</h3>
+              <DotBlock code={dotArray} label="arreglo.dot" />
+            </div>
+            <div>
+              <h3 className="mb-4 font-[family-name:var(--font-display)] text-3xl uppercase">Matriz</h3>
+              <DotBlock code={dotMatrix} label="matriz.dot" />
+            </div>
+            <div>
+              <h3 className="mb-4 font-[family-name:var(--font-display)] text-3xl uppercase">Lista circular</h3>
+              <DotBlock code={dotCircularLinkedList} label="lista-circular.dot" />
+            </div>
+            <div>
+              <h3 className="mb-4 font-[family-name:var(--font-display)] text-3xl uppercase">Tabla hash</h3>
+              <DotBlock code={dotHashTable} label="tabla-hash.dot" />
+            </div>
+          </div>
+
+          <div className="mt-10 grid gap-5 lg:grid-cols-3">
+            {[
+              ["Identidad", "Use identificadores DOT estables y únicos. El texto visible debe ir en label; no utilice valores repetidos como identificadores."],
+              ["Referencias", "Asigne un puerto a cada campo que almacena una referencia. Conecte sig, ant, hijo, cubeta o vecino desde ese puerto."],
+              ["Nulos y ciclos", "Represente null con un nodo de texto. En ciclos, constraint=false evita que el enlace de retorno altere el orden principal."],
+              ["Índices", "Incluya índices en arreglos, matrices y heaps. En una matriz use puertos como f2c1 para localizar cada celda."],
+              ["Orden", "dot es adecuado cuando importa el orden. circo puede destacar el ciclo, pero no conserva una lectura lineal de la lista."],
+              ["Escala", "En estructuras grandes muestre una porción, agrupe niveles o cambie a sfdp. Demasiadas etiquetas reducen la legibilidad."],
+            ].map(([title, detail]) => (
+              <article key={title} className="border-l-[8px] border-[var(--gv-orange)] bg-white p-5">
+                <h4 className="font-extrabold uppercase">{title}</h4>
+                <p className="mt-2 text-sm leading-relaxed font-semibold">{detail}</p>
+              </article>
+            ))}
+          </div>
+
+          <div className="mt-10 border-4 border-[var(--gv-ink)] bg-[var(--gv-ink)] p-6 text-[var(--gv-bg)]">
+            <h3 className="font-[family-name:var(--font-display)] text-3xl uppercase">Galería interactiva</h3>
+            <p className="mt-3 max-w-4xl text-sm leading-relaxed font-semibold">Los doce ejemplos completos están disponibles en el visor. Seleccione una estructura, edite valores o conexiones y renderice el resultado.</p>
+            <a href="#visor" className="mt-5 inline-block border-4 border-[var(--gv-bg)] bg-[var(--gv-orange)] px-5 py-3 font-mono text-sm font-extrabold text-white no-underline hover:bg-[var(--gv-accent)]">Abrir visor</a>
+          </div>
+        </div>
+      </section>
+
       <section id="csharp">
         <div className="mx-auto max-w-[1500px] px-5 py-20 sm:px-10 lg:px-12">
-          <SectionTitle number="08" title="Generación desde C#" description="C# puede construir el texto DOT, guardarlo en un archivo y ejecutar Graphviz mediante el comando dot instalado en el sistema." />
+          <SectionTitle number="09" title="Generación desde C#" description="C# puede construir el texto DOT, convertir estructuras de datos, guardar archivos y ejecutar Graphviz mediante el comando dot instalado en el sistema." />
           <div className="grid gap-10 xl:grid-cols-2">
             <div className="min-w-0"><h3 className="mb-4 font-[family-name:var(--font-display)] text-3xl uppercase">Construcción del archivo</h3><div className="border-[6px] border-[var(--gv-ink)] bg-[var(--gv-ink)]"><CodeBlock code={csharpBuilder} language="csharp" variant="dark" style={{ padding: 20, fontSize: 14, lineHeight: 1.7, overflow: "auto" }} /></div></div>
             <div className="min-w-0"><h3 className="mb-4 font-[family-name:var(--font-display)] text-3xl uppercase">Ejecución de Graphviz</h3><div className="border-[6px] border-[var(--gv-ink)] bg-[var(--gv-ink)]"><CodeBlock code={csharpProcess} language="csharp" variant="dark" style={{ padding: 20, fontSize: 14, lineHeight: 1.7, overflow: "auto" }} /></div></div>
+          </div>
+          <div className="mt-10 min-w-0">
+            <h3 className="mb-4 font-[family-name:var(--font-display)] text-3xl uppercase">Matriz desde C#</h3>
+            <div className="border-[6px] border-[var(--gv-ink)] bg-[var(--gv-ink)]"><CodeBlock code={csharpMatrix} language="csharp" variant="dark" style={{ padding: 20, fontSize: 14, lineHeight: 1.7, overflow: "auto" }} /></div>
           </div>
           <div className="mt-8 border-4 border-[var(--gv-ink)] bg-[var(--gv-orange)] p-5 font-mono text-sm font-bold text-white">
             Valide identificadores y escape comillas y barras invertidas antes de incluir datos externos en DOT. No concatene texto sin validar dentro de los argumentos del proceso.
@@ -662,13 +1038,24 @@ export function GraphvizCsharpView() {
 
       <section id="visor" className="bg-[var(--gv-surface)]">
         <div className="mx-auto max-w-[1600px] px-5 py-20 sm:px-10 lg:px-12">
-          <SectionTitle number="09" title="Visor DOT" description="Edite el código, seleccione el motor, procese el grafo con Graphviz WebAssembly y descargue el resultado en SVG." />
-          <div className="mb-5 flex flex-wrap gap-3">
-            <Button type="button" variant="outline" onClick={() => loadExample(examples.flujo)} className="rounded-none border-4 border-[var(--gv-ink)] font-mono font-extrabold">Flujo</Button>
-            <Button type="button" variant="outline" onClick={() => loadExample(examples.arbol)} className="rounded-none border-4 border-[var(--gv-ink)] font-mono font-extrabold">Árbol</Button>
-            <Button type="button" variant="outline" onClick={() => loadExample(examples.clases)} className="rounded-none border-4 border-[var(--gv-ink)] font-mono font-extrabold">Clases</Button>
-            <Button type="button" variant="outline" onClick={() => loadExample(examples.clusters)} className="rounded-none border-4 border-[var(--gv-ink)] font-mono font-extrabold">Clústeres</Button>
-            <Button type="button" variant="outline" onClick={() => loadExample(examples.posicion, "neato")} className="rounded-none border-4 border-[var(--gv-ink)] font-mono font-extrabold">Posiciones</Button>
+          <SectionTitle number="10" title="Visor DOT" description="Edite el código, seleccione el motor, procese el grafo con Graphviz WebAssembly y descargue el resultado en SVG." />
+          <div className="mb-7 grid gap-5">
+            <div>
+              <h3 className="mb-3 font-mono text-xs font-extrabold tracking-wider uppercase">Ejemplos generales</h3>
+              <div className="flex flex-wrap gap-3">
+                {guideViewerExamples.map(({ label, source: exampleSource, engine: exampleEngine }) => (
+                  <Button key={label} type="button" variant="outline" onClick={() => loadExample(exampleSource, exampleEngine)} className="rounded-none border-4 border-[var(--gv-ink)] font-mono font-extrabold">{label}</Button>
+                ))}
+              </div>
+            </div>
+            <div>
+              <h3 className="mb-3 font-mono text-xs font-extrabold tracking-wider uppercase">Estructuras de datos</h3>
+              <div className="flex flex-wrap gap-3">
+                {structureViewerExamples.map(({ label, source: exampleSource }) => (
+                  <Button key={label} type="button" variant="outline" onClick={() => loadExample(exampleSource)} className="rounded-none border-4 border-[var(--gv-ink)] bg-[var(--gv-wash)] font-mono font-extrabold">{label}</Button>
+                ))}
+              </div>
+            </div>
           </div>
           <div className="grid gap-8 xl:grid-cols-2">
             <FieldGroup>
@@ -728,7 +1115,7 @@ export function GraphvizCsharpView() {
 
       <section id="referencia" className="bg-[var(--gv-ink)] text-[var(--gv-bg)]">
         <div className="mx-auto max-w-[1500px] px-5 py-20 sm:px-10 lg:px-12">
-          <SectionTitle number="10" title="Instalación y salida" description="La línea de comandos selecciona el motor, el formato de salida y los archivos. -G, -N y -E permiten sobrescribir atributos de grafo, nodo y arista." />
+          <SectionTitle number="11" title="Instalación y salida" description="La línea de comandos selecciona el motor, el formato de salida y los archivos. -G, -N y -E permiten sobrescribir atributos de grafo, nodo y arista." />
           <div className="grid gap-10 lg:grid-cols-[.8fr_1.2fr]">
             <div className="flex flex-col gap-5 text-[var(--gv-ink)]">
               <div className="bg-[var(--gv-bg)] p-5"><h3 className="font-extrabold uppercase">Instalación</h3><div className="mt-3 grid gap-2 font-mono text-xs"><code>brew install graphviz</code><code>sudo apt install graphviz</code><code>winget install graphviz</code></div></div>

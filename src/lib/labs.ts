@@ -49,7 +49,7 @@ export const labs: Lab[] = [
     label: "Graphviz + C#",
     title: "Grafos con DOT",
     summary:
-      "Sintaxis DOT, grafos dirigidos, atributos, generación desde C# y visor SVG interactivo.",
+      "Sintaxis DOT, atributos, posicionamiento, estructuras de datos, generación desde C# y visor SVG interactivo.",
     theme: "yellow",
     tags: ["C#", "Graphviz", "DOT", "SVG"],
   },
