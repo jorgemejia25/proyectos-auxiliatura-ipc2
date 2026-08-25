@@ -392,7 +392,7 @@ export function TreesLabView() {
         <div className="mx-auto max-w-7xl">
           <div className="tree-course-nav flex gap-2 overflow-x-auto pb-1">
             {courseUnits.map(([id, lesson], index) => (
-              <Button key={id} size="sm" variant={activeUnit === id ? "primary" : "secondary"} className="shrink-0" onPress={() => goToUnit(id)}>
+              <Button key={id} size="sm" variant="secondary" className={`shrink-0 border ${activeUnit === id ? "!border-[#006FEE] !bg-[#006FEE] !text-white" : "!border-white/10 !bg-[#111113] !text-[#A1A1AA] hover:!border-white/20 hover:!bg-[#18181B] hover:!text-white"}`} onPress={() => goToUnit(id)}>
                 <span className="font-mono text-[10px] opacity-70">{String(index + 1).padStart(2, "0")}</span> {lesson}
               </Button>
             ))}
@@ -547,20 +547,20 @@ export function TreesLabView() {
               <div><Card.Title className="text-xl text-white">Costos de los TDAs del Proyecto 2</Card.Title><Card.Description className="mt-1 text-[#71717A]">El costo depende de la estructura utilizada y de su altura.</Card.Description></div>
               <div className="flex flex-wrap gap-2"><Chip variant="soft">c = categorías</Chip><Chip variant="soft">b = libros</Chip><Chip variant="soft">h = altura</Chip><Chip variant="soft">k = libros de una categoría</Chip></div>
             </Card.Header>
-          <Table className="bg-[#09090B]">
-            <Table.ScrollContainer>
-              <Table.Content aria-label="Complejidad de los TDAs utilizados en el Proyecto 2">
-                <Table.Header className="bg-[#0B1730] text-xs uppercase tracking-wider text-[#66AAF9]">
-                  <Table.Column isRowHeader>Operación</Table.Column><Table.Column>Estructura</Table.Column><Table.Column>Tiempo</Table.Column><Table.Column>Motivo</Table.Column>
+          <Table className="!bg-[#09090B] text-[#ECEDEE]">
+            <Table.ScrollContainer className="!bg-[#09090B]">
+              <Table.Content className="!bg-[#09090B]" aria-label="Complejidad de los TDAs utilizados en el Proyecto 2">
+                <Table.Header className="!bg-[#0B1730] text-xs uppercase tracking-wider text-[#66AAF9]">
+                  <Table.Column className="!bg-[#0B1730] !text-[#66AAF9]" isRowHeader>Operación</Table.Column><Table.Column className="!bg-[#0B1730] !text-[#66AAF9]">Estructura</Table.Column><Table.Column className="!bg-[#0B1730] !text-[#66AAF9]">Tiempo</Table.Column><Table.Column className="!bg-[#0B1730] !text-[#66AAF9]">Motivo</Table.Column>
                 </Table.Header>
-                <Table.Body>
-                  <Table.Row><Table.Cell className="font-bold">Buscar categoría</Table.Cell><Table.Cell>Árbol N-ario</Table.Cell><Table.Cell><Chip color="warning" variant="soft">O(c)</Chip></Table.Cell><Table.Cell className="text-[#A1A1AA]">Sin índice auxiliar puede visitar todas las categorías.</Table.Cell></Table.Row>
-                  <Table.Row><Table.Cell className="font-bold">Agregar categoría</Table.Cell><Table.Cell>Árbol N-ario</Table.Cell><Table.Cell><Chip color="warning" variant="soft">O(c)</Chip></Table.Cell><Table.Cell className="text-[#A1A1AA]">Primero busca el padre; enlazar el nuevo hijo cuesta O(1).</Table.Cell></Table.Row>
-                  <Table.Row><Table.Cell className="font-bold">Buscar / insertar libro</Table.Cell><Table.Cell>ABB por ISBN</Table.Cell><Table.Cell><Chip color="success" variant="soft">O(log b) promedio</Chip></Table.Cell><Table.Cell className="text-[#A1A1AA]">Recorre un solo camino cuando la altura es logarítmica.</Table.Cell></Table.Row>
-                  <Table.Row><Table.Cell className="font-bold">Peor caso del ABB</Table.Cell><Table.Cell>ABB degenerado</Table.Cell><Table.Cell><Chip color="danger" variant="soft">O(b)</Chip></Table.Cell><Table.Cell className="text-[#A1A1AA]">Las claves ordenadas pueden formar una cadena.</Table.Cell></Table.Row>
-                  <Table.Row><Table.Cell className="font-bold">Mínimo / máximo ISBN</Table.Cell><Table.Cell>ABB por ISBN</Table.Cell><Table.Cell><Chip variant="soft">O(h)</Chip></Table.Cell><Table.Cell className="text-[#A1A1AA]">Desciende siempre a la izquierda o a la derecha.</Table.Cell></Table.Row>
-                  <Table.Row><Table.Cell className="font-bold">Libros ordenados</Table.Cell><Table.Cell>Recorrido inorden</Table.Cell><Table.Cell><Chip variant="soft">O(b)</Chip></Table.Cell><Table.Cell className="text-[#A1A1AA]">Cada libro se procesa exactamente una vez.</Table.Cell></Table.Row>
-                  <Table.Row><Table.Cell className="font-bold">Libros de categoría</Table.Cell><Table.Cell>Lista simple propia</Table.Cell><Table.Cell><Chip variant="soft">O(k)</Chip></Table.Cell><Table.Cell className="text-[#A1A1AA]">La salida recorre solo la lista enlazada de esa categoría.</Table.Cell></Table.Row>
+                <Table.Body className="!bg-[#09090B]">
+                  <Table.Row className="!bg-[#09090B] text-white hover:!bg-[#111827]"><Table.Cell className="font-bold">Buscar categoría</Table.Cell><Table.Cell>Árbol N-ario</Table.Cell><Table.Cell><Chip color="warning" variant="soft">O(c)</Chip></Table.Cell><Table.Cell className="text-[#A1A1AA]">Sin índice auxiliar puede visitar todas las categorías.</Table.Cell></Table.Row>
+                  <Table.Row className="!bg-[#09090B] text-white hover:!bg-[#111827]"><Table.Cell className="font-bold">Agregar categoría</Table.Cell><Table.Cell>Árbol N-ario</Table.Cell><Table.Cell><Chip color="warning" variant="soft">O(c)</Chip></Table.Cell><Table.Cell className="text-[#A1A1AA]">Primero busca el padre; enlazar el nuevo hijo cuesta O(1).</Table.Cell></Table.Row>
+                  <Table.Row className="!bg-[#09090B] text-white hover:!bg-[#111827]"><Table.Cell className="font-bold">Buscar / insertar libro</Table.Cell><Table.Cell>ABB por ISBN</Table.Cell><Table.Cell><Chip color="success" variant="soft">O(log b) promedio</Chip></Table.Cell><Table.Cell className="text-[#A1A1AA]">Recorre un solo camino cuando la altura es logarítmica.</Table.Cell></Table.Row>
+                  <Table.Row className="!bg-[#09090B] text-white hover:!bg-[#111827]"><Table.Cell className="font-bold">Peor caso del ABB</Table.Cell><Table.Cell>ABB degenerado</Table.Cell><Table.Cell><Chip color="danger" variant="soft">O(b)</Chip></Table.Cell><Table.Cell className="text-[#A1A1AA]">Las claves ordenadas pueden formar una cadena.</Table.Cell></Table.Row>
+                  <Table.Row className="!bg-[#09090B] text-white hover:!bg-[#111827]"><Table.Cell className="font-bold">Mínimo / máximo ISBN</Table.Cell><Table.Cell>ABB por ISBN</Table.Cell><Table.Cell><Chip variant="soft">O(h)</Chip></Table.Cell><Table.Cell className="text-[#A1A1AA]">Desciende siempre a la izquierda o a la derecha.</Table.Cell></Table.Row>
+                  <Table.Row className="!bg-[#09090B] text-white hover:!bg-[#111827]"><Table.Cell className="font-bold">Libros ordenados</Table.Cell><Table.Cell>Recorrido inorden</Table.Cell><Table.Cell><Chip variant="soft">O(b)</Chip></Table.Cell><Table.Cell className="text-[#A1A1AA]">Cada libro se procesa exactamente una vez.</Table.Cell></Table.Row>
+                  <Table.Row className="!bg-[#09090B] text-white hover:!bg-[#111827]"><Table.Cell className="font-bold">Libros de categoría</Table.Cell><Table.Cell>Lista simple propia</Table.Cell><Table.Cell><Chip variant="soft">O(k)</Chip></Table.Cell><Table.Cell className="text-[#A1A1AA]">La salida recorre solo la lista enlazada de esa categoría.</Table.Cell></Table.Row>
                 </Table.Body>
               </Table.Content>
             </Table.ScrollContainer>
