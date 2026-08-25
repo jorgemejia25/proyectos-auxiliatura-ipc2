@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="heroui/fig-tokens.css">
+<script src="heroui/Components.bundle.js"></script>
+<style>
+  html { background: #000; }
+  body { margin: 0; background: #000; color: #ECEDEE; font-family: Inter, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: #006FEE; text-decoration: none; }
+  a:hover { color: #66AAF9; }
+  pre { margin: 0; font-family: "JetBrains Mono", ui-monospace, Menlo, monospace; }
+  ::selection { background: #006FEE; color: #fff; }
+  ::-webkit-scrollbar { width: 9px; height: 9px; }
+  ::-webkit-scrollbar-track { background: #000; }
+  ::-webkit-scrollbar-thumb { background: #27272A; border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: #3F3F46; }
+  @keyframes blink { 0%,45% { opacity: 1 } 55%,100% { opacity: .12 } }
+  @keyframes drift { 0%,100% { transform: translate3d(0,0,0) scale(1) } 50% { transform: translate3d(3%,-4%,0) scale(1.12) } }
+  @keyframes sweep { from { transform: translateX(-100%) } to { transform: translateX(220%) } }
+</style>
+</helmet>
+
+<div class="dark" style="background:#000;color:#ECEDEE;font-family:Inter,system-ui,sans-serif;min-height:100vh;overflow-x:hidden">
+
+  <nav style="position:sticky;top:0;z-index:40;background:rgba(0,0,0,.86);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.15);display:flex;align-items:center;gap:26px;padding:0 clamp(16px,3vw,40px);height:56px">
+    <div style="display:flex;align-items:center;gap:10px;margin-right:auto">
+      <div style="width:9px;height:9px;background:#006FEE;animation:blink 1.4s steps(1,end) infinite"></div>
+      <span style="font-size:12px;font-weight:800;letter-spacing:.18em;text-transform:uppercase">IPC2 / Proy&nbsp;02</span>
+    </div>
+    <a href="#entrega" style="font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#A1A1AA">Entrega</a>
+    <a href="#conceptos" style="font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#A1A1AA">Conceptos</a>
+    <a href="#mapeo" style="font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#A1A1AA">Mapeo</a>
+    <a href="#reglas" style="font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#A1A1AA">Reglas</a>
+    <a href="Demo Proyecto 2.dc.html" style="display:inline-flex;align-items:center;justify-content:center;height:32px;padding:0 14px;border-radius:8px;background:#006FEE;color:#fff;font-weight:600;font-size:13px;transition:background .15s" style-hover="background:#338EF7;color:#fff">Demo</a>
+    <div style="display:flex;align-items:center;gap:10px;padding-left:18px;border-left:1px solid rgba(255,255,255,.15)">
+      <span style="font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#71717A">Costos</span>
+      <div onClick="{{ toggleCompl }}" style="cursor:pointer;display:flex;align-items:center">
+        <x-import component-from-global-scope="Switch" color="primary" size="sm" show-label="{{ false }}" start-icon="{{ false }}" end-icon="{{ false }}" is-selected="{{ complOn }}" hint-size="40px,24px"></x-import>
+      </div>
+    </div>
+  </nav>
+
+  <header style="position:relative;padding:clamp(36px,5.5vw,76px) clamp(16px,3vw,40px) 0;overflow:hidden">
+    <div style="position:absolute;top:-40%;left:-8%;width:60vw;height:60vw;border-radius:50%;background:radial-gradient(circle, rgba(0,111,238,.18), rgba(0,111,238,0) 62%);filter:blur(30px);pointer-events:none;animation:drift 18s ease-in-out infinite"></div>
+    <div style="position:absolute;top:0;right:-14%;width:44vw;height:44vw;border-radius:50%;background:radial-gradient(circle, rgba(243,18,96,.12), rgba(243,18,96,0) 62%);filter:blur(30px);pointer-events:none;animation:drift 24s ease-in-out infinite reverse"></div>
+
+    <div style="position:relative;max-width:1400px;margin:0 auto">
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px" data-reveal="1">
+        <x-import component-from-global-scope="Chip" text1="C#" color="primary" variant="bordered" size="sm" start-content="{{ false }}" end-content="{{ false }}" hint-size="auto,26px"></x-import>
+        <x-import component-from-global-scope="Chip" text1="POO propia" color="neutral" variant="flat" size="sm" start-content="{{ false }}" end-content="{{ false }}" hint-size="auto,26px"></x-import>
+        <x-import component-from-global-scope="Chip" text1="TDA sin librerías" color="danger" variant="flat" size="sm" start-content="{{ false }}" end-content="{{ false }}" hint-size="auto,26px"></x-import>
+        <x-import component-from-global-scope="Chip" text1="Graphviz" color="secondary" variant="flat" size="sm" start-content="{{ false }}" end-content="{{ false }}" hint-size="auto,26px"></x-import>
+        <x-import component-from-global-scope="Chip" text1="XML" color="success" variant="flat" size="sm" start-content="{{ false }}" end-content="{{ false }}" hint-size="auto,26px"></x-import>
+      </div>
+
+      <h1 style="margin:0;font-weight:800;letter-spacing:-.035em;line-height:1.02;font-size:clamp(34px,5.2vw,72px);max-width:22ch" data-reveal="1">Árbol N-ario y árbol binario de búsqueda sobre un catálogo de libros</h1>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(24px,4vw,64px);margin-top:28px;padding-bottom:clamp(36px,5vw,72px);align-items:end" data-reveal="1">
+        <p style="margin:0;font-size:16px;line-height:1.6;color:#A1A1AA;max-width:56ch;text-wrap:pretty">El sistema administra más de 100,000 libros distribuidos en sucursales. Las categorías forman una jerarquía de profundidad arbitraria y cada libro se identifica con un ISBN entero único. Se requieren búsquedas por ISBN de tiempo reducido, listados en orden ascendente, mínimo y máximo, y reportes gráficos de la estructura.</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <a href="Demo Proyecto 2.dc.html" style="display:inline-flex;align-items:center;justify-content:center;height:40px;padding:0 18px;border-radius:8px;background:#006FEE;color:#fff;font-weight:600;font-size:14px;transition:background .15s" style-hover="background:#338EF7;color:#fff">Abrir la demo</a>
+          <a href="#conceptos" style="display:inline-flex;align-items:center;justify-content:center;height:40px;padding:0 18px;border-radius:8px;border:1px solid rgba(255,255,255,.2);color:#ECEDEE;font-weight:500;font-size:14px;transition:background .15s" style-hover="background:rgba(255,255,255,.08);color:#ECEDEE">Definiciones</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section id="entrega" style="border-top:1px solid rgba(255,255,255,.15);border-bottom:1px solid rgba(255,255,255,.15)">
+    <div style="max-width:1400px;margin:0 auto;padding:0 clamp(16px,3vw,40px)">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:24px;padding:16px 0;flex-wrap:wrap">
+        <div style="font-size:11px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#71717A">01 — Fecha de entrega</div>
+        <div style="font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#F31260">Jueves 24 de septiembre · 11:59 pm · UEDI</div>
+      </div>
+    </div>
+    <div style="border-top:1px solid rgba(255,255,255,.15);display:grid;grid-template-columns:repeat(4,1fr)">
+      <div style="border-right:1px solid rgba(255,255,255,.15);padding:clamp(16px,2.4vw,30px) clamp(14px,2vw,26px)">
+        <div style="font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:#71717A;margin-bottom:8px">Días</div>
+        <div style="font-weight:800;letter-spacing:-.04em;line-height:1;font-size:clamp(34px,5vw,84px);font-variant-numeric:tabular-nums">{{ cdDays }}</div>
+      </div>
+      <div style="border-right:1px solid rgba(255,255,255,.15);padding:clamp(16px,2.4vw,30px) clamp(14px,2vw,26px)">
+        <div style="font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:#71717A;margin-bottom:8px">Horas</div>
+        <div style="font-weight:800;letter-spacing:-.04em;line-height:1;font-size:clamp(34px,5vw,84px);font-variant-numeric:tabular-nums">{{ cdHours }}</div>
+      </div>
+      <div style="border-right:1px solid rgba(255,255,255,.15);padding:clamp(16px,2.4vw,30px) clamp(14px,2vw,26px)">
+        <div style="font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:#71717A;margin-bottom:8px">Minutos</div>
+        <div style="font-weight:800;letter-spacing:-.04em;line-height:1;font-size:clamp(34px,5vw,84px);font-variant-numeric:tabular-nums">{{ cdMins }}</div>
+      </div>
+      <div style="padding:clamp(16px,2.4vw,30px) clamp(14px,2vw,26px)">
+        <div style="font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:#F31260;margin-bottom:8px">Segundos</div>
+        <div style="font-weight:800;letter-spacing:-.04em;line-height:1;font-size:clamp(34px,5vw,84px);font-variant-numeric:tabular-nums;color:#F31260">{{ cdSecs }}</div>
+      </div>
+    </div>
+    <div style="border-top:1px solid rgba(255,255,255,.15);height:5px;background:#18181B;position:relative;overflow:hidden">
+      <div style="{{ progressStyle }}"></div>
+      <div style="position:absolute;inset:0;width:14%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.16),transparent);animation:sweep 3.6s linear infinite"></div>
+    </div>
+    <div style="max-width:1400px;margin:0 auto;padding:11px clamp(16px,3vw,40px);display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#71717A">
+      <span>{{ elapsedLabel }}</span>
+      <span>{{ weeksLabel }}</span>
+    </div>
+  </section>
+
+  <sc-if value="{{ showRoadmap }}" hint-placeholder-val="{{ true }}">
+  <section style="max-width:1400px;margin:0 auto;padding:clamp(40px,5.5vw,80px) clamp(16px,3vw,40px) 0">
+    <div style="display:flex;align-items:baseline;gap:clamp(14px,2.4vw,32px);flex-wrap:wrap;margin-bottom:26px" data-reveal="1">
+      <div style="font-size:11px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#71717A;flex:none">02</div>
+      <h2 style="margin:0;font-weight:800;letter-spacing:-.035em;line-height:1.02;font-size:clamp(26px,3.6vw,48px)">Releases</h2>
+      <div style="font-size:13px;color:#71717A;max-width:34ch;margin-left:auto">El enunciado exige cuatro releases mínimo, uno por semana como sugerencia, y el último antes de la entrega. Las fechas de abajo son una propuesta.</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));border-top:1px solid rgba(255,255,255,.15)">
+      <div style="border-left:1px solid rgba(255,255,255,.15);padding:22px 20px 28px;display:flex;flex-direction:column;gap:12px;transition:background .2s" style-hover="background:#09090B" data-reveal="1">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span style="font-weight:800;font-size:30px;line-height:1;letter-spacing:-.04em;color:transparent;-webkit-text-stroke:1px #006FEE">R1</span>
+          <x-import component-from-global-scope="Code" children2="03 sep" size="xs" color="primary" hint-size="auto,22px"></x-import>
+        </div>
+        <h3 style="margin:0;font-size:18px;font-weight:700;letter-spacing:-.015em">TDA base</h3>
+        <p style="margin:0;font-size:13px;line-height:1.6;color:#A1A1AA">Clases Nodo, lista simple enlazada, árbol N-ario de categorías y árbol binario de búsqueda por ISBN, con sus operaciones de inserción y recorrido.</p>
+      </div>
+      <div style="border-left:1px solid rgba(255,255,255,.15);padding:22px 20px 28px;display:flex;flex-direction:column;gap:12px;transition:background .2s" style-hover="background:#09090B" data-reveal="1">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span style="font-weight:800;font-size:30px;line-height:1;letter-spacing:-.04em;color:transparent;-webkit-text-stroke:1px #006FEE">R2</span>
+          <x-import component-from-global-scope="Code" children2="10 sep" size="xs" color="primary" hint-size="auto,22px"></x-import>
+        </div>
+        <h3 style="margin:0;font-size:18px;font-weight:700;letter-spacing:-.015em">Carga de XML</h3>
+        <p style="margin:0;font-size:13px;line-height:1.6;color:#A1A1AA">Lectura incremental de entrada.xml, alta de categorías con atributo padre opcional, registro de libros y validación de unicidad.</p>
+      </div>
+      <div style="border-left:1px solid rgba(255,255,255,.15);padding:22px 20px 28px;display:flex;flex-direction:column;gap:12px;transition:background .2s" style-hover="background:#09090B" data-reveal="1">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span style="font-weight:800;font-size:30px;line-height:1;letter-spacing:-.04em;color:transparent;-webkit-text-stroke:1px #006FEE">R3</span>
+          <x-import component-from-global-scope="Code" children2="17 sep" size="xs" color="primary" hint-size="auto,22px"></x-import>
+        </div>
+        <h3 style="margin:0;font-size:18px;font-weight:700;letter-spacing:-.015em">Reportes e interfaz</h3>
+        <p style="margin:0;font-size:13px;line-height:1.6;color:#A1A1AA">Generación de archivos DOT, renderizado con Graphviz, interfaz web con el menú completo y la pantalla de ayuda.</p>
+      </div>
+      <div style="border-left:1px solid rgba(255,255,255,.15);border-right:1px solid rgba(255,255,255,.15);padding:22px 20px 28px;display:flex;flex-direction:column;gap:12px;transition:background .2s" style-hover="background:#09090B" data-reveal="1">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span style="font-weight:800;font-size:30px;line-height:1;letter-spacing:-.04em;color:transparent;-webkit-text-stroke:1px #F31260">R4</span>
+          <x-import component-from-global-scope="Code" children2="23 sep" size="xs" color="danger" hint-size="auto,22px"></x-import>
+        </div>
+        <h3 style="margin:0;font-size:18px;font-weight:700;letter-spacing:-.015em">Release final</h3>
+        <p style="margin:0;font-size:13px;line-height:1.6;color:#A1A1AA">Eliminación de libros, pruebas con volumen alto, ensayo de 4 a 7 páginas y diagrama de clases en carpeta separada del repositorio.</p>
+      </div>
+    </div>
+  </section>
+  </sc-if>
+
+  <section id="conceptos" style="max-width:1400px;margin:0 auto;padding:clamp(40px,5.5vw,80px) clamp(16px,3vw,40px) 0">
+    <div style="display:flex;align-items:baseline;gap:clamp(14px,2.4vw,32px);flex-wrap:wrap;margin-bottom:26px" data-reveal="1">
+      <div style="font-size:11px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#71717A;flex:none">03</div>
+      <h2 style="margin:0;font-weight:800;letter-spacing:-.035em;line-height:1.02;font-size:clamp(26px,3.6vw,48px)">Conceptos</h2>
+      <div style="font-size:13px;color:#71717A;max-width:34ch;margin-left:auto">Definición de cada concepto que el enunciado exige y el uso concreto que tiene en la solución.</div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));border-top:1px solid rgba(255,255,255,.15)">
+
+      <div style="border-left:1px solid rgba(255,255,255,.15);border-bottom:1px solid rgba(255,255,255,.15);padding:24px 22px 28px;display:flex;flex-direction:column;gap:12px;transition:background .2s" style-hover="background:#09090B" data-reveal="1">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <span style="font-weight:800;font-size:34px;line-height:.95;letter-spacing:-.04em;color:transparent;-webkit-text-stroke:1px #3F3F46">01</span>
+          <span style="font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#006FEE;padding-top:4px">Fundamento</span>
+        </div>
+        <h3 style="margin:0;font-size:19px;font-weight:700;letter-spacing:-.015em;text-wrap:pretty">Tipo de Dato Abstracto</h3>
+        <p style="margin:0;font-size:13.5px;line-height:1.6;color:#A1A1AA;flex:1">Modelo que define un conjunto de datos y las operaciones válidas sobre ellos, independientemente de su representación interna. Se especifica la interfaz —insertar, buscar, eliminar, recorrer— y se implementa con nodos enlazados creados por el estudiante.</p>
+        <div style="font-size:11px;color:#52525B">El enunciado prohíbe List, LinkedList, Queue, Stack y templates de C#.</div>
+      </div>
+
+      <div style="border-left:1px solid rgba(255,255,255,.15);border-bottom:1px solid rgba(255,255,255,.15);padding:24px 22px 28px;display:flex;flex-direction:column;gap:12px;transition:background .2s" style-hover="background:#09090B" data-reveal="1">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <span style="font-weight:800;font-size:34px;line-height:.95;letter-spacing:-.04em;color:transparent;-webkit-text-stroke:1px #3F3F46">02</span>
+          <span style="font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#006FEE;padding-top:4px">Estructura</span>
+        </div>
+        <h3 style="margin:0;font-size:19px;font-weight:700;letter-spacing:-.015em;text-wrap:pretty">Árbol N-ario</h3>
+        <p style="margin:0;font-size:13.5px;line-height:1.6;color:#A1A1AA;flex:1">Árbol en el que cada nodo puede tener un número indefinido de hijos. Cada nodo almacena el nombre de la categoría, la lista de sus subcategorías y la lista de libros que le pertenecen. La profundidad no está acotada.</p>
+        <sc-if value="{{ complOn }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <x-import component-from-global-scope="Chip" text1="recorrido O(n)" color="neutral" variant="flat" size="xs" start-content="{{ false }}" end-content="{{ false }}" hint-size="auto,22px"></x-import>
+          <x-import component-from-global-scope="Chip" text1="hijos ordenados" color="neutral" variant="bordered" size="xs" start-content="{{ false }}" end-content="{{ false }}" hint-size="auto,22px"></x-import>
+        </div>
+        </sc-if>
+      </div>
+
+      <div style="border-left:1px solid rgba(255,255,255,.15);border-bottom:1px solid rgba(255,255,255,.15);padding:24px 22px 28px;display:flex;flex-direction:column;gap:12px;transition:background .2s;background:#050505" style-hover="background:#0B0B0D" data-reveal="1">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <span style="font-weight:800;font-size:34px;line-height:.95;letter-spacing:-.04em;color:transparent;-webkit-text-stroke:1px #006FEE">03</span>
+          <span style="font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#006FEE;padding-top:4px">Estructura</span>
+        </div>
+        <h3 style="margin:0;font-size:19px;font-weight:700;letter-spacing:-.015em;text-wrap:pretty">Árbol binario de búsqueda</h3>
+        <p style="margin:0;font-size:13.5px;line-height:1.6;color:#A1A1AA;flex:1">Árbol binario con la propiedad de orden: para todo nodo, las llaves del subárbol izquierdo son menores y las del derecho mayores. La llave es el ISBN. El mínimo es el nodo más a la izquierda, el máximo el más a la derecha, y el recorrido inorden produce la secuencia ordenada.</p>
+        <sc-if value="{{ complOn }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <x-import component-from-global-scope="Chip" text1="buscar O(log n)" color="primary" variant="flat" size="xs" start-content="{{ false }}" end-content="{{ false }}" hint-size="auto,22px"></x-import>
+          <x-import component-from-global-scope="Chip" text1="insertar O(log n)" color="primary" variant="flat" size="xs" start-content="{{ false }}" end-content="{{ false }}" hint-size="auto,22px"></x-import>
+          <x-import component-from-global-scope="Chip" text1="inorden O(n)" color="neutral" variant="flat" size="xs" start-content="{{ false }}" end-content="{{ false }}" hint-size="auto,22px"></x-import>
+        </div>
+        </sc-if>
+      </div>
+
+      <div style="border-left:1px solid rgba(255,255,255,.15);border-bottom:1px solid rgba(255,255,255,.15);padding:24px 22px 28px;display:flex;flex-direction:column;gap:12px;transition:background .2s" style-hover="background:#09090B" data-reveal="1">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <span style="font-weight:800;font-size:34px;line-height:.95;letter-spacing:-.04em;color:transparent;-webkit-text-stroke:1px #3F3F46">04</span>
+          <span style="font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#006FEE;padding-top:4px">Estructura</span>
+        </div>
+        <h3 style="margin:0;font-size:19px;font-weight:700;letter-spacing:-.015em;text-wrap:pretty">Lista simple enlazada</h3>
+        <p style="margin:0;font-size:13.5px;line-height:1.6;color:#A1A1AA;flex:1">Secuencia de nodos en la que cada nodo guarda un dato y una referencia al siguiente. Se usa para las subcategorías de una categoría y para sus libros. La inserción ordenada conserva el orden alfabético sin ordenar después.</p>
+        <sc-if value="{{ complOn }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <x-import component-from-global-scope="Chip" text1="recorrer O(n)" color="neutral" variant="flat" size="xs" start-content="{{ false }}" end-content="{{ false }}" hint-size="auto,22px"></x-import>
+        </div>
+        </sc-if>
+      </div>
+
+      <div style="border-left:1px solid rgba(255,255,255,.15);border-bottom:1px solid rgba(255,255,255,.15);padding:24px 22px 28px;display:flex;flex-direction:column;gap:12px;transition:background .2s" style-hover="background:#09090B" data-reveal="1">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <span style="font-weight:800;font-size:34px;line-height:.95;letter-spacing:-.04em;color:transparent;-webkit-text-stroke:1px #3F3F46">05</span>
+          <span style="font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#9353D3;padding-top:4px">Algoritmo</span>
+        </div>
+        <h3 style="margin:0;font-size:19px;font-weight:700;letter-spacing:-.015em;text-wrap:pretty">Recorridos en profundidad</h3>
+        <p style="margin:0;font-size:13.5px;line-height:1.6;color:#A1A1AA;flex:1">Inorden visita izquierda, raíz y derecha; en un BST devuelve las llaves en orden ascendente. Preorden visita raíz, izquierda y derecha; sirve para exportar o reconstruir el árbol. Postorden visita izquierda, derecha y raíz; se usa para liberar nodos.</p>
+      </div>
+
+      <div style="border-left:1px solid rgba(255,255,255,.15);border-bottom:1px solid rgba(255,255,255,.15);padding:24px 22px 28px;display:flex;flex-direction:column;gap:12px;transition:background .2s" style-hover="background:#09090B" data-reveal="1">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <span style="font-weight:800;font-size:34px;line-height:.95;letter-spacing:-.04em;color:transparent;-webkit-text-stroke:1px #3F3F46">06</span>
+          <span style="font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#9353D3;padding-top:4px">Algoritmo</span>
+        </div>
+        <h3 style="margin:0;font-size:19px;font-weight:700;letter-spacing:-.015em;text-wrap:pretty">Eliminación en un BST</h3>
+        <p style="margin:0;font-size:13.5px;line-height:1.6;color:#A1A1AA;flex:1">Tres casos según el número de hijos del nodo. Sin hijos: se desenlaza. Con un hijo: el hijo toma su posición. Con dos hijos: se sustituye por su sucesor inorden, el mínimo del subárbol derecho, y ese sucesor se elimina de su posición original.</p>
+        <div style="font-size:11px;color:#52525B">Funcionalidad 7 del enunciado.</div>
+      </div>
+
+      <div style="border-left:1px solid rgba(255,255,255,.15);border-bottom:1px solid rgba(255,255,255,.15);padding:24px 22px 28px;display:flex;flex-direction:column;gap:12px;transition:background .2s;background:#050505" style-hover="background:#0B0B0D" data-reveal="1">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <span style="font-weight:800;font-size:34px;line-height:.95;letter-spacing:-.04em;color:transparent;-webkit-text-stroke:1px #F31260">07</span>
+          <span style="font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#F31260;padding-top:4px">Análisis</span>
+        </div>
+        <h3 style="margin:0;font-size:19px;font-weight:700;letter-spacing:-.015em;text-wrap:pretty">Complejidad temporal</h3>
+        <p style="margin:0;font-size:13.5px;line-height:1.6;color:#A1A1AA;flex:1">Notación que describe cómo crece el número de operaciones respecto al tamaño de la entrada. Una búsqueda lineal sobre 100,000 registros promedia 50,000 comparaciones; en un árbol de búsqueda balanceado son 17, porque cada comparación descarta la mitad restante.</p>
+        <sc-if value="{{ complOn }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <x-import component-from-global-scope="Chip" text1="lista O(n)" color="danger" variant="flat" size="xs" start-content="{{ false }}" end-content="{{ false }}" hint-size="auto,22px"></x-import>
+          <x-import component-from-global-scope="Chip" text1="árbol O(log n)" color="success" variant="flat" size="xs" start-content="{{ false }}" end-content="{{ false }}" hint-size="auto,22px"></x-import>
+        </div>
+        </sc-if>
+      </div>
+
+      <div style="border-left:1px solid rgba(255,255,255,.15);border-bottom:1px solid rgba(255,255,255,.15);padding:24px 22px 28px;display:flex;flex-direction:column;gap:12px;transition:background .2s" style-hover="background:#09090B" data-reveal="1">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <span style="font-weight:800;font-size:34px;line-height:.95;letter-spacing:-.04em;color:transparent;-webkit-text-stroke:1px #3F3F46">08</span>
+          <span style="font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#F5A524;padding-top:4px">Memoria</span>
+        </div>
+        <h3 style="margin:0;font-size:19px;font-weight:700;letter-spacing:-.015em;text-wrap:pretty">Memoria dinámica</h3>
+        <p style="margin:0;font-size:13.5px;line-height:1.6;color:#A1A1AA;flex:1">Asignación de memoria en tiempo de ejecución. Cada nodo se crea con <code style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#ECEDEE">new</code> y se conecta por referencia, de modo que la estructura crece y se reduce sin reservar un tamaño fijo, a diferencia de un arreglo.</p>
+      </div>
+
+      <div style="border-left:1px solid rgba(255,255,255,.15);border-bottom:1px solid rgba(255,255,255,.15);padding:24px 22px 28px;display:flex;flex-direction:column;gap:12px;transition:background .2s" style-hover="background:#09090B" data-reveal="1">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <span style="font-weight:800;font-size:34px;line-height:.95;letter-spacing:-.04em;color:transparent;-webkit-text-stroke:1px #3F3F46">09</span>
+          <span style="font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#17C964;padding-top:4px">Diseño</span>
+        </div>
+        <h3 style="margin:0;font-size:19px;font-weight:700;letter-spacing:-.015em;text-wrap:pretty">Doble indexación</h3>
+        <p style="margin:0;font-size:13.5px;line-height:1.6;color:#A1A1AA;flex:1">Dos estructuras indexan el mismo conjunto de objetos: el árbol N-ario por clasificación y el árbol binario por ISBN. Ambas almacenan referencias al mismo objeto Libro, no copias, de forma que una modificación es visible desde las dos rutas de acceso.</p>
+      </div>
+
+      <div style="border-left:1px solid rgba(255,255,255,.15);border-bottom:1px solid rgba(255,255,255,.15);padding:24px 22px 28px;display:flex;flex-direction:column;gap:12px;transition:background .2s" style-hover="background:#09090B" data-reveal="1">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <span style="font-weight:800;font-size:34px;line-height:.95;letter-spacing:-.04em;color:transparent;-webkit-text-stroke:1px #F31260">10</span>
+          <span style="font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#F31260;padding-top:4px">Paradigma</span>
+        </div>
+        <h3 style="margin:0;font-size:19px;font-weight:700;letter-spacing:-.015em;text-wrap:pretty">Programación orientada a objetos</h3>
+        <p style="margin:0;font-size:13.5px;line-height:1.6;color:#A1A1AA;flex:1">Organización del programa en clases con estado y comportamiento propios. Clases previstas: Libro, Categoria, Nodo, ListaSimple, ArbolCategorias, ArbolISBN, Catalogo, LectorXML y GeneradorDot. El encapsulamiento impide que la interfaz manipule nodos directamente.</p>
+        <div style="font-size:11px;color:#F31260">Sin POO propia no hay derecho a calificación.</div>
+      </div>
+
+      <div style="border-left:1px solid rgba(255,255,255,.15);border-bottom:1px solid rgba(255,255,255,.15);padding:24px 22px 28px;display:flex;flex-direction:column;gap:12px;transition:background .2s" style-hover="background:#09090B" data-reveal="1">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <span style="font-weight:800;font-size:34px;line-height:.95;letter-spacing:-.04em;color:transparent;-webkit-text-stroke:1px #3F3F46">11</span>
+          <span style="font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#006FEE;padding-top:4px">Lenguaje</span>
+        </div>
+        <h3 style="margin:0;font-size:19px;font-weight:700;letter-spacing:-.015em;text-wrap:pretty">C# sobre .NET</h3>
+        <p style="margin:0;font-size:13.5px;line-height:1.6;color:#A1A1AA;flex:1">Lenguaje exigido para la implementación. Se usan clases, propiedades, constructores, namespaces y referencias nulas. Los genéricos y colecciones de la librería estándar quedan excluidos: los TDA se escriben con clases concretas propias.</p>
+      </div>
+
+      <div style="border-left:1px solid rgba(255,255,255,.15);border-bottom:1px solid rgba(255,255,255,.15);padding:24px 22px 28px;display:flex;flex-direction:column;gap:12px;transition:background .2s" style-hover="background:#09090B" data-reveal="1">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <span style="font-weight:800;font-size:34px;line-height:.95;letter-spacing:-.04em;color:transparent;-webkit-text-stroke:1px #3F3F46">12</span>
+          <span style="font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#006FEE;padding-top:4px">Interfaz</span>
+        </div>
+        <h3 style="margin:0;font-size:19px;font-weight:700;letter-spacing:-.015em;text-wrap:pretty">Interfaz web</h3>
+        <p style="margin:0;font-size:13.5px;line-height:1.6;color:#A1A1AA;flex:1">Requisito explícito del enunciado. El menú cubre inicialización sin datos previos, carga de XML, gestión de catálogo, gestión de libros y ayuda con los datos del estudiante y el enlace a la documentación.</p>
+      </div>
+
+      <div style="border-left:1px solid rgba(255,255,255,.15);border-bottom:1px solid rgba(255,255,255,.15);padding:24px 22px 28px;display:flex;flex-direction:column;gap:12px;transition:background .2s" style-hover="background:#09090B" data-reveal="1">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <span style="font-weight:800;font-size:34px;line-height:.95;letter-spacing:-.04em;color:transparent;-webkit-text-stroke:1px #3F3F46">13</span>
+          <span style="font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#17C964;padding-top:4px">Entrada</span>
+        </div>
+        <h3 style="margin:0;font-size:19px;font-weight:700;letter-spacing:-.015em;text-wrap:pretty">Archivo XML incremental</h3>
+        <p style="margin:0;font-size:13.5px;line-height:1.6;color:#A1A1AA;flex:1">Formato de configuración inicial. Se pueden cargar varios archivos y sus efectos se acumulan. listaCategorias y listaLibros son opcionales, y el atributo padre también, porque la categoría raíz no tiene padre. Los nombres de categoría son únicos en todo el árbol.</p>
+        <div style="font-size:11px;color:#52525B">Los archivos de entrada no pueden modificarse.</div>
+      </div>
+
+      <div style="border-left:1px solid rgba(255,255,255,.15);border-bottom:1px solid rgba(255,255,255,.15);padding:24px 22px 28px;display:flex;flex-direction:column;gap:12px;transition:background .2s" style-hover="background:#09090B" data-reveal="1">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <span style="font-weight:800;font-size:34px;line-height:.95;letter-spacing:-.04em;color:transparent;-webkit-text-stroke:1px #3F3F46">14</span>
+          <span style="font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#9353D3;padding-top:4px">Salida</span>
+        </div>
+        <h3 style="margin:0;font-size:19px;font-weight:700;letter-spacing:-.015em;text-wrap:pretty">Graphviz y el lenguaje DOT</h3>
+        <p style="margin:0;font-size:13.5px;line-height:1.6;color:#A1A1AA;flex:1">DOT es un lenguaje de texto que declara nodos y aristas de un grafo; Graphviz lo compila a imagen. El programa escribe el archivo y ejecuta <code style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#ECEDEE">dot -Tpng</code> para los reportes de categorías y de libros por categoría.</p>
+      </div>
+
+      <div style="border-left:1px solid rgba(255,255,255,.15);border-bottom:1px solid rgba(255,255,255,.15);padding:24px 22px 28px;display:flex;flex-direction:column;gap:12px;transition:background .2s" style-hover="background:#09090B" data-reveal="1">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <span style="font-weight:800;font-size:34px;line-height:.95;letter-spacing:-.04em;color:transparent;-webkit-text-stroke:1px #3F3F46">15</span>
+          <span style="font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#F5A524;padding-top:4px">Proceso</span>
+        </div>
+        <h3 style="margin:0;font-size:19px;font-weight:700;letter-spacing:-.015em;text-wrap:pretty">Versionamiento</h3>
+        <p style="margin:0;font-size:13.5px;line-height:1.6;color:#A1A1AA;flex:1">Control de versiones en GitHub con un release por hito. Mínimo cuatro releases, el auxiliar de la sección como colaborador, y la calificación se toma desde el último release hasta la fecha de entrega.</p>
+        <x-import component-from-global-scope="Code" children2="IPC2_Proy02_202602_#Carnet" size="xs" color="warning" hint-size="auto,22px"></x-import>
+      </div>
+
+      <div style="border-left:1px solid rgba(255,255,255,.15);border-right:1px solid rgba(255,255,255,.15);border-bottom:1px solid rgba(255,255,255,.15);padding:24px 22px 28px;display:flex;flex-direction:column;gap:12px;transition:background .2s" style-hover="background:#09090B" data-reveal="1">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <span style="font-weight:800;font-size:34px;line-height:.95;letter-spacing:-.04em;color:transparent;-webkit-text-stroke:1px #3F3F46">16</span>
+          <span style="font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#F5A524;padding-top:4px">Proceso</span>
+        </div>
+        <h3 style="margin:0;font-size:19px;font-weight:700;letter-spacing:-.015em;text-wrap:pretty">Documentación</h3>
+        <p style="margin:0;font-size:13.5px;line-height:1.6;color:#A1A1AA;flex:1">Ensayo con el formato del curso, de 4 a 7 páginas de contenido sin contar apéndices ni anexos. El diagrama de clases es obligatorio; el modelo conceptual y los diagramas de actividades son recomendados.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="mapeo" style="max-width:1400px;margin:0 auto;padding:clamp(40px,5.5vw,80px) clamp(16px,3vw,40px) 0">
+    <div style="display:flex;align-items:baseline;gap:clamp(14px,2.4vw,32px);flex-wrap:wrap;margin-bottom:26px" data-reveal="1">
+      <div style="font-size:11px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#71717A;flex:none">04</div>
+      <h2 style="margin:0;font-weight:800;letter-spacing:-.035em;line-height:1.02;font-size:clamp(26px,3.6vw,48px)">Funcionalidad y estructura</h2>
+      <div style="font-size:13px;color:#71717A;max-width:32ch;margin-left:auto">Las nueve funcionalidades requeridas, la estructura que resuelve cada una y su costo.</div>
+    </div>
+    <div style="overflow-x:auto;border-top:1px solid rgba(255,255,255,.15)" data-reveal="1">
+      <table style="width:100%;border-collapse:collapse;min-width:760px">
+        <thead>
+          <tr>
+            <th style="text-align:left;padding:12px 16px 12px 0;font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:#71717A;border-bottom:1px solid rgba(255,255,255,.15);width:32%">Funcionalidad</th>
+            <th style="text-align:left;padding:12px 16px;font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:#71717A;border-bottom:1px solid rgba(255,255,255,.15);width:24%">Estructura</th>
+            <th style="text-align:left;padding:12px 16px;font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:#71717A;border-bottom:1px solid rgba(255,255,255,.15);width:28%">Operación</th>
+            <th style="text-align:right;padding:12px 0 12px 16px;font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:#71717A;border-bottom:1px solid rgba(255,255,255,.15);width:16%">Costo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <sc-for list="{{ mapRows }}" as="m" hint-placeholder-count="9">
+            <tr>
+              <td style="padding:14px 16px 14px 0;font-size:14.5px;font-weight:600;border-bottom:1px solid rgba(255,255,255,.08)">{{ m.func }}</td>
+              <td style="padding:14px 16px;font-size:13px;color:#A1A1AA;border-bottom:1px solid rgba(255,255,255,.08)">{{ m.est }}</td>
+              <td style="padding:14px 16px;font-size:13px;color:#A1A1AA;border-bottom:1px solid rgba(255,255,255,.08)">{{ m.op }}</td>
+              <td style="padding:14px 0 14px 16px;text-align:right;font-family:'JetBrains Mono',monospace;font-size:12.5px;border-bottom:1px solid rgba(255,255,255,.08);color:{{ m.color }}">{{ m.cost }}</td>
+            </tr>
+          </sc-for>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section style="max-width:1400px;margin:0 auto;padding:clamp(40px,5.5vw,80px) clamp(16px,3vw,40px) 0">
+    <div style="border:1px solid rgba(255,255,255,.15);padding:clamp(24px,3.5vw,44px);display:flex;justify-content:space-between;align-items:center;gap:32px;flex-wrap:wrap;background:#050505" data-reveal="1">
+      <div>
+        <div style="font-size:11px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#71717A;margin-bottom:10px">05 — Demo</div>
+        <h2 style="margin:0 0 10px;font-weight:800;letter-spacing:-.03em;line-height:1.05;font-size:clamp(24px,3.2vw,40px)">Las dos estructuras en funcionamiento</h2>
+        <p style="margin:0;font-size:14.5px;line-height:1.6;color:#A1A1AA;max-width:60ch">Catálogo de prueba con 14 libros y 17 categorías. Búsqueda por ISBN con el camino de comparaciones, los tres recorridos, mínimo y máximo, alta y baja de libros, carga incremental de XML y generación de DOT. Cada operación queda en la bitácora con su costo.</p>
+      </div>
+      <a href="Demo Proyecto 2.dc.html" style="display:inline-flex;align-items:center;justify-content:center;height:44px;padding:0 22px;border-radius:8px;background:#006FEE;color:#fff;font-weight:600;font-size:15px;flex:none;transition:background .15s" style-hover="background:#338EF7;color:#fff">Abrir la demo →</a>
+    </div>
+  </section>
+
+  <section id="reglas" style="max-width:1400px;margin:0 auto;padding:clamp(40px,5.5vw,80px) clamp(16px,3vw,40px) 0">
+    <div style="display:flex;align-items:baseline;gap:clamp(14px,2.4vw,32px);flex-wrap:wrap;margin-bottom:26px" data-reveal="1">
+      <div style="font-size:11px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#71717A;flex:none">06</div>
+      <h2 style="margin:0;font-weight:800;letter-spacing:-.035em;line-height:1.02;font-size:clamp(26px,3.6vw,48px)">Entrega y restricciones</h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:clamp(24px,4vw,64px)">
+      <div data-reveal="1">
+        <div style="font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:#17C964;margin-bottom:16px">Requisitos de entrega</div>
+        <div style="display:flex;flex-direction:column">
+          <div style="display:flex;gap:16px;align-items:flex-start;padding:14px 0;border-top:1px solid rgba(255,255,255,.15)"><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#17C964;flex:none;width:24px;padding-top:2px">01</span><span style="font-size:14px;line-height:1.55;color:#D4D4D8">Repositorio nombrado IPC2_Proy02_202602_#Carnet con el auxiliar de sección como colaborador.</span></div>
+          <div style="display:flex;gap:16px;align-items:flex-start;padding:14px 0;border-top:1px solid rgba(255,255,255,.15)"><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#17C964;flex:none;width:24px;padding-top:2px">02</span><span style="font-size:14px;line-height:1.55;color:#D4D4D8">Cuatro releases mínimo; el último antes de la fecha de entrega.</span></div>
+          <div style="display:flex;gap:16px;align-items:flex-start;padding:14px 0;border-top:1px solid rgba(255,255,255,.15)"><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#17C964;flex:none;width:24px;padding-top:2px">03</span><span style="font-size:14px;line-height:1.55;color:#D4D4D8">Ensayo de 4 a 7 páginas con diagrama de clases, en carpeta separada del repositorio.</span></div>
+          <div style="display:flex;gap:16px;align-items:flex-start;padding:14px 0;border-top:1px solid rgba(255,255,255,.15)"><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#17C964;flex:none;width:24px;padding-top:2px">04</span><span style="font-size:14px;line-height:1.55;color:#D4D4D8">Archivo de texto en UEDI con el enlace al repositorio, antes de las 11:59 pm del 24 de septiembre.</span></div>
+          <div style="display:flex;gap:16px;align-items:flex-start;padding:14px 0;border-top:1px solid rgba(255,255,255,.15);border-bottom:1px solid rgba(255,255,255,.15)"><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#17C964;flex:none;width:24px;padding-top:2px">05</span><span style="font-size:14px;line-height:1.55;color:#D4D4D8">Pantalla de ayuda con los datos del estudiante y el enlace a la documentación.</span></div>
+        </div>
+      </div>
+      <div data-reveal="1">
+        <div style="font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:#F31260;margin-bottom:16px">Penalizaciones</div>
+        <div style="display:flex;flex-direction:column">
+          <div style="display:flex;gap:16px;align-items:flex-start;padding:14px 0;border-top:1px solid rgba(255,255,255,.15)"><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#F31260;flex:none;width:62px;padding-top:2px">100%</span><span style="font-size:14px;line-height:1.55;color:#D4D4D8">Usar List, LinkedList, Queue, Stack o templates de C# en lugar de TDA propios.</span></div>
+          <div style="display:flex;gap:16px;align-items:flex-start;padding:14px 0;border-top:1px solid rgba(255,255,255,.15)"><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#F31260;flex:none;width:62px;padding-top:2px">sin nota</span><span style="font-size:14px;line-height:1.55;color:#D4D4D8">No implementar programación orientada a objetos propia.</span></div>
+          <div style="display:flex;gap:16px;align-items:flex-start;padding:14px 0;border-top:1px solid rgba(255,255,255,.15)"><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#F31260;flex:none;width:62px;padding-top:2px">sin nota</span><span style="font-size:14px;line-height:1.55;color:#D4D4D8">No entregar la documentación solicitada.</span></div>
+          <div style="display:flex;gap:16px;align-items:flex-start;padding:14px 0;border-top:1px solid rgba(255,255,255,.15);border-bottom:1px solid rgba(255,255,255,.15)"><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#F31260;flex:none;width:62px;padding-top:2px">0</span><span style="font-size:14px;line-height:1.55;color:#D4D4D8">Copia parcial o total, con reporte a Escuela.</span></div>
+        </div>
+        <p style="margin:18px 0 0;font-size:13px;color:#71717A;line-height:1.6">Solo se permiten los IDE discutidos en laboratorio. Las dudas se atienden en los foros de UEDI. No habrá prórroga.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer style="margin-top:clamp(48px,6vw,88px);border-top:1px solid rgba(255,255,255,.15)">
+    <div style="max-width:1400px;margin:0 auto;padding:clamp(24px,3vw,40px) clamp(16px,3vw,40px);display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#52525B">
+      <span>USAC · Facultad de Ingeniería · Escuela de Ciencias y Sistemas</span>
+      <span>Introducción a la Programación y Computación 2 · Proyecto No. 2 · 2S 2026</span>
+    </div>
+  </footer>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showComplexity&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Contenido&quot;},&quot;showRoadmap&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Contenido&quot;}}">
+class Component extends DCLogic {
+  state = { now: Date.now(), complOverride: null };
+
+  componentDidMount() {
+    this.timer = setInterval(() => this.setState({ now: Date.now() }), 1000);
+    const targets = Array.prototype.slice.call(document.querySelectorAll('[data-reveal]'));
+    if (!('IntersectionObserver' in window)) return;
+    targets.forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(22px)';
+      el.style.transition = 'opacity .65s cubic-bezier(.16,1,.3,1), transform .65s cubic-bezier(.16,1,.3,1)';
+    });
+    this.io = new IntersectionObserver(entries => {
+      entries.forEach(en => {
+        if (!en.isIntersecting) return;
+        en.target.style.opacity = '1';
+        en.target.style.transform = 'none';
+        this.io.unobserve(en.target);
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
+    targets.forEach(el => this.io.observe(el));
+  }
+  componentWillUnmount() { clearInterval(this.timer); if (this.io) this.io.disconnect(); }
+
+  renderVals() {
+    const s = this.state;
+    const showRoadmap = this.props.showRoadmap ?? true;
+    const complOn = s.complOverride ?? (this.props.showComplexity ?? true);
+
+    const target = new Date('2026-09-24T23:59:00-06:00').getTime();
+    const start = new Date('2026-08-25T00:00:00-06:00').getTime();
+    const left = Math.max(0, target - s.now);
+    const pad = v => String(v).padStart(2, '0');
+    const totalDays = Math.round((target - start) / 86400000);
+    const daysLeft = Math.floor(left / 86400000);
+    const pct = Math.min(100, Math.max(0, ((s.now - start) / (target - start)) * 100));
+
+    const mapRows = [
+      ['Registrar un nuevo libro', 'BST por ISBN y lista de la categoría', 'Insertar nodo y enlazar en la lista', 'O(log n)', '#17C964'],
+      ['Buscar un libro por ISBN', 'Árbol binario de búsqueda', 'Descenso comparando la llave', 'O(log n)', '#17C964'],
+      ['Mostrar la organización completa', 'Árbol N-ario', 'Recorrido en profundidad y salida DOT', 'O(n)', '#F5A524'],
+      ['Libros de una categoría', 'Lista simple de la categoría', 'Recorrido de la lista enlazada', 'O(k)', '#F5A524'],
+      ['Libro con el ISBN más pequeño', 'BST', 'Descender siempre a la izquierda', 'O(log n)', '#17C964'],
+      ['Libro con el ISBN más grande', 'BST', 'Descender siempre a la derecha', 'O(log n)', '#17C964'],
+      ['Listar en orden ascendente', 'BST', 'Recorrido inorden', 'O(n)', '#F5A524'],
+      ['Eliminar un libro', 'BST y lista de la categoría', 'Eliminación en sus tres casos', 'O(log n)', '#17C964'],
+      ['Visualizar desde una subcategoría', 'Árbol N-ario', 'Localizar el nodo y recorrer su subárbol', 'O(n)', '#F5A524']
+    ].map(r => ({ func: r[0], est: r[1], op: r[2], cost: r[3], color: r[4] }));
+
+    return {
+      showRoadmap, complOn,
+      toggleCompl: () => this.setState({ complOverride: !complOn }),
+      cdDays: pad(daysLeft),
+      cdHours: pad(Math.floor(left / 3600000) % 24),
+      cdMins: pad(Math.floor(left / 60000) % 60),
+      cdSecs: pad(Math.floor(left / 1000) % 60),
+      progressStyle: { height: '100%', width: pct.toFixed(2) + '%', background: 'linear-gradient(90deg,#006FEE,#F31260)' },
+      elapsedLabel: Math.round(pct) + '% del tiempo transcurrido',
+      weeksLabel: totalDays + ' días de ventana · ' + Math.max(1, Math.ceil(daysLeft / 7)) + ' semanas restantes',
+      mapRows
+    };
+  }
+}
+
+</script>
+</body>
+</html>

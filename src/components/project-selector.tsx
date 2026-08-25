@@ -1,202 +1,152 @@
+"use client"
+
+import { Button, Card, Chip } from "@heroui/react"
+import { ArrowUpRightIcon, BookOpenIcon, BoxesIcon, FlaskConicalIcon } from "lucide-react"
 import Link from "next/link"
-import { ArrowUpRightIcon } from "lucide-react"
 
 import { GithubIcon } from "@/components/github-icon"
-import { buttonVariants } from "@/components/ui/button"
-import { getLabPalette } from "@/lib/lab-palettes"
 import { labs } from "@/lib/labs"
 import { GITHUB_URL, GITHUB_USER, projects } from "@/lib/projects"
-import { cn } from "@/lib/utils"
 
-/**
- * Inline tile styles for laboratory themes (aligned with lab palettes).
- */
-function labThemeStyles(theme: (typeof labs)[number]["theme"]) {
-  const p = getLabPalette(theme)
-  return {
-    card: { background: p.accent, color: p.accentInk },
-    title: { color: p.accentInk },
-    body: { color: `${p.accentInk}D9` },
-    accent: { color: p.highlight },
-    icon: { color: p.highlight },
-  }
-}
+const labAccents = {
+  ink: "#F31260",
+  blue: "#006FEE",
+  green: "#17C964",
+  violet: "#9353D3",
+  orange: "#F5A524",
+  rose: "#F31260",
+  yellow: "#F5A524",
+} as const
 
-/**
- * Landing hub: GitHub identity + project tiles + laboratories.
- */
+/** Dark HeroUI-inspired landing page for projects and laboratory material. */
 export function ProjectSelector() {
   return (
-    <main className="relative min-h-dvh overflow-hidden bg-[#E8F0FF] text-[#06142E]">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 opacity-80 hub-grid"
-      />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -top-24 right-[-10%] size-[420px] rounded-full bg-[#35E0FF]/30 blur-3xl"
-      />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute bottom-[-120px] left-[-80px] size-[380px] rounded-full bg-[#7C3AED]/20 blur-3xl"
-      />
+    <main className="hub-shell relative min-h-dvh overflow-hidden bg-black text-[#ECEDEE]">
+      <div aria-hidden="true" className="hub-grid pointer-events-none absolute inset-0" />
+      <div aria-hidden="true" className="hub-glow hub-glow-primary" />
+      <div aria-hidden="true" className="hub-glow hub-glow-secondary" />
 
-      <div className="relative mx-auto flex min-h-dvh w-full max-w-5xl flex-col justify-center gap-12 px-5 py-16 sm:px-8">
-        <header className="flex flex-col gap-6 animate-hub-rise">
-          <a
-            href={GITHUB_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex w-fit items-center gap-3 border-4 border-[#06142E] bg-[#06142E] px-4 py-3 text-[#35E0FF] shadow-[8px_8px_0_#1E4FD8] transition-transform duration-200 hover:-translate-y-0.5"
+      <div className="relative mx-auto w-full max-w-[1400px] px-5 py-7 sm:px-8 lg:px-10">
+        <nav className="animate-hub-rise flex items-center justify-between border-b border-white/10 pb-6">
+          <div className="flex items-center gap-3">
+            <span className="size-2.5 animate-pulse bg-[#006FEE]" />
+            <span className="text-xs font-extrabold tracking-[0.2em] uppercase">IPC2 / Hub</span>
+          </div>
+          <Button
+            size="sm"
+            variant="primary"
+            onPress={() => window.open(GITHUB_URL, "_blank", "noopener,noreferrer")}
+            className="bg-[#006FEE] font-mono text-xs font-semibold text-white hover:bg-[#338EF7]"
           >
-            <GithubIcon className="size-6" />
-            <span className="font-[family-name:var(--font-display)] text-2xl tracking-tight sm:text-3xl">
-              {GITHUB_USER}
-            </span>
-          </a>
+            <GithubIcon className="size-4" />
+            {GITHUB_USER}
+          </Button>
+        </nav>
 
-          <h1 className="max-w-3xl font-[family-name:var(--font-display)] text-5xl leading-[0.9] tracking-[-0.04em] text-[#06142E] uppercase sm:text-7xl">
-            Selector de
-            <br />
-            proyectos
-          </h1>
+        <header className="grid gap-10 py-14 lg:grid-cols-[1.2fr_.8fr] lg:items-end lg:py-20">
+          <div className="animate-hub-rise [animation-delay:80ms]">
+            <div className="mb-6 flex flex-wrap gap-2">
+              <Chip color="accent" size="sm" variant="soft">C#</Chip>
+              <Chip color="default" size="sm" variant="soft">Estructuras de datos</Chip>
+              <Chip color="success" size="sm" variant="soft">Material interactivo</Chip>
+            </div>
+            <p className="mb-4 text-xs font-bold tracking-[0.2em] text-[#006FEE] uppercase">
+              Introducción a la Programación y Computación 2
+            </p>
+            <h1 className="max-w-4xl text-[clamp(2.7rem,7vw,6.8rem)] font-extrabold leading-[0.9] tracking-[-0.055em] text-white">
+              Proyectos y laboratorios, en un solo lugar.
+            </h1>
+          </div>
+          <div className="animate-hub-rise border-l border-white/15 pl-6 [animation-delay:150ms]">
+            <p className="max-w-lg text-base leading-7 text-[#A1A1AA]">
+              Consulta los enunciados, explora conceptos y utiliza simuladores preparados
+              para acompañar el curso durante el semestre.
+            </p>
+            <div className="mt-7 flex items-center gap-7 text-sm text-[#71717A]">
+              <span><strong className="mr-2 text-2xl text-white">{projects.length}</strong>proyectos</span>
+              <span><strong className="mr-2 text-2xl text-white">{labs.length}</strong>laboratorios</span>
+            </div>
+          </div>
         </header>
 
-        <section aria-label="Proyectos disponibles" className="grid gap-5 md:grid-cols-2">
-          {projects.map((project, index) => {
-            const isCyan = project.theme === "cyan"
-            return (
-              <Link
-                key={project.slug}
-                href={`/${project.slug}`}
-                className={cn(
-                  "group relative flex flex-col gap-5 border-4 border-[#06142E] p-6 shadow-[10px_10px_0_#06142E] transition-all duration-200",
-                  "hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[14px_14px_0_#06142E]",
-                  "focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#35E0FF]",
-                  "animate-hub-rise",
-                  isCyan ? "bg-white" : "bg-[#120720] text-[#EDE4FF]"
-                )}
-                style={{ animationDelay: `${120 + index * 90}ms` }}
-              >
-                <div className="flex items-start justify-between gap-3">
-                  <h2
-                    className={cn(
-                      "font-[family-name:var(--font-display)] text-3xl leading-none tracking-tight uppercase sm:text-4xl",
-                      isCyan ? "text-[#06142E]" : "text-white"
-                    )}
-                  >
-                    {project.label}
-                  </h2>
-                  <ArrowUpRightIcon
-                    className={cn(
-                      "size-5 shrink-0 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5",
-                      isCyan ? "text-[#1E4FD8]" : "text-[#C6FF3D]"
-                    )}
-                  />
-                </div>
-
-                <div className="mt-auto flex flex-col gap-3">
-                  <p
-                    className={cn(
-                      "font-mono text-sm leading-relaxed",
-                      isCyan ? "text-[#082A63]" : "text-[#D8C7FF]"
-                    )}
-                  >
-                    {project.summary}
-                  </p>
-                  <p
-                    className={cn(
-                      "font-mono text-xs font-semibold tracking-wide uppercase",
-                      isCyan ? "text-[#1E4FD8]" : "text-[#C6FF3D]"
-                    )}
-                  >
-                    Entrega · {project.delivery}
-                  </p>
-                </div>
-              </Link>
-            )
-          })}
-        </section>
-
-        <section aria-labelledby="labs-heading" className="flex flex-col gap-5">
-          <div className="animate-hub-rise [animation-delay:280ms]">
-            <p className="font-mono text-xs font-bold tracking-[0.2em] text-[#1E4FD8] uppercase">
-              Material de clase
-            </p>
-            <h2
-              id="labs-heading"
-              className="mt-2 font-[family-name:var(--font-display)] text-4xl leading-none tracking-tight text-[#06142E] uppercase sm:text-5xl"
-            >
-              Laboratorios
-            </h2>
-          </div>
-
-          <div className="grid gap-5 sm:grid-cols-2">
-            {labs.map((lab, index) => {
-              const theme = labThemeStyles(lab.theme)
-              return (
-                <Link
-                  key={lab.slug}
-                  href={`/laboratorios/${lab.slug}`}
-                  className={cn(
-                    "group relative flex flex-col gap-4 border-4 border-[#06142E] p-5 shadow-[10px_10px_0_#06142E] transition-all duration-200",
-                    "hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[14px_14px_0_#06142E]",
-                    "focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#35E0FF]",
-                    "animate-hub-rise"
-                  )}
-                  style={{
-                    animationDelay: `${360 + index * 80}ms`,
-                    ...theme.card,
-                  }}
+        <section aria-labelledby="projects-heading" className="pb-20">
+          <SectionHeading icon={<BoxesIcon className="size-4" />} eyebrow="Evaluaciones" title="Proyectos" id="projects-heading" />
+          <div className="grid gap-4 lg:grid-cols-3">
+            {projects.map((project, index) => (
+              <Link key={project.slug} href={`/${project.slug}`} className="group outline-none">
+                <Card
+                  variant="default"
+                  className="hub-card h-full min-h-72 border border-white/10 bg-[#09090B]/90 transition-all duration-300 group-hover:-translate-y-1 group-hover:border-[#006FEE]/70 group-hover:bg-[#0d111b] group-focus-visible:ring-2 group-focus-visible:ring-[#006FEE]"
+                  style={{ animationDelay: `${220 + index * 70}ms` }}
                 >
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="flex flex-col gap-1">
-                      <h3
-                        className="font-[family-name:var(--font-display)] text-2xl leading-none tracking-tight uppercase sm:text-3xl"
-                        style={theme.title}
-                      >
-                        {lab.label}
-                      </h3>
-                      <p
-                        className="font-mono text-xs font-bold tracking-wide uppercase"
-                        style={theme.accent}
-                      >
-                        {lab.title}
+                  <Card.Header className="flex items-start justify-between gap-4 p-6 pb-3">
+                    <div>
+                      <p className="mb-3 text-[10px] font-bold tracking-[0.2em] text-[#71717A] uppercase">
+                        {String(index + 1).padStart(2, "0")} / {String(projects.length).padStart(2, "0")}
                       </p>
+                      <Card.Title className="text-3xl font-extrabold tracking-[-0.035em] text-white">{project.label}</Card.Title>
+                      <p className="mt-1 text-sm font-semibold text-[#338EF7]">{project.title}</p>
                     </div>
-                    <ArrowUpRightIcon
-                      className="size-5 shrink-0 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-                      style={theme.icon}
-                    />
-                  </div>
-
-                  <p
-                    className="font-mono text-sm leading-relaxed"
-                    style={theme.body}
-                  >
-                    {lab.summary}
-                  </p>
-                </Link>
-              )
-            })}
+                    <span className="grid size-10 place-items-center rounded-xl bg-[#006FEE]/10 text-[#338EF7] transition-colors group-hover:bg-[#006FEE] group-hover:text-white">
+                      <ArrowUpRightIcon className="size-5" />
+                    </span>
+                  </Card.Header>
+                  <Card.Content className="flex flex-1 flex-col p-6 pt-3">
+                    <p className="text-sm leading-6 text-[#A1A1AA]">{project.summary}</p>
+                    <div className="mt-6 flex flex-wrap gap-2">
+                      {project.tags.map((tag) => (
+                        <Chip key={tag} size="sm" variant="soft" color="default">{tag}</Chip>
+                      ))}
+                    </div>
+                  </Card.Content>
+                  <Card.Footer className="border-t border-white/10 p-6 py-4">
+                    <span className="text-[11px] font-bold tracking-[0.12em] text-[#F31260] uppercase">
+                      Entrega · {project.delivery}
+                    </span>
+                  </Card.Footer>
+                </Card>
+              </Link>
+            ))}
           </div>
         </section>
 
-        <footer className="flex flex-wrap items-center gap-3 animate-hub-rise [animation-delay:680ms]">
-          <a
-            href={GITHUB_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={cn(
-              buttonVariants({ variant: "outline", size: "sm" }),
-              "rounded-none border-2 border-[#06142E] bg-white font-mono text-xs font-bold tracking-wide text-[#06142E] shadow-[4px_4px_0_#06142E] hover:bg-[#35E0FF]"
-            )}
-          >
-            <GithubIcon data-icon="inline-start" />
-            github.com/{GITHUB_USER}
-          </a>
+        <section aria-labelledby="labs-heading" className="pb-16">
+          <SectionHeading icon={<FlaskConicalIcon className="size-4" />} eyebrow="Material de clase" title="Laboratorios" id="labs-heading" />
+          <div className="grid gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-2 lg:grid-cols-3">
+            {labs.map((lab, index) => (
+              <Link key={lab.slug} href={`/laboratorios/${lab.slug}`} className="group relative min-h-52 bg-[#09090B] p-6 outline-none transition-colors hover:bg-[#111114] focus-visible:z-10 focus-visible:ring-2 focus-visible:ring-[#006FEE]">
+                <span className="mb-8 block h-1 w-10 rounded-full transition-all duration-300 group-hover:w-20" style={{ backgroundColor: labAccents[lab.theme] }} />
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <p className="text-[10px] font-bold tracking-[0.18em] text-[#71717A] uppercase">Lab {String(index + 1).padStart(2, "0")}</p>
+                    <h3 className="mt-2 text-2xl font-bold tracking-tight text-white">{lab.label}</h3>
+                    <p className="mt-1 text-xs font-semibold" style={{ color: labAccents[lab.theme] }}>{lab.title}</p>
+                  </div>
+                  <ArrowUpRightIcon className="size-5 text-[#52525B] transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-white" />
+                </div>
+                <p className="mt-5 text-sm leading-6 text-[#A1A1AA]">{lab.summary}</p>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        <footer className="flex flex-col gap-3 border-t border-white/10 py-8 text-xs text-[#71717A] sm:flex-row sm:items-center sm:justify-between">
+          <span>Universidad de San Carlos de Guatemala · Facultad de Ingeniería</span>
+          <span className="inline-flex items-center gap-2"><BookOpenIcon className="size-4" /> IPC2 · 2026</span>
         </footer>
       </div>
     </main>
+  )
+}
+
+function SectionHeading({ icon, eyebrow, title, id }: { icon: React.ReactNode; eyebrow: string; title: string; id: string }) {
+  return (
+    <div className="mb-6 flex items-end justify-between gap-6 border-b border-white/10 pb-5">
+      <div>
+        <p className="mb-2 flex items-center gap-2 text-[10px] font-bold tracking-[0.2em] text-[#71717A] uppercase">{icon} {eyebrow}</p>
+        <h2 id={id} className="text-4xl font-extrabold tracking-[-0.04em] text-white sm:text-5xl">{title}</h2>
+      </div>
+      <span className="hidden text-xs font-semibold text-[#52525B] sm:block">Explora →</span>
+    </div>
   )
 }

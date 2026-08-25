@@ -1,17 +1,17 @@
 import type { Metadata } from "next"
 import type { ReactNode } from "react"
-import { Archivo_Black, IBM_Plex_Mono, JetBrains_Mono } from "next/font/google"
+import { Inter, JetBrains_Mono } from "next/font/google"
 
 import "./globals.css"
 
-const display = Archivo_Black({
-  weight: "400",
+const display = Inter({
+  weight: ["600", "700", "800", "900"],
   subsets: ["latin"],
   variable: "--font-display",
 })
 
-const mono = IBM_Plex_Mono({
-  weight: ["400", "500", "600", "700"],
+const mono = JetBrains_Mono({
+  weight: ["400", "500", "600", "700", "800"],
   subsets: ["latin"],
   variable: "--font-mono",
 })
@@ -42,7 +42,7 @@ export default function RootLayout({
       lang="es"
       className={`${display.variable} ${mono.variable} ${labMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full font-mono">{children}</body>
+      <body className="min-h-full font-sans">{children}</body>
     </html>
   )
 }

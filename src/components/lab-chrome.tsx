@@ -22,11 +22,9 @@ export function LabChrome({ lab }: LabChromeProps) {
 
   return (
     <header
-      className="fixed inset-x-0 top-0 z-[60] flex min-h-[58px] shrink-0 flex-wrap items-center justify-between gap-3 border-b-4 px-4 py-3"
+      className="fixed inset-x-0 top-0 z-[60] flex min-h-[58px] shrink-0 flex-wrap items-center justify-between gap-3 border-b border-white/15 bg-black/90 px-4 py-3 text-white backdrop-blur-xl"
       style={{
-        background: palette.chrome,
-        borderBottomColor: palette.accent,
-        color: palette.inkSoft,
+        color: "#ECEDEE",
       }}
     >
       <div className="flex min-w-0 flex-wrap items-center gap-3">
@@ -34,19 +32,15 @@ export function LabChrome({ lab }: LabChromeProps) {
           href="/"
           className={cn(
             buttonVariants({ variant: "outline", size: "sm" }),
-            "rounded-none border-2 bg-transparent hover:text-inherit"
+            "rounded-lg border border-white/15 bg-[#18181B] text-white shadow-none hover:bg-[#27272A] hover:text-white"
           )}
-          style={{
-            borderColor: `${palette.inkSoft}55`,
-            color: palette.inkSoft,
-          }}
         >
           <ArrowLeftIcon data-icon="inline-start" />
           Hub
         </Link>
 
         <Badge
-          className="rounded-none border-2 bg-transparent font-mono text-[10px] tracking-widest uppercase"
+          className="rounded-full border bg-transparent px-3 font-mono text-[10px] tracking-widest uppercase"
           style={{
             borderColor: palette.highlight,
             color: palette.highlight,
@@ -62,7 +56,7 @@ export function LabChrome({ lab }: LabChromeProps) {
         rel="noopener noreferrer"
         className={cn(
           buttonVariants({ variant: "outline", size: "sm" }),
-          "rounded-none border-2 font-mono text-xs font-bold tracking-wide hover:brightness-110"
+          "rounded-lg border font-mono text-xs font-bold tracking-wide shadow-none hover:brightness-110"
         )}
         style={{
           borderColor: palette.highlight,

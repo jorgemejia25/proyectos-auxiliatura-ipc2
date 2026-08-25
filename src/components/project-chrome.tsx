@@ -17,20 +17,20 @@ type ProjectChromeProps = {
  */
 export function ProjectChrome({ project }: ProjectChromeProps) {
   return (
-    <header className="fixed inset-x-0 top-0 z-[60] flex min-h-[58px] shrink-0 flex-wrap items-center justify-between gap-3 border-b-4 border-black bg-[#0b1220] px-4 py-3 text-white">
+    <header className="fixed inset-x-0 top-0 z-[60] flex min-h-[58px] shrink-0 flex-wrap items-center justify-between gap-3 border-b border-white/15 bg-black/90 px-4 py-3 text-white backdrop-blur-xl">
       <div className="flex min-w-0 flex-wrap items-center gap-3">
         <Link
           href="/"
           className={cn(
             buttonVariants({ variant: "outline", size: "sm" }),
-            "rounded-none border-2 border-white/30 bg-transparent text-white hover:bg-white/10 hover:text-white"
+            "rounded-lg border border-white/15 bg-[#18181B] text-white shadow-none hover:bg-[#27272A] hover:text-white"
           )}
         >
           <ArrowLeftIcon data-icon="inline-start" />
           Hub
         </Link>
 
-        <Badge className="rounded-none border-2 border-[#35E0FF] bg-transparent font-mono text-[10px] tracking-widest text-[#35E0FF] uppercase">
+        <Badge className="rounded-full border border-[#006FEE]/40 bg-[#006FEE]/15 px-3 font-mono text-[10px] tracking-widest text-[#66AAF9] uppercase">
           {project.label}
         </Badge>
       </div>
@@ -41,7 +41,7 @@ export function ProjectChrome({ project }: ProjectChromeProps) {
         rel="noopener noreferrer"
         className={cn(
           buttonVariants({ variant: "outline", size: "sm" }),
-          "rounded-none border-2 border-[#35E0FF] bg-[#35E0FF] font-mono text-xs font-bold tracking-wide text-black hover:bg-white"
+          "rounded-lg border border-[#006FEE] bg-[#006FEE] font-mono text-xs font-bold tracking-wide text-white shadow-none hover:bg-[#338EF7]"
         )}
       >
         <GithubIcon data-icon="inline-start" />

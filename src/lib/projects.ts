@@ -1,7 +1,7 @@
 /**
  * Catalog of IPC2 auxiliary projects exposed by the hub.
  */
-export type ProjectSlug = "practica1" | "proyecto1"
+export type ProjectSlug = "practica1" | "proyecto1" | "proyecto2"
 
 export type Project = {
   /** URL segment used by App Router. */
@@ -50,6 +50,17 @@ export const projects: Project[] = [
     deadlineAt: "2026-08-27T23:59:59-06:00",
     theme: "violet",
     tags: ["C#", "XML", "Graphviz", "TDA"],
+  },
+  {
+    slug: "proyecto2",
+    label: "Proyecto 2",
+    title: "Catálogo de libros",
+    summary:
+      "Catálogo jerárquico con árbol N-ario, árbol binario de búsqueda, XML, Graphviz y TDA propios.",
+    delivery: "24 SEP · 11:59 pm · UEDI",
+    deadlineAt: "2026-09-24T23:59:00-06:00",
+    theme: "violet",
+    tags: ["C#", "Árbol N-ario", "ABB", "Graphviz", "XML"],
   },
 ]
 

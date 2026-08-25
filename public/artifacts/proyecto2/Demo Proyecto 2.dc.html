@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="heroui/fig-tokens.css">
+<script src="heroui/Components.bundle.js"></script>
+<style>
+  html { background: #000; }
+  body { margin: 0; background: #000; color: #ECEDEE; font-family: Inter, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: #006FEE; text-decoration: none; }
+  a:hover { color: #66AAF9; }
+  pre { margin: 0; font-family: "JetBrains Mono", ui-monospace, Menlo, monospace; }
+  input, textarea, button { font-family: inherit; }
+  ::selection { background: #006FEE; color: #fff; }
+  ::-webkit-scrollbar { width: 9px; height: 9px; }
+  ::-webkit-scrollbar-track { background: #000; }
+  ::-webkit-scrollbar-thumb { background: #27272A; border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: #3F3F46; }
+  @keyframes blink { 0%,45% { opacity: 1 } 55%,100% { opacity: .15 } }
+  @keyframes found { 0%,100% { stroke-width: 1.5 } 50% { stroke-width: 3.5 } }
+</style>
+</helmet>
+
+<div class="dark" style="background:#000;color:#ECEDEE;font-family:Inter,system-ui,sans-serif;min-height:100vh">
+
+  <nav style="position:sticky;top:0;z-index:40;background:rgba(0,0,0,.88);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.15);display:flex;align-items:center;gap:18px;padding:0 clamp(14px,2vw,28px);height:54px;flex-wrap:wrap">
+    <a href="Hub Proyecto 2 v2.dc.html" style="font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#A1A1AA">← Hub</a>
+    <div style="width:1px;height:18px;background:rgba(255,255,255,.15)"></div>
+    <div style="display:flex;align-items:center;gap:9px;margin-right:auto">
+      <div style="width:8px;height:8px;background:#17C964;border-radius:50%;animation:blink 1.6s steps(1,end) infinite"></div>
+      <span style="font-size:11.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase">Catálogo en memoria</span>
+    </div>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#71717A">{{ statLine }}</span>
+    <button onClick="{{ resetAll }}" style="display:inline-flex;align-items:center;justify-content:center;height:32px;padding:0 12px;border:1px solid rgba(255,255,255,.2);border-radius:8px;background:transparent;color:#A1A1AA;font-weight:500;font-size:13px;cursor:pointer;transition:all .15s" style-hover="background:rgba(243,18,96,.14);border-color:#F31260;color:#F31260">Inicializar</button>
+    <button onClick="{{ loadSeed }}" style="display:inline-flex;align-items:center;justify-content:center;height:32px;padding:0 12px;border:1px solid rgba(255,255,255,.2);border-radius:8px;background:transparent;color:#A1A1AA;font-weight:500;font-size:13px;cursor:pointer;transition:all .15s" style-hover="background:rgba(255,255,255,.07);color:#ECEDEE">Cargar datos de prueba</button>
+  </nav>
+
+  <header style="padding:clamp(24px,3.5vw,44px) clamp(14px,2vw,28px) 0">
+    <div style="max-width:1600px;margin:0 auto">
+      <div style="font-size:10px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:#71717A;margin-bottom:10px">Proyecto 2 · IPC2 · segundo semestre 2026</div>
+      <h1 style="margin:0;font-weight:800;letter-spacing:-.035em;line-height:1;font-size:clamp(30px,4.4vw,58px)">Demo del catálogo</h1>
+      <p style="margin:14px 0 0;font-size:15px;line-height:1.6;color:#A1A1AA;max-width:70ch">Árbol N-ario para la jerarquía de categorías y árbol binario de búsqueda indexado por ISBN, sobre el mismo conjunto de objetos Libro. Cada operación queda registrada en la bitácora con el número de comparaciones que costó.</p>
+    </div>
+  </header>
+
+  <div style="max-width:1600px;margin:0 auto;padding:clamp(20px,3vw,36px) clamp(14px,2vw,28px) 0">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));border:1px solid rgba(255,255,255,.15)">
+      <div style="padding:18px 20px;border-right:1px solid rgba(255,255,255,.15)">
+        <div style="font-size:10px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#71717A">Libros</div>
+        <div style="font-size:38px;font-weight:800;letter-spacing:-.035em;line-height:1.1;font-variant-numeric:tabular-nums;margin-top:4px">{{ totalBooks }}</div>
+      </div>
+      <div style="padding:18px 20px;border-right:1px solid rgba(255,255,255,.15)">
+        <div style="font-size:10px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#71717A">Categorías</div>
+        <div style="font-size:38px;font-weight:800;letter-spacing:-.035em;line-height:1.1;font-variant-numeric:tabular-nums;margin-top:4px">{{ totalCats }}</div>
+      </div>
+      <div style="padding:18px 20px;border-right:1px solid rgba(255,255,255,.15)">
+        <div style="font-size:10px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#71717A">Altura del BST</div>
+        <div style="font-size:38px;font-weight:800;letter-spacing:-.035em;line-height:1.1;font-variant-numeric:tabular-nums;margin-top:4px;color:#006FEE">{{ bstHeight }}</div>
+        <div style="font-size:11.5px;color:#52525B;margin-top:2px">mínimo posible: {{ idealHeight }}</div>
+      </div>
+      <div style="padding:18px 20px;border-right:1px solid rgba(255,255,255,.15)">
+        <div style="font-size:10px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#71717A">ISBN mínimo</div>
+        <div style="font-size:38px;font-weight:800;letter-spacing:-.035em;line-height:1.1;font-variant-numeric:tabular-nums;margin-top:4px;color:#17C964">{{ minIsbn }}</div>
+        <div style="font-size:11.5px;color:#52525B;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ minTitulo }}</div>
+      </div>
+      <div style="padding:18px 20px">
+        <div style="font-size:10px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#71717A">ISBN máximo</div>
+        <div style="font-size:38px;font-weight:800;letter-spacing:-.035em;line-height:1.1;font-variant-numeric:tabular-nums;margin-top:4px;color:#F31260">{{ maxIsbn }}</div>
+        <div style="font-size:11.5px;color:#52525B;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ maxTitulo }}</div>
+      </div>
+    </div>
+  </div>
+
+  <main style="max-width:1600px;margin:0 auto;padding:clamp(20px,3vw,32px) clamp(14px,2vw,28px) 0;display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);gap:20px;align-items:start">
+
+    <aside style="border:1px solid rgba(255,255,255,.15);position:sticky;top:74px">
+      <div style="padding:16px 18px;border-bottom:1px solid rgba(255,255,255,.15);background:#050505">
+        <div style="font-size:10px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#71717A">Árbol N-ario de categorías</div>
+        <div style="font-size:11.5px;color:#52525B;margin-top:4px">Hijos ordenados alfabéticamente. El número es el conteo de libros del subárbol.</div>
+      </div>
+      <div style="padding:12px;max-height:440px;overflow:auto">
+        <sc-for list="{{ treeRows }}" as="row" hint-placeholder-count="11">
+          <div onClick="{{ row.onClick }}" style="{{ row.rowStyle }}">
+            <span style="{{ row.caretStyle }}">▶</span>
+            <span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ row.name }}</span>
+            <span style="{{ row.countStyle }}">{{ row.count }}</span>
+          </div>
+        </sc-for>
+      </div>
+      <div style="padding:16px 18px;border-top:1px solid rgba(255,255,255,.15)">
+        <div style="font-size:10px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#71717A;margin-bottom:4px">Seleccionada</div>
+        <div style="font-size:19px;font-weight:700;letter-spacing:-.02em;margin-bottom:2px">{{ selectedCat }}</div>
+        <div style="font-size:11.5px;color:#52525B;margin-bottom:14px">{{ selectedPath }}</div>
+        <div style="font-size:10px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#71717A;margin-bottom:8px">Agregar subcategoría</div>
+        <div style="display:flex;gap:8px">
+          <input placeholder="Nombre único" value="{{ newCatName }}" onChange="{{ onNewCatName }}" style="flex:1;min-width:0;height:36px;padding:0 11px;font-size:13.5px;color:#ECEDEE;background:#18181B;border:1px solid rgba(255,255,255,.15);border-radius:8px;outline:none" style-focus="border-color:#006FEE">
+          <button onClick="{{ addCategory }}" style="flex:none;display:inline-flex;align-items:center;justify-content:center;height:36px;padding:0 14px;border:1px solid rgba(255,255,255,.2);border-radius:8px;background:transparent;color:#ECEDEE;font-weight:500;font-size:13.5px;cursor:pointer;transition:all .15s" style-hover="background:rgba(255,255,255,.08)">Crear</button>
+        </div>
+      </div>
+    </aside>
+
+    <section style="min-width:0">
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px">
+        <button onClick="{{ tabLibros }}" style="{{ tbLibros }}">Libros</button>
+        <button onClick="{{ tabBst }}" style="{{ tbBst }}">Árbol por ISBN</button>
+        <button onClick="{{ tabRec }}" style="{{ tbRec }}">Recorridos</button>
+        <button onClick="{{ tabXml }}" style="{{ tbXml }}">XML</button>
+        <button onClick="{{ tabDot }}" style="{{ tbDot }}">Graphviz</button>
+      </div>
+
+      <sc-if value="{{ isLibros }}" hint-placeholder-val="{{ true }}">
+      <div style="border:1px solid rgba(255,255,255,.15)">
+        <div style="padding:16px 20px;border-bottom:1px solid rgba(255,255,255,.15);background:#050505;display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap">
+          <div>
+            <div style="font-size:10px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#71717A">Libros propios de la categoría, orden ascendente de ISBN</div>
+            <div style="font-size:11.5px;color:#52525B;margin-top:4px">Recorrido de la lista simple enlazada de {{ selectedCat }}.</div>
+          </div>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#006FEE">{{ catBooksLabel }}</span>
+        </div>
+        <div style="max-height:380px;overflow:auto">
+          <table style="width:100%;border-collapse:collapse">
+            <thead>
+              <tr>
+                <th style="text-align:left;padding:10px 16px;font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:#71717A;border-bottom:1px solid rgba(255,255,255,.15);width:92px;background:#050505;position:sticky;top:0">ISBN</th>
+                <th style="text-align:left;padding:10px 16px;font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:#71717A;border-bottom:1px solid rgba(255,255,255,.15);background:#050505;position:sticky;top:0">Título</th>
+                <th style="text-align:left;padding:10px 16px;font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:#71717A;border-bottom:1px solid rgba(255,255,255,.15);width:190px;background:#050505;position:sticky;top:0">Autor</th>
+                <th style="text-align:right;padding:10px 16px;font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:#71717A;border-bottom:1px solid rgba(255,255,255,.15);width:70px;background:#050505;position:sticky;top:0">Baja</th>
+              </tr>
+            </thead>
+            <tbody>
+              <sc-for list="{{ catBooks }}" as="b" hint-placeholder-count="4">
+                <tr>
+                  <td style="padding:12px 16px;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#66AAF9;border-bottom:1px solid rgba(255,255,255,.08)">{{ b.isbn }}</td>
+                  <td style="padding:12px 16px;font-size:14px;font-weight:600;border-bottom:1px solid rgba(255,255,255,.08)">{{ b.titulo }}</td>
+                  <td style="padding:12px 16px;font-size:12.5px;color:#71717A;border-bottom:1px solid rgba(255,255,255,.08)">{{ b.autor }}</td>
+                  <td style="padding:12px 16px;text-align:right;border-bottom:1px solid rgba(255,255,255,.08)">
+                    <span onClick="{{ b.onDelete }}" style="cursor:pointer;display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:7px;color:#71717A;font-size:16px;transition:all .15s" style-hover="background:rgba(243,18,96,.16);color:#F31260">×</span>
+                  </td>
+                </tr>
+              </sc-for>
+            </tbody>
+          </table>
+          <div style="{{ emptyStyle }}">Sin libros propios. Las subcategorías pueden tener los suyos.</div>
+        </div>
+
+        <div style="padding:18px 20px;border-top:1px solid rgba(255,255,255,.15);background:#050505">
+          <div style="font-size:10px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#71717A;margin-bottom:4px">Registrar libro en {{ selectedCat }}</div>
+          <div style="font-size:11.5px;color:#52525B;margin-bottom:12px">Inserta en el BST por ISBN y en la lista de la categoría. El ISBN debe ser un entero único.</div>
+          <div style="display:grid;grid-template-columns:120px minmax(0,1.4fr) minmax(0,1fr) 110px;gap:8px">
+            <input placeholder="ISBN" value="{{ formIsbn }}" onChange="{{ onFormIsbn }}" style="height:38px;padding:0 12px;font-size:13.5px;font-family:'JetBrains Mono',monospace;color:#ECEDEE;background:#18181B;border:1px solid rgba(255,255,255,.15);border-radius:8px;outline:none;min-width:0" style-focus="border-color:#006FEE">
+            <input placeholder="Título" value="{{ formTitulo }}" onChange="{{ onFormTitulo }}" style="height:38px;padding:0 12px;font-size:13.5px;color:#ECEDEE;background:#18181B;border:1px solid rgba(255,255,255,.15);border-radius:8px;outline:none;min-width:0" style-focus="border-color:#006FEE">
+            <input placeholder="Autor" value="{{ formAutor }}" onChange="{{ onFormAutor }}" style="height:38px;padding:0 12px;font-size:13.5px;color:#ECEDEE;background:#18181B;border:1px solid rgba(255,255,255,.15);border-radius:8px;outline:none;min-width:0" style-focus="border-color:#006FEE">
+            <button onClick="{{ addBook }}" style="display:inline-flex;align-items:center;justify-content:center;height:38px;padding:0 14px;border:none;border-radius:8px;background:#006FEE;color:#fff;font-weight:600;font-size:13.5px;cursor:pointer;transition:background .15s" style-hover="background:#338EF7" style-active="background:#005BC4">Registrar</button>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ isBst }}" hint-placeholder-val="{{ true }}">
+      <div style="border:1px solid rgba(255,255,255,.15)">
+        <div style="padding:16px 20px;border-bottom:1px solid rgba(255,255,255,.15);background:#050505">
+          <div style="font-size:10px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#71717A;margin-bottom:10px">Búsqueda por ISBN</div>
+          <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+            <input placeholder="ISBN" value="{{ searchInput }}" onChange="{{ onSearchInput }}" style="width:140px;height:38px;padding:0 12px;font-size:13.5px;font-family:'JetBrains Mono',monospace;color:#ECEDEE;background:#18181B;border:1px solid rgba(255,255,255,.15);border-radius:8px;outline:none" style-focus="border-color:#006FEE">
+            <button onClick="{{ doSearch }}" style="display:inline-flex;align-items:center;justify-content:center;height:38px;padding:0 16px;border:none;border-radius:8px;background:#006FEE;color:#fff;font-weight:600;font-size:13.5px;cursor:pointer;transition:background .15s" style-hover="background:#338EF7" style-active="background:#005BC4">Buscar</button>
+            <button onClick="{{ doMin }}" style="display:inline-flex;align-items:center;justify-content:center;height:38px;padding:0 14px;border:1px solid rgba(255,255,255,.2);border-radius:8px;background:transparent;color:#ECEDEE;font-weight:500;font-size:13.5px;cursor:pointer;transition:all .15s" style-hover="background:rgba(23,201,100,.14);border-color:#17C964;color:#17C964">Ir al mínimo</button>
+            <button onClick="{{ doMax }}" style="display:inline-flex;align-items:center;justify-content:center;height:38px;padding:0 14px;border:1px solid rgba(255,255,255,.2);border-radius:8px;background:transparent;color:#ECEDEE;font-weight:500;font-size:13.5px;cursor:pointer;transition:all .15s" style-hover="background:rgba(243,18,96,.14);border-color:#F31260;color:#F31260">Ir al máximo</button>
+            <button onClick="{{ clearSearch }}" style="display:inline-flex;align-items:center;justify-content:center;height:38px;padding:0 12px;border:none;border-radius:8px;background:transparent;color:#71717A;font-weight:500;font-size:13.5px;cursor:pointer;transition:all .15s" style-hover="background:rgba(255,255,255,.07);color:#ECEDEE">Limpiar</button>
+            <div style="{{ searchMsgStyle }}">{{ searchMsg }}</div>
+          </div>
+        </div>
+        <div style="overflow-x:auto;padding:10px 0;background:#020202">
+          <svg width="{{ bstW }}" height="{{ bstH }}" style="display:block;min-width:100%">
+            <sc-for list="{{ bstEdges }}" as="e" hint-placeholder-count="13">
+              <line x1="{{ e.x1 }}" y1="{{ e.y1 }}" x2="{{ e.x2 }}" y2="{{ e.y2 }}" stroke="{{ e.stroke }}" stroke-width="{{ e.width }}"></line>
+            </sc-for>
+            <sc-for list="{{ bstEdges }}" as="e" hint-placeholder-count="13">
+              <text x="{{ e.lx }}" y="{{ e.ly }}" text-anchor="middle" font-size="9.5" font-family="'JetBrains Mono', monospace" fill="{{ e.labelFill }}">{{ e.label }}</text>
+            </sc-for>
+            <sc-for list="{{ bstNodes }}" as="n" hint-placeholder-count="14">
+              <g>
+                <rect x="{{ n.rx }}" y="{{ n.ry }}" width="62" height="32" rx="8" fill="{{ n.fill }}" stroke="{{ n.stroke }}" stroke-width="{{ n.sw }}" style="{{ n.pulse }}"></rect>
+                <text x="{{ n.x }}" y="{{ n.ty }}" text-anchor="middle" font-size="12.5" font-family="'JetBrains Mono', monospace" font-weight="500" fill="{{ n.textFill }}">{{ n.isbn }}</text>
+                <text x="{{ n.x }}" y="{{ n.sy }}" text-anchor="middle" font-size="9" font-family="Inter, sans-serif" fill="{{ n.stepFill }}">{{ n.step }}</text>
+              </g>
+            </sc-for>
+          </svg>
+        </div>
+        <div style="border-top:1px solid rgba(255,255,255,.15);display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))">
+          <div style="padding:18px 20px;border-right:1px solid rgba(255,255,255,.15)">
+            <div style="font-size:10px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#71717A;margin-bottom:12px">Camino de comparaciones</div>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center">
+              <sc-for list="{{ pathChips }}" as="p" hint-placeholder-count="4">
+                <span style="{{ p.style }}">{{ p.label }}</span>
+              </sc-for>
+            </div>
+            <div style="font-size:12.5px;color:#71717A;margin-top:14px">{{ pathNote }}</div>
+          </div>
+          <div style="padding:18px 20px">
+            <div style="font-size:10px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#71717A;margin-bottom:12px">Costo comparado</div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div>
+                <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px"><span style="color:#A1A1AA">Recorrido lineal de la lista</span><span style="font-family:'JetBrains Mono',monospace;color:#F31260">{{ linearCost }}</span></div>
+                <div style="height:6px;background:#18181B;border-radius:3px;overflow:hidden"><div style="{{ linearBar }}"></div></div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px"><span style="color:#A1A1AA">Descenso por el BST</span><span style="font-family:'JetBrains Mono',monospace;color:#17C964">{{ bstCost }}</span></div>
+                <div style="height:6px;background:#18181B;border-radius:3px;overflow:hidden"><div style="{{ bstBar }}"></div></div>
+              </div>
+            </div>
+            <div style="font-size:12.5px;color:#71717A;margin-top:14px">Con 100,000 libros la lista promedia 50,000 comparaciones y el árbol balanceado 17.</div>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ isRec }}" hint-placeholder-val="{{ true }}">
+      <div style="border:1px solid rgba(255,255,255,.15)">
+        <div style="padding:16px 20px;border-bottom:1px solid rgba(255,255,255,.15);background:#050505">
+          <div style="font-size:10px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#71717A">Recorridos del árbol binario de búsqueda</div>
+          <div style="font-size:11.5px;color:#52525B;margin-top:4px">Los tres órdenes sobre el mismo árbol. El inorden resuelve la funcionalidad 6 del enunciado.</div>
+        </div>
+        <div style="padding:18px 20px;border-bottom:1px solid rgba(255,255,255,.15)">
+          <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:10px">
+            <span style="font-size:13px;font-weight:700;color:#17C964">Inorden</span>
+            <span style="font-size:11.5px;color:#52525B">izquierda · raíz · derecha — devuelve orden ascendente de ISBN</span>
+          </div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:12px;line-height:2;color:#A1A1AA;word-break:break-word">{{ inorderText }}</div>
+        </div>
+        <div style="padding:18px 20px;border-bottom:1px solid rgba(255,255,255,.15)">
+          <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:10px">
+            <span style="font-size:13px;font-weight:700;color:#006FEE">Preorden</span>
+            <span style="font-size:11.5px;color:#52525B">raíz · izquierda · derecha — sirve para exportar o reconstruir el árbol</span>
+          </div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:12px;line-height:2;color:#A1A1AA;word-break:break-word">{{ preorderText }}</div>
+        </div>
+        <div style="padding:18px 20px;border-bottom:1px solid rgba(255,255,255,.15)">
+          <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:10px">
+            <span style="font-size:13px;font-weight:700;color:#9353D3">Postorden</span>
+            <span style="font-size:11.5px;color:#52525B">izquierda · derecha · raíz — libera nodos de abajo hacia arriba</span>
+          </div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:12px;line-height:2;color:#A1A1AA;word-break:break-word">{{ postorderText }}</div>
+        </div>
+        <div style="padding:18px 20px">
+          <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:10px">
+            <span style="font-size:13px;font-weight:700;color:#F5A524">Profundidad del árbol N-ario</span>
+            <span style="font-size:11.5px;color:#52525B">desde {{ selectedCat }} — funcionalidad 9 del enunciado</span>
+          </div>
+          <pre style="font-size:12px;line-height:1.85;color:#A1A1AA;max-height:280px;overflow:auto">{{ subtreeText }}</pre>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ isXml }}" hint-placeholder-val="{{ true }}">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));border:1px solid rgba(255,255,255,.15)">
+        <div style="border-right:1px solid rgba(255,255,255,.15)">
+          <div style="padding:16px 20px;border-bottom:1px solid rgba(255,255,255,.15);background:#050505">
+            <div style="font-size:10px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#71717A">entrada.xml del estado actual</div>
+            <div style="font-size:11.5px;color:#52525B;margin-top:4px">Salida equivalente al archivo que el programa debe poder volver a leer.</div>
+          </div>
+          <div style="padding:18px 20px"><pre style="font-size:12px;line-height:1.75;color:#A1A1AA;max-height:520px;overflow:auto">{{ xmlSource }}</pre></div>
+        </div>
+        <div>
+          <div style="padding:16px 20px;border-bottom:1px solid rgba(255,255,255,.15);background:#050505">
+            <div style="font-size:10px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#71717A">Cargar un XML de entrada</div>
+            <div style="font-size:11.5px;color:#52525B;margin-top:4px">La carga es incremental: acumula sobre lo existente. listaCategorias y listaLibros son opcionales, y el atributo padre también.</div>
+          </div>
+          <div style="padding:18px 20px;display:flex;flex-direction:column;gap:12px">
+            <textarea placeholder="Pega aquí el contenido de un entrada.xml" value="{{ xmlInput }}" onChange="{{ onXmlInput }}" style="width:100%;min-height:190px;padding:12px;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.7;color:#ECEDEE;background:#18181B;border:1px solid rgba(255,255,255,.15);border-radius:8px;outline:none;resize:vertical;box-sizing:border-box" style-focus="border-color:#006FEE"></textarea>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <button onClick="{{ loadXml }}" style="display:inline-flex;align-items:center;justify-content:center;height:38px;padding:0 16px;border:none;border-radius:8px;background:#006FEE;color:#fff;font-weight:600;font-size:13.5px;cursor:pointer;transition:background .15s" style-hover="background:#338EF7" style-active="background:#005BC4">Cargar</button>
+              <button onClick="{{ fillExample }}" style="display:inline-flex;align-items:center;justify-content:center;height:38px;padding:0 14px;border:1px solid rgba(255,255,255,.2);border-radius:8px;background:transparent;color:#ECEDEE;font-weight:500;font-size:13.5px;cursor:pointer;transition:all .15s" style-hover="background:rgba(255,255,255,.08)">Pegar ejemplo</button>
+            </div>
+            <div style="{{ xmlMsgStyle }}">{{ xmlMsg }}</div>
+            <div style="height:1px;background:rgba(255,255,255,.15);margin:4px 0"></div>
+            <div style="font-size:10px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#71717A">Validaciones aplicadas</div>
+            <div style="display:flex;flex-direction:column;gap:7px;font-size:13px;color:#A1A1AA">
+              <div>Nombre de categoría único en todo el árbol.</div>
+              <div>Categoría padre existente antes de crear la hija.</div>
+              <div>ISBN entero, único, y categoría destino existente.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ isDot }}" hint-placeholder-val="{{ true }}">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));border:1px solid rgba(255,255,255,.15)">
+        <div style="border-right:1px solid rgba(255,255,255,.15)">
+          <div style="padding:16px 20px;border-bottom:1px solid rgba(255,255,255,.15);background:#050505">
+            <div style="font-size:10px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#71717A">Estructura de categorías · DOT</div>
+            <div style="font-size:11.5px;color:#52525B;margin-top:4px">Un digraph con una arista padre → hijo por cada categoría.</div>
+          </div>
+          <div style="padding:18px 20px"><pre style="font-size:12px;line-height:1.75;color:#A1A1AA;max-height:420px;overflow:auto">{{ dotCats }}</pre></div>
+        </div>
+        <div>
+          <div style="padding:16px 20px;border-bottom:1px solid rgba(255,255,255,.15);background:#050505">
+            <div style="font-size:10px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#71717A">Libros de {{ selectedCat }} · DOT</div>
+            <div style="font-size:11.5px;color:#52525B;margin-top:4px">Nodos record en orden ascendente de ISBN.</div>
+          </div>
+          <div style="padding:18px 20px;display:flex;flex-direction:column;gap:16px">
+            <pre style="font-size:12px;line-height:1.75;color:#A1A1AA;max-height:260px;overflow:auto">{{ dotBooks }}</pre>
+            <div style="height:1px;background:rgba(255,255,255,.15)"></div>
+            <div style="font-size:10px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#71717A">Árbol binario de búsqueda · DOT</div>
+            <pre style="font-size:12px;line-height:1.75;color:#A1A1AA;max-height:260px;overflow:auto">{{ dotBst }}</pre>
+            <div style="height:1px;background:rgba(255,255,255,.15)"></div>
+            <p style="margin:0;font-size:13px;line-height:1.6;color:#A1A1AA">El programa escribe el texto en un archivo y ejecuta <code style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#ECEDEE">dot -Tpng reporte.dot -o reporte.png</code>. La interfaz web muestra la imagen generada.</p>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+    </section>
+  </main>
+
+  <section style="max-width:1600px;margin:0 auto;padding:clamp(20px,3vw,32px) clamp(14px,2vw,28px) clamp(40px,6vw,72px)">
+    <div style="border:1px solid rgba(255,255,255,.15)">
+      <div style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,.15);background:#050505;display:flex;justify-content:space-between;align-items:center;gap:16px">
+        <div style="font-size:10px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#71717A">Bitácora de operaciones</div>
+        <button onClick="{{ clearLog }}" style="display:inline-flex;align-items:center;justify-content:center;height:28px;padding:0 10px;border:none;border-radius:7px;background:transparent;color:#52525B;font-weight:500;font-size:12px;cursor:pointer;transition:all .15s" style-hover="background:rgba(255,255,255,.07);color:#ECEDEE">Vaciar</button>
+      </div>
+      <div style="max-height:230px;overflow:auto">
+        <sc-for list="{{ log }}" as="l" hint-placeholder-count="3">
+          <div style="display:flex;gap:14px;padding:9px 20px;border-bottom:1px solid rgba(255,255,255,.06);font-size:12.5px;align-items:baseline">
+            <span style="font-family:'JetBrains Mono',monospace;color:#3F3F46;flex:none">{{ l.t }}</span>
+            <span style="{{ l.tagStyle }}">{{ l.tag }}</span>
+            <span style="color:#A1A1AA;flex:1;min-width:0">{{ l.text }}</span>
+            <span style="font-family:'JetBrains Mono',monospace;color:#52525B;flex:none">{{ l.cost }}</span>
+          </div>
+        </sc-for>
+        <div style="{{ logEmptyStyle }}">Sin operaciones todavía.</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{}">
+class Component extends DCLogic {
+  seedCats() {
+    return [
+      { name: 'Librería Central', padre: null },
+      { name: 'Arte', padre: 'Librería Central' },
+      { name: 'Diseño', padre: 'Arte' },
+      { name: 'Fotografía', padre: 'Arte' },
+      { name: 'Ciencia', padre: 'Librería Central' },
+      { name: 'Biología', padre: 'Ciencia' },
+      { name: 'Física', padre: 'Ciencia' },
+      { name: 'Astronomía', padre: 'Física' },
+      { name: 'Literatura', padre: 'Librería Central' },
+      { name: 'Ficción', padre: 'Literatura' },
+      { name: 'Ciencia Ficción', padre: 'Ficción' },
+      { name: 'Fantasía', padre: 'Ficción' },
+      { name: 'Poesía', padre: 'Literatura' },
+      { name: 'Tecnología', padre: 'Librería Central' },
+      { name: 'Programación', padre: 'Tecnología' },
+      { name: 'Estructuras de Datos', padre: 'Programación' },
+      { name: 'Redes', padre: 'Tecnología' }
+    ];
+  }
+  seedBooks() {
+    return [
+      { isbn: 50231, titulo: 'El nombre del viento', autor: 'Patrick Rothfuss', categoria: 'Fantasía' },
+      { isbn: 33412, titulo: 'Dune', autor: 'Frank Herbert', categoria: 'Ciencia Ficción' },
+      { isbn: 71880, titulo: 'Estructuras de datos y algoritmos', autor: 'Mark A. Weiss', categoria: 'Estructuras de Datos' },
+      { isbn: 20145, titulo: 'Breves respuestas a las grandes preguntas', autor: 'Stephen Hawking', categoria: 'Astronomía' },
+      { isbn: 64703, titulo: 'Redes de computadoras', autor: 'Andrew Tanenbaum', categoria: 'Redes' },
+      { isbn: 12098, titulo: 'El origen de las especies', autor: 'Charles Darwin', categoria: 'Biología' },
+      { isbn: 45677, titulo: 'Código limpio', autor: 'Robert C. Martin', categoria: 'Programación' },
+      { isbn: 58320, titulo: 'Antología poética', autor: 'Pablo Neruda', categoria: 'Poesía' },
+      { isbn: 29764, titulo: 'Sobre la fotografía', autor: 'Susan Sontag', categoria: 'Fotografía' },
+      { isbn: 81455, titulo: 'Sistemas de retículas', autor: 'J. Müller-Brockmann', categoria: 'Diseño' },
+      { isbn: 37109, titulo: 'Física conceptual', autor: 'Paul Hewitt', categoria: 'Física' },
+      { isbn: 68932, titulo: 'Neuromante', autor: 'William Gibson', categoria: 'Ciencia Ficción' },
+      { isbn: 92014, titulo: 'Refactorización', autor: 'Martin Fowler', categoria: 'Programación' },
+      { isbn: 41236, titulo: 'El mundo y sus demonios', autor: 'Carl Sagan', categoria: 'Ciencia' }
+    ];
+  }
+
+  state = {
+    tab: 'libros',
+    selectedCat: 'Tecnología',
+    open: { 'Librería Central': true, 'Tecnología': true, 'Literatura': true, 'Ciencia': true },
+    newCatName: '',
+    formIsbn: '', formTitulo: '', formAutor: '',
+    searchInput: '33412',
+    searchPath: [], searchFound: null, searched: false, searchTarget: null,
+    xmlInput: '', xmlMsg: '', xmlOk: true,
+    log: [],
+    cats: this.seedCats(),
+    books: this.seedBooks()
+  };
+
+  stamp() {
+    const d = new Date();
+    const p = v => String(v).padStart(2, '0');
+    return p(d.getHours()) + ':' + p(d.getMinutes()) + ':' + p(d.getSeconds());
+  }
+  push(tag, text, cost) {
+    this.setState(s => ({ log: [{ t: this.stamp(), tag, text, cost: cost || '' }].concat(s.log).slice(0, 60) }));
+  }
+
+  childrenOf(name, cats) {
+    return (cats || this.state.cats).filter(c => c.padre === name).map(c => c.name).sort((a, b) => a.localeCompare(b, 'es'));
+  }
+  countDeep(name) {
+    let n = this.state.books.filter(b => b.categoria === name).length;
+    this.childrenOf(name).forEach(c => { n += this.countDeep(c); });
+    return n;
+  }
+  pathTo(name) {
+    const map = {};
+    this.state.cats.forEach(c => { map[c.name] = c.padre; });
+    const out = [name];
+    let p = map[name];
+    while (p) { out.unshift(p); p = map[p]; }
+    return out.join('  ›  ');
+  }
+  flatten(name, depth, out) {
+    const kids = this.childrenOf(name);
+    const isOpen = !!this.state.open[name];
+    const sel = this.state.selectedCat === name;
+    out.push({
+      name, depth, count: this.countDeep(name), hasKids: kids.length > 0, isOpen, sel,
+      onClick: () => this.setState(s => ({
+        selectedCat: name,
+        open: Object.assign({}, s.open, { [name]: !s.open[name] })
+      }))
+    });
+    if (isOpen) kids.forEach(k => this.flatten(k, depth + 1, out));
+    return out;
+  }
+  asciiTree(name, prefix, isLast, out) {
+    const own = this.state.books.filter(b => b.categoria === name).length;
+    out.push(prefix + (prefix ? (isLast ? '└── ' : '├── ') : '') + name + (own ? '  (' + own + ')' : ''));
+    const kids = this.childrenOf(name);
+    kids.forEach((k, i) => {
+      this.asciiTree(k, prefix + (prefix ? (isLast ? '    ' : '│   ') : ''), i === kids.length - 1, out);
+    });
+    return out;
+  }
+
+  buildBST(books) {
+    const insert = (node, b) => {
+      if (!node) return { isbn: b.isbn, book: b, l: null, r: null };
+      if (b.isbn < node.isbn) node.l = insert(node.l, b);
+      else if (b.isbn > node.isbn) node.r = insert(node.r, b);
+      return node;
+    };
+    let root = null;
+    books.forEach(b => { root = insert(root, b); });
+    return root;
+  }
+  order(node, mode, out) {
+    if (!node) return out;
+    if (mode === 'preorden') out.push(node);
+    this.order(node.l, mode, out);
+    if (mode === 'inorden') out.push(node);
+    this.order(node.r, mode, out);
+    if (mode === 'postorden') out.push(node);
+    return out;
+  }
+  height(node) { return node ? 1 + Math.max(this.height(node.l), this.height(node.r)) : 0; }
+  extreme(node, side) { if (!node) return null; while (node[side]) node = node[side]; return node.book; }
+
+  descend(targetIsbn) {
+    const root = this.buildBST(this.state.books);
+    const path = [];
+    let n = root, found = null;
+    while (n) {
+      path.push(n.isbn);
+      if (n.isbn === targetIsbn) { found = n.book; break; }
+      n = targetIsbn < n.isbn ? n.l : n.r;
+    }
+    return { path, found };
+  }
+
+  addBookAction = () => {
+    const isbn = parseInt(String(this.state.formIsbn).replace(/\D/g, ''), 10);
+    if (!isbn) { this.push('error', 'ISBN inválido: debe ser un entero.'); return; }
+    if (this.state.books.some(b => b.isbn === isbn)) { this.push('error', 'ISBN ' + isbn + ' duplicado. El código es único.'); return; }
+    const titulo = this.state.formTitulo.trim() || 'Sin título';
+    const autor = this.state.formAutor.trim() || 'Autor desconocido';
+    const cat = this.state.selectedCat;
+    const cmp = this.descend(isbn).path.length;
+    this.setState(s => ({
+      books: s.books.concat([{ isbn, titulo, autor, categoria: cat }]),
+      formIsbn: '', formTitulo: '', formAutor: ''
+    }));
+    this.push('insert', 'Libro ' + isbn + ' insertado en el BST y en la lista de ' + cat + '.', cmp + ' comp.');
+  };
+  addCatAction = () => {
+    const name = this.state.newCatName.trim();
+    if (!name) { this.push('error', 'Escribe un nombre de categoría.'); return; }
+    if (this.state.cats.some(c => c.name.toLowerCase() === name.toLowerCase())) {
+      this.push('error', 'La categoría "' + name + '" ya existe. Los nombres son únicos en todo el árbol.'); return;
+    }
+    const padre = this.state.selectedCat;
+    this.setState(s => ({
+      cats: s.cats.concat([{ name, padre }]),
+      newCatName: '', open: Object.assign({}, s.open, { [padre]: true })
+    }));
+    this.push('categoria', 'Categoría "' + name + '" creada como hija de ' + padre + '.');
+  };
+  doSearchAction = () => {
+    const target = parseInt(String(this.state.searchInput).replace(/\D/g, ''), 10);
+    if (!target) { this.push('error', 'Escribe un ISBN entero para buscar.'); return; }
+    const r = this.descend(target);
+    this.setState({ searchPath: r.path, searchFound: r.found, searched: true, searchTarget: target, tab: 'bst' });
+    this.push(r.found ? 'buscar' : 'error',
+      r.found ? 'ISBN ' + target + ' encontrado: ' + r.found.titulo + '.' : 'ISBN ' + target + ' no existe en el catálogo.',
+      r.path.length + ' comp.');
+  };
+  goExtreme = side => () => {
+    const root = this.buildBST(this.state.books);
+    const b = this.extreme(root, side);
+    if (!b) { this.push('error', 'El catálogo está vacío.'); return; }
+    const r = this.descend(b.isbn);
+    this.setState({ searchPath: r.path, searchFound: r.found, searched: true, searchTarget: b.isbn, searchInput: String(b.isbn), tab: 'bst' });
+    this.push('buscar', (side === 'l' ? 'Mínimo' : 'Máximo') + ' ISBN: ' + b.isbn + ' — ' + b.titulo + '.', r.path.length + ' comp.');
+  };
+
+  loadXmlAction = () => {
+    const text = this.state.xmlInput.trim();
+    if (!text) { this.setState({ xmlMsg: 'Pega el contenido de un archivo XML.', xmlOk: false }); return; }
+    let doc;
+    try { doc = new DOMParser().parseFromString(text, 'application/xml'); } catch (e) { doc = null; }
+    if (!doc || doc.getElementsByTagName('parsererror').length) {
+      this.setState({ xmlMsg: 'XML mal formado.', xmlOk: false });
+      this.push('error', 'La carga falló: XML mal formado.');
+      return;
+    }
+    const cats = this.state.cats.slice();
+    const books = this.state.books.slice();
+    let nc = 0, nb = 0, skipped = 0;
+    Array.prototype.forEach.call(doc.getElementsByTagName('categoria'), el => {
+      if (el.parentNode && el.parentNode.nodeName === 'libro') return;
+      const name = (el.textContent || '').trim();
+      if (!name) return;
+      const padre = el.getAttribute('padre');
+      if (cats.some(c => c.name.toLowerCase() === name.toLowerCase())) { skipped++; return; }
+      if (padre && !cats.some(c => c.name === padre)) { skipped++; return; }
+      cats.push({ name, padre: padre || null });
+      nc++;
+    });
+    Array.prototype.forEach.call(doc.getElementsByTagName('libro'), el => {
+      const g = t => { const n = el.getElementsByTagName(t)[0]; return n ? (n.textContent || '').trim() : ''; };
+      const isbn = parseInt(g('ISBN').replace(/\D/g, ''), 10);
+      const categoria = g('categoria');
+      if (!isbn || books.some(b => b.isbn === isbn)) { skipped++; return; }
+      if (!cats.some(c => c.name === categoria)) { skipped++; return; }
+      books.push({ isbn, titulo: g('titulo') || 'Sin título', autor: g('autor') || 'Autor desconocido', categoria });
+      nb++;
+    });
+    this.setState({ cats, books, xmlMsg: nc + ' categorías y ' + nb + ' libros cargados. ' + skipped + ' elementos descartados por validación.', xmlOk: true });
+    this.push('xml', 'Carga incremental: +' + nc + ' categorías, +' + nb + ' libros, ' + skipped + ' descartados.');
+  };
+  fillExampleAction = () => {
+    this.setState({
+      xmlInput: '<?xml version="1.0"?>\n<config>\n  <listaCategorias>\n    <categoria padre="Tecnología">Bases de Datos</categoria>\n    <categoria padre="Bases de Datos">SQL</categoria>\n  </listaCategorias>\n  <listaLibros>\n    <libro>\n      <ISBN>15402</ISBN>\n      <titulo>Fundamentos de bases de datos</titulo>\n      <autor>Silberschatz</autor>\n      <categoria>Bases de Datos</categoria>\n    </libro>\n    <libro>\n      <ISBN>77310</ISBN>\n      <titulo>SQL práctico</titulo>\n      <autor>Alan Beaulieu</autor>\n      <categoria>SQL</categoria>\n    </libro>\n  </listaLibros>\n</config>',
+      xmlMsg: '', xmlOk: true
+    });
+  };
+
+  renderVals() {
+    const s = this.state;
+
+    const rows = this.flatten('Librería Central', 0, []).map(r => ({
+      name: r.name, count: r.count,
+      rowStyle: {
+        display: 'flex', alignItems: 'center', gap: '9px', cursor: 'pointer',
+        padding: '6px 10px 6px ' + (10 + r.depth * 15) + 'px',
+        borderRadius: '8px', fontSize: '13.5px',
+        fontWeight: r.sel ? 700 : 400,
+        background: r.sel ? 'rgba(0,111,238,.20)' : 'transparent',
+        color: r.sel ? '#ECEDEE' : '#A1A1AA',
+        boxShadow: r.sel ? 'inset 0 0 0 1px #006FEE' : 'none',
+        transition: 'background .15s, color .15s'
+      },
+      caretStyle: {
+        flex: 'none', width: '10px', fontSize: '7px', lineHeight: 1,
+        opacity: r.hasKids ? 0.8 : 0, color: r.sel ? '#006FEE' : '#52525B',
+        transform: r.isOpen ? 'rotate(90deg)' : 'none', transition: 'transform .18s'
+      },
+      countStyle: {
+        flex: 'none', fontFamily: "'JetBrains Mono', monospace", fontSize: '11px',
+        padding: '1px 7px', borderRadius: '6px',
+        background: r.sel ? 'rgba(0,111,238,.28)' : '#18181B',
+        color: r.sel ? '#66AAF9' : '#52525B'
+      },
+      onClick: r.onClick
+    }));
+
+    const catBooks = s.books
+      .filter(b => b.categoria === s.selectedCat)
+      .sort((a, b) => a.isbn - b.isbn)
+      .map(b => ({
+        isbn: b.isbn, titulo: b.titulo, autor: b.autor,
+        onDelete: () => {
+          const cmp = this.descend(b.isbn).path.length;
+          this.setState(st => ({ books: st.books.filter(x => x.isbn !== b.isbn) }));
+          this.push('eliminar', 'Libro ' + b.isbn + ' eliminado del BST y de la lista de ' + b.categoria + '.', cmp + ' comp.');
+        }
+      }));
+
+    const root = this.buildBST(s.books);
+    const nodes = [];
+    let i = 0;
+    const layout = (n, d) => {
+      if (!n) return;
+      layout(n.l, d + 1);
+      n._x = 50 + i * 80; n._y = 38 + d * 80; i++; nodes.push(n);
+      layout(n.r, d + 1);
+    };
+    layout(root, 0);
+    const maxY = nodes.reduce((m, n) => Math.max(m, n._y), 0);
+    const stepOf = {};
+    s.searchPath.forEach((v, idx) => { stepOf[v] = idx + 1; });
+    const foundIsbn = s.searchFound ? s.searchFound.isbn : null;
+
+    const bstNodes = nodes.map(n => {
+      const isFound = n.isbn === foundIsbn;
+      const step = stepOf[n.isbn];
+      return {
+        isbn: n.isbn, x: n._x, rx: n._x - 31, ry: n._y - 16, ty: n._y + 4.5, sy: n._y + 27,
+        step: step ? '#' + step : '',
+        stepFill: isFound ? '#99C7FF' : '#006FEE',
+        fill: isFound ? '#006FEE' : step ? 'rgba(0,111,238,.18)' : '#0C0C0E',
+        stroke: isFound ? '#99C7FF' : step ? '#006FEE' : '#27272A',
+        sw: isFound ? 2 : step ? 1.5 : 1,
+        pulse: isFound ? { animation: 'found 1.5s ease-in-out infinite' } : undefined,
+        textFill: isFound ? '#FFFFFF' : step ? '#66AAF9' : '#71717A'
+      };
+    });
+    const bstEdges = [];
+    nodes.forEach(n => {
+      [['l', '<'], ['r', '>']].forEach(pair => {
+        const c = n[pair[0]];
+        if (!c) return;
+        const hot = stepOf[n.isbn] && stepOf[c.isbn];
+        bstEdges.push({
+          x1: n._x, y1: n._y + 16, x2: c._x, y2: c._y - 16,
+          lx: (n._x + c._x) / 2 + (pair[0] === 'l' ? -9 : 9), ly: (n._y + c._y) / 2 + 3,
+          label: pair[1], labelFill: hot ? '#66AAF9' : '#3F3F46',
+          stroke: hot ? '#006FEE' : '#27272A', width: hot ? 2 : 1
+        });
+      });
+    });
+
+    const minBook = this.extreme(root, 'l');
+    const maxBook = this.extreme(root, 'r');
+    const h = this.height(root);
+    const ideal = s.books.length ? Math.ceil(Math.log2(s.books.length + 1)) : 0;
+
+    const pathChips = s.searchPath.map((isbn, idx) => {
+      const isTarget = isbn === foundIsbn;
+      let dir = '';
+      if (!isTarget && s.searchTarget != null) dir = s.searchTarget < isbn ? ' ←' : ' →';
+      return {
+        label: '#' + (idx + 1) + '  ' + isbn + dir,
+        style: {
+          fontFamily: "'JetBrains Mono', monospace", fontSize: '11.5px', padding: '4px 10px',
+          borderRadius: '8px', fontVariantNumeric: 'tabular-nums',
+          background: isTarget ? '#006FEE' : 'rgba(0,111,238,.16)',
+          color: isTarget ? '#FFFFFF' : '#66AAF9',
+          boxShadow: isTarget ? 'none' : 'inset 0 0 0 1px rgba(0,111,238,.42)'
+        }
+      };
+    });
+
+    const linearIdx = s.searchTarget != null
+      ? (() => { const sorted = s.books.map(b => b.isbn); const k = sorted.indexOf(s.searchTarget); return k < 0 ? sorted.length : k + 1; })()
+      : 0;
+    const worst = Math.max(1, s.books.length);
+
+    const esc = t => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    let xml = '<?xml version="1.0"?>\n<config>\n  <listaCategorias>\n';
+    s.cats.forEach(c => {
+      xml += c.padre
+        ? '    <categoria padre="' + esc(c.padre) + '">' + esc(c.name) + '</categoria>\n'
+        : '    <categoria>' + esc(c.name) + '</categoria>\n';
+    });
+    xml += '  </listaCategorias>\n  <listaLibros>\n';
+    s.books.forEach(b => {
+      xml += '    <libro>\n      <ISBN>' + b.isbn + '</ISBN>\n      <titulo>' + esc(b.titulo) +
+        '</titulo>\n      <autor>' + esc(b.autor) + '</autor>\n      <categoria>' + esc(b.categoria) + '</categoria>\n    </libro>\n';
+    });
+    xml += '  </listaLibros>\n</config>';
+
+    let dotCats = 'digraph Catalogo {\n  rankdir=TB;\n  bgcolor="black";\n  node [shape=box, style="rounded,filled", fillcolor="#0C0C0E",\n        color="#27272A", fontcolor="#ECEDEE", fontname="Inter"];\n  edge [color="#3F3F46"];\n\n';
+    s.cats.forEach(c => { if (c.padre) dotCats += '  "' + c.padre + '" -> "' + c.name + '";\n'; });
+    dotCats += '}';
+
+    let dotBooks = 'digraph Libros_' + s.selectedCat.replace(/[^A-Za-z0-9]/g, '_') + ' {\n  rankdir=LR;\n  bgcolor="black";\n  node [shape=record, style=filled, fillcolor="#0C0C0E",\n        color="#006FEE", fontcolor="#ECEDEE", fontname="Inter"];\n  edge [color="#006FEE"];\n\n';
+    if (!catBooks.length) dotBooks += '  vacio [label="sin libros propios", color="#3F3F46"];\n';
+    else {
+      catBooks.forEach(b => {
+        dotBooks += '  n' + b.isbn + ' [label="{' + b.isbn + '|' + b.titulo.replace(/[|{}"]/g, '') + '|' + b.autor.replace(/[|{}"]/g, '') + '}"];\n';
+      });
+      dotBooks += '\n';
+      catBooks.forEach((b, idx) => {
+        if (idx < catBooks.length - 1) dotBooks += '  n' + b.isbn + ' -> n' + catBooks[idx + 1].isbn + ';\n';
+      });
+    }
+    dotBooks += '}';
+
+    let dotBst = 'digraph ArbolISBN {\n  bgcolor="black";\n  node [shape=circle, style=filled, fillcolor="#0C0C0E",\n        color="#27272A", fontcolor="#ECEDEE", fontname="Inter", fontsize=11];\n  edge [color="#3F3F46"];\n\n';
+    this.order(root, 'preorden', []).forEach(n => {
+      if (n.l) dotBst += '  ' + n.isbn + ' -> ' + n.l.isbn + ' [label="<", fontcolor="#71717A", fontsize=9];\n';
+      if (n.r) dotBst += '  ' + n.isbn + ' -> ' + n.r.isbn + ' [label=">", fontcolor="#71717A", fontsize=9];\n';
+    });
+    dotBst += '}';
+
+    const tabStyle = on => ({
+      display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+      height: '36px', padding: '0 16px', borderRadius: '8px', cursor: 'pointer',
+      fontWeight: on ? 700 : 500, fontSize: '13.5px',
+      border: '1px solid ' + (on ? '#006FEE' : 'rgba(255,255,255,.15)'),
+      background: on ? 'rgba(0,111,238,.16)' : 'transparent',
+      color: on ? '#66AAF9' : '#A1A1AA', transition: 'all .15s'
+    });
+
+    const tagColors = { insert: '#17C964', buscar: '#006FEE', eliminar: '#F31260', categoria: '#9353D3', xml: '#F5A524', error: '#F31260', reset: '#71717A' };
+    const log = s.log.map(l => ({
+      t: l.t, tag: l.tag, text: l.text, cost: l.cost,
+      tagStyle: {
+        flex: 'none', width: '68px', fontFamily: "'JetBrains Mono', monospace",
+        fontSize: '11px', textTransform: 'uppercase', letterSpacing: '.06em',
+        color: tagColors[l.tag] || '#71717A'
+      }
+    }));
+
+    return {
+      totalBooks: s.books.length,
+      totalCats: s.cats.length,
+      bstHeight: h,
+      idealHeight: ideal,
+      statLine: s.books.length + ' libros · ' + s.cats.length + ' categorías · altura ' + h,
+      minIsbn: minBook ? minBook.isbn : '—',
+      minTitulo: minBook ? minBook.titulo : 'catálogo vacío',
+      maxIsbn: maxBook ? maxBook.isbn : '—',
+      maxTitulo: maxBook ? maxBook.titulo : 'catálogo vacío',
+
+      treeRows: rows,
+      selectedCat: s.selectedCat,
+      selectedPath: this.pathTo(s.selectedCat),
+      catBooks,
+      catBooksLabel: catBooks.length + (catBooks.length === 1 ? ' libro propio' : ' libros propios'),
+      emptyStyle: { display: catBooks.length ? 'none' : 'block', fontSize: '13px', padding: '26px 20px', color: '#52525B' },
+
+      bstNodes, bstEdges,
+      bstW: Math.max(860, 50 + nodes.length * 80 + 50),
+      bstH: maxY + 72,
+      pathChips,
+      pathNote: !s.searched
+        ? 'Busca un ISBN para ver el descenso. Cada paso descarta un subárbol completo.'
+        : s.searchPath.length + ' comparaciones para ' + (s.searchFound ? 'encontrarlo' : 'concluir que no existe') + '. Las flechas indican el lado tomado.',
+      searchMsg: !s.searched ? '' : s.searchFound
+        ? s.searchFound.titulo + ' — ' + s.searchFound.autor + ' · ' + s.searchFound.categoria
+        : 'No existe un libro con ese ISBN.',
+      searchMsgStyle: { fontSize: '13px', display: s.searched ? 'block' : 'none', color: s.searchFound ? '#17C964' : '#F31260' },
+      linearCost: s.searched ? linearIdx + ' comparaciones' : '—',
+      bstCost: s.searched ? s.searchPath.length + ' comparaciones' : '—',
+      linearBar: { height: '100%', width: (s.searched ? (linearIdx / worst) * 100 : 0).toFixed(1) + '%', background: '#F31260', borderRadius: '3px', transition: 'width .4s' },
+      bstBar: { height: '100%', width: (s.searched ? (s.searchPath.length / worst) * 100 : 0).toFixed(1) + '%', background: '#17C964', borderRadius: '3px', transition: 'width .4s' },
+
+      inorderText: this.order(root, 'inorden', []).map(n => n.isbn).join('  →  ') || '—',
+      preorderText: this.order(root, 'preorden', []).map(n => n.isbn).join('  →  ') || '—',
+      postorderText: this.order(root, 'postorden', []).map(n => n.isbn).join('  →  ') || '—',
+      subtreeText: this.asciiTree(s.selectedCat, '', true, []).join('\n'),
+
+      xmlSource: xml, dotCats, dotBooks, dotBst,
+      xmlInput: s.xmlInput,
+      onXmlInput: e => this.setState({ xmlInput: e.target.value }),
+      loadXml: this.loadXmlAction,
+      fillExample: this.fillExampleAction,
+      xmlMsg: s.xmlMsg,
+      xmlMsgStyle: { fontSize: '12.5px', display: s.xmlMsg ? 'block' : 'none', color: s.xmlOk ? '#17C964' : '#F31260' },
+
+      isLibros: s.tab === 'libros', isBst: s.tab === 'bst', isRec: s.tab === 'recorridos',
+      isXml: s.tab === 'xml', isDot: s.tab === 'dot',
+      tbLibros: tabStyle(s.tab === 'libros'), tbBst: tabStyle(s.tab === 'bst'),
+      tbRec: tabStyle(s.tab === 'recorridos'), tbXml: tabStyle(s.tab === 'xml'), tbDot: tabStyle(s.tab === 'dot'),
+      tabLibros: () => this.setState({ tab: 'libros' }),
+      tabBst: () => this.setState({ tab: 'bst' }),
+      tabRec: () => this.setState({ tab: 'recorridos' }),
+      tabXml: () => this.setState({ tab: 'xml' }),
+      tabDot: () => this.setState({ tab: 'dot' }),
+
+      newCatName: s.newCatName,
+      onNewCatName: e => this.setState({ newCatName: e.target.value }),
+      addCategory: this.addCatAction,
+      formIsbn: s.formIsbn, formTitulo: s.formTitulo, formAutor: s.formAutor,
+      onFormIsbn: e => this.setState({ formIsbn: e.target.value }),
+      onFormTitulo: e => this.setState({ formTitulo: e.target.value }),
+      onFormAutor: e => this.setState({ formAutor: e.target.value }),
+      addBook: this.addBookAction,
+      searchInput: s.searchInput,
+      onSearchInput: e => this.setState({ searchInput: e.target.value }),
+      doSearch: this.doSearchAction,
+      doMin: this.goExtreme('l'),
+      doMax: this.goExtreme('r'),
+      clearSearch: () => this.setState({ searchPath: [], searchFound: null, searched: false, searchTarget: null }),
+
+      log,
+      logEmptyStyle: { display: log.length ? 'none' : 'block', fontSize: '13px', padding: '22px 20px', color: '#52525B' },
+      clearLog: () => this.setState({ log: [] }),
+      resetAll: () => {
+        this.setState({ cats: [{ name: 'Librería Central', padre: null }], books: [], selectedCat: 'Librería Central', searchPath: [], searchFound: null, searched: false, searchTarget: null });
+        this.push('reset', 'Sistema inicializado sin información previa.');
+      },
+      loadSeed: () => {
+        this.setState({ cats: this.seedCats(), books: this.seedBooks(), selectedCat: 'Tecnología', open: { 'Librería Central': true, 'Tecnología': true, 'Literatura': true, 'Ciencia': true } });
+        this.push('xml', 'Datos de prueba cargados: 17 categorías, 14 libros.');
+      }
+    };
+  }
+}
+
+</script>
+</body>
+</html>

@@ -1,13 +1,14 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@import "@heroui/styles";
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-mono);
+  --font-sans: var(--font-display);
   --font-mono: var(--font-mono);
   --font-heading: var(--font-display);
   --color-sidebar-ring: var(--sidebar-ring);
@@ -122,33 +123,48 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
-  }
-  html {
-    @apply font-mono;
+    @apply bg-background font-sans text-foreground;
   }
 }
 
 @layer utilities {
   .hub-grid {
     background-image:
-      linear-gradient(rgba(6, 20, 46, 0.08) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(6, 20, 46, 0.08) 1px, transparent 1px);
-    background-size: 28px 28px;
-    animation: hub-drift 8s linear infinite;
+      linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+    background-size: 44px 44px;
+    mask-image: linear-gradient(to bottom, black, transparent 72%);
   }
 
   .animate-hub-rise {
     animation: hub-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
-}
 
-@keyframes hub-drift {
-  from {
-    background-position: 0 0;
+  .hub-card {
+    animation: hub-rise 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
-  to {
-    background-position: 28px 28px;
+
+  .hub-glow {
+    position: absolute;
+    pointer-events: none;
+    border-radius: 9999px;
+    filter: blur(80px);
+  }
+
+  .hub-glow-primary {
+    top: -18rem;
+    left: 8%;
+    width: 42rem;
+    height: 42rem;
+    background: rgba(0, 111, 238, 0.18);
+  }
+
+  .hub-glow-secondary {
+    top: 24rem;
+    right: -16rem;
+    width: 32rem;
+    height: 32rem;
+    background: rgba(243, 18, 96, 0.09);
   }
 }
 
