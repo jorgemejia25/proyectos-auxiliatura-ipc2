@@ -39,6 +39,10 @@ const GraphvizCsharpView = dynamic(
     ),
   { ssr: false }
 )
+const TreesLabView = dynamic(
+  () => import("@/components/labs/arboles").then((mod) => mod.TreesLabView),
+  { ssr: false }
+)
 
 type LabViewProps = {
   lab: Lab
@@ -56,6 +60,7 @@ export function LabView({ lab }: LabViewProps) {
         {lab.slug === "git-flow" ? <GitFlowView /> : null}
         {lab.slug === "csharp-basico" ? <CsharpBasicsView /> : null}
         {lab.slug === "graphviz-csharp" ? <GraphvizCsharpView /> : null}
+        {lab.slug === "arboles" ? <TreesLabView /> : null}
         {lab.slug === "poo-lab" ? <PooLabView /> : null}
         {lab.slug === "tda-lab" ? <TdaLabView /> : null}
         {lab.slug === "json-lab" ? <JsonLabView /> : null}

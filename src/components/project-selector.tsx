@@ -43,29 +43,14 @@ export function ProjectSelector() {
           </Button>
         </nav>
 
-        <header className="grid gap-10 py-14 lg:grid-cols-[1.2fr_.8fr] lg:items-end lg:py-20">
+        <header className="py-14 lg:py-20">
           <div className="animate-hub-rise [animation-delay:80ms]">
-            <div className="mb-6 flex flex-wrap gap-2">
-              <Chip color="accent" size="sm" variant="soft">C#</Chip>
-              <Chip color="default" size="sm" variant="soft">Estructuras de datos</Chip>
-              <Chip color="success" size="sm" variant="soft">Material interactivo</Chip>
-            </div>
             <p className="mb-4 text-xs font-bold tracking-[0.2em] text-[#006FEE] uppercase">
               Introducción a la Programación y Computación 2
             </p>
             <h1 className="max-w-4xl text-[clamp(2.7rem,7vw,6.8rem)] font-extrabold leading-[0.9] tracking-[-0.055em] text-white">
-              Proyectos y laboratorios, en un solo lugar.
+              Proyectos y contenido del curso
             </h1>
-          </div>
-          <div className="animate-hub-rise border-l border-white/15 pl-6 [animation-delay:150ms]">
-            <p className="max-w-lg text-base leading-7 text-[#A1A1AA]">
-              Consulta los enunciados, explora conceptos y utiliza simuladores preparados
-              para acompañar el curso durante el semestre.
-            </p>
-            <div className="mt-7 flex items-center gap-7 text-sm text-[#71717A]">
-              <span><strong className="mr-2 text-2xl text-white">{projects.length}</strong>proyectos</span>
-              <span><strong className="mr-2 text-2xl text-white">{labs.length}</strong>laboratorios</span>
-            </div>
           </div>
         </header>
 

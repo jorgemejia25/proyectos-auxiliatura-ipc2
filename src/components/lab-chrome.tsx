@@ -1,72 +1,54 @@
-import Link from "next/link"
+"use client"
+
+import { Button, Chip } from "@heroui/react"
 import { ArrowLeftIcon } from "lucide-react"
+import { useRouter } from "next/navigation"
 
 import { GithubIcon } from "@/components/github-icon"
-import { Badge } from "@/components/ui/badge"
-import { buttonVariants } from "@/components/ui/button"
 import { getLabPalette } from "@/lib/lab-palettes"
-import { GITHUB_URL } from "@/lib/projects"
 import type { Lab } from "@/lib/labs"
-import { cn } from "@/lib/utils"
+import { GITHUB_URL } from "@/lib/projects"
 
 type LabChromeProps = {
   lab: Lab
 }
 
-/**
- * Compact top bar shared by laboratory routes: back to hub, label, GitHub.
- * Accent colors follow the active laboratory palette.
- */
+/** HeroUI navigation shared by every laboratory route. */
 export function LabChrome({ lab }: LabChromeProps) {
+  const router = useRouter()
   const palette = getLabPalette(lab.theme)
 
   return (
-    <header
-      className="fixed inset-x-0 top-0 z-[60] flex min-h-[58px] shrink-0 flex-wrap items-center justify-between gap-3 border-b border-white/15 bg-black/90 px-4 py-3 text-white backdrop-blur-xl"
-      style={{
-        color: "#ECEDEE",
-      }}
-    >
+    <header className="fixed inset-x-0 top-0 z-[60] flex min-h-[58px] shrink-0 flex-wrap items-center justify-between gap-3 border-b border-white/15 bg-black/90 px-4 py-3 text-white backdrop-blur-xl">
       <div className="flex min-w-0 flex-wrap items-center gap-3">
-        <Link
-          href="/"
-          className={cn(
-            buttonVariants({ variant: "outline", size: "sm" }),
-            "rounded-lg border border-white/15 bg-[#18181B] text-white shadow-none hover:bg-[#27272A] hover:text-white"
-          )}
+        <Button
+          size="sm"
+          variant="secondary"
+          onPress={() => router.push("/")}
+          className="border border-white/15 bg-[#18181B] text-white hover:bg-[#27272A]"
         >
-          <ArrowLeftIcon data-icon="inline-start" />
+          <ArrowLeftIcon className="size-4" />
           Hub
-        </Link>
+        </Button>
 
-        <Badge
-          className="rounded-full border bg-transparent px-3 font-mono text-[10px] tracking-widest uppercase"
-          style={{
-            borderColor: palette.highlight,
-            color: palette.highlight,
-          }}
+        <Chip
+          size="sm"
+          variant="soft"
+          className="font-mono text-[10px] tracking-widest uppercase"
+          style={{ backgroundColor: `${palette.highlight}22`, color: palette.highlight }}
         >
           Lab · {lab.label}
-        </Badge>
+        </Chip>
       </div>
 
-      <a
-        href={GITHUB_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={cn(
-          buttonVariants({ variant: "outline", size: "sm" }),
-          "rounded-lg border font-mono text-xs font-bold tracking-wide shadow-none hover:brightness-110"
-        )}
-        style={{
-          borderColor: palette.highlight,
-          background: palette.highlight,
-          color: palette.highlightInk,
-        }}
+      <Button
+        size="sm"
+        onPress={() => window.open(GITHUB_URL, "_blank", "noopener,noreferrer")}
+        className="bg-[#006FEE] font-mono text-xs font-bold text-white hover:bg-[#338EF7]"
       >
-        <GithubIcon data-icon="inline-start" />
+        <GithubIcon className="size-4" />
         jorgemejia25
-      </a>
+      </Button>
     </header>
   )
 }

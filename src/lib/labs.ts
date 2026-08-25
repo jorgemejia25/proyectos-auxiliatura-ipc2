@@ -5,6 +5,7 @@ export type LabSlug =
   | "git-flow"
   | "csharp-basico"
   | "graphviz-csharp"
+  | "arboles"
   | "json-lab"
   | "xml-lab"
   | "tda-lab"
@@ -52,6 +53,15 @@ export const labs: Lab[] = [
       "Sintaxis DOT, atributos, posicionamiento, estructuras de datos, generación desde C# y visor SVG interactivo.",
     theme: "yellow",
     tags: ["C#", "Graphviz", "DOT", "SVG"],
+  },
+  {
+    slug: "arboles",
+    label: "Árboles",
+    title: "ABB y AVL",
+    summary:
+      "Guía visual de terminología, recorridos, cálculos de altura, complejidad, operaciones y balance AVL.",
+    theme: "blue",
+    tags: ["Árboles", "ABB", "AVL", "Recorridos"],
   },
   {
     slug: "poo-lab",
