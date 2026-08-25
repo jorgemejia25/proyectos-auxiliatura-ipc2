@@ -4,7 +4,6 @@ import { useMemo, useState } from "react"
 import { Button, Card, Chip, Input, Table } from "@heroui/react"
 import {
   ArrowDownIcon,
-  BookOpenIcon,
   CalculatorIcon,
   GitBranchIcon,
   RotateCcwIcon,
@@ -151,7 +150,7 @@ export function TreesLabView() {
         <div className="mx-auto max-w-7xl">
           <p className="mb-5 font-mono text-xs font-bold tracking-[.18em] text-[#006FEE] uppercase">Contenido del curso</p>
           <div className="grid gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-2 lg:grid-cols-5">
-            {["Definición", "Terminología", "Clasificación", "Representación", "ABB", "Recorridos", "Cálculos", "Operaciones", "AVL", "C#"].map((lesson, index) => (
+            {["Definición", "Terminología", "Clasificación", "TDA", "Representación", "ABB", "Recorridos y cálculos", "Operaciones", "AVL", "C#"].map((lesson, index) => (
               <div key={lesson} className="bg-[#09090B] p-4"><span className="font-mono text-xs text-[#52525B]">{String(index + 1).padStart(2, "0")}</span><p className="mt-2 font-bold text-white">{lesson}</p></div>
             ))}
           </div>
@@ -165,6 +164,9 @@ export function TreesLabView() {
           <Card className="border border-white/10 bg-[#09090B]"><Card.Content className="p-7"><p className="font-mono text-xs text-[#F31260]">CONDICIONES</p><ul className="mt-4 grid gap-3 text-sm leading-6 text-[#D4D4D8]"><li>• Es una estructura conectada.</li><li>• No contiene ciclos.</li><li>• Entre dos nodos existe un único camino.</li><li>• Con n nodos contiene n − 1 aristas.</li></ul></Card.Content></Card>
         </div>
         <Card className="mt-5 border border-white/10 bg-[#09090B]"><Card.Content className="grid gap-6 p-6 md:grid-cols-[.35fr_1fr]"><div><p className="text-sm font-bold text-[#66AAF9]">Ejemplo</p><p className="mt-2 font-mono text-2xl text-white">A → {`{ B, C }`}</p></div><p className="text-sm leading-7 text-[#A1A1AA]">A es la raíz. B y C son hijos directos de A. El árbol tiene 3 nodos y 2 aristas. Los caminos desde A hacia B y C tienen longitud 1.</p></Card.Content></Card>
+        <div className="mt-5 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          {["DOM: cada elemento es un nodo.", "Sistema de archivos: directorios y archivos forman nodos.", "Compilador: un AST representa la sintaxis del programa.", "Base de datos: índices B y B+ organizan claves."].map((example) => <Card key={example} className="border border-white/10 bg-[#09090B]"><Card.Content className="p-4 text-sm leading-6 text-[#A1A1AA]">{example}</Card.Content></Card>)}
+        </div>
       </section>
 
       <section className="border-y border-white/10 bg-[#050505]">
@@ -208,17 +210,31 @@ export function TreesLabView() {
 
       <section className="border-y border-white/10 bg-[#050505]">
         <div className="mx-auto max-w-7xl px-5 py-16 sm:px-8 lg:px-12">
-          <SectionTitle number="04" title="Representación" subtitle="Memoria y arreglo" />
+          <SectionTitle number="04" title="Tipo de dato abstracto" subtitle="Contrato y encapsulamiento" />
+          <div className="grid gap-5 lg:grid-cols-[1fr_.9fr]">
+            <Card className="border border-[#006FEE]/30 bg-[#0B1730]"><Card.Content className="p-6"><p className="font-mono text-xs text-[#66AAF9]">DEFINICIÓN</p><p className="mt-4 text-lg font-semibold leading-8 text-white">Un tipo de dato abstracto especifica los valores permitidos y las operaciones válidas sin definir cómo se almacenan internamente.</p><p className="mt-4 text-sm leading-6 text-[#A1A1AA]">El TDA define qué hace cada operación, sus precondiciones y sus resultados.</p></Card.Content></Card>
+            <Card className="border border-white/10 bg-[#09090B]"><Card.Content className="p-6"><h3 className="font-bold text-white">Operaciones del TDA árbol</h3><div className="mt-4 grid gap-2 font-mono text-sm text-[#D4D4D8]"><p>insertar(valor)</p><p>buscar(valor)</p><p>eliminar(valor)</p><p>recorrer(orden)</p><p>altura() · tamaño() · estaVacio()</p></div></Card.Content></Card>
+          </div>
+          <div className="mt-5 grid gap-4 md:grid-cols-3">
+            <ConceptExample title="Contrato de inserción" definition="Después de insertar x, buscar x debe devolver un resultado exitoso." example="insertar(45) ⇒ buscar(45) ≠ null" />
+            <ConceptExample title="Invariante" definition="Toda operación debe conservar la regla de orden del ABB." example="inorden() produce una secuencia creciente" />
+            <ConceptExample title="Encapsulamiento" definition="La raíz y los enlaces se modifican únicamente desde la clase árbol." example="Raiz tiene acceso privado" />
+          </div>
+          <Card className="mt-5 border border-white/10 bg-[#09090B]"><Card.Content className="grid gap-6 p-6 lg:grid-cols-3"><div><p className="font-bold text-white">Nodo&lt;T&gt;</p><p className="mt-2 text-sm leading-6 text-[#A1A1AA]">Guarda el dato, los enlaces izquierdo y derecho, y la altura cuando se implementa AVL.</p></div><div><p className="font-bold text-white">ArbolBinarioBusqueda&lt;T&gt;</p><p className="mt-2 text-sm leading-6 text-[#A1A1AA]">Mantiene la raíz y el tamaño. Expone las operaciones del TDA.</p></div><div><p className="font-bold text-white">ArbolAVL&lt;T&gt;</p><p className="mt-2 text-sm leading-6 text-[#A1A1AA]">Añade actualización de alturas y rotaciones a inserción y eliminación.</p></div></Card.Content></Card>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-5 py-16 sm:px-8 lg:px-12">
+          <SectionTitle number="05" title="Representación" subtitle="Memoria y arreglo" />
           <div className="grid gap-5 lg:grid-cols-2">
             <Card className="border border-white/10 bg-[#09090B]"><Card.Content className="p-6"><h3 className="text-xl font-bold text-white">Nodos enlazados</h3><p className="mt-3 text-sm leading-6 text-[#A1A1AA]">Cada nodo almacena un valor y referencias a sus hijos. Una referencia nula indica que el hijo no existe.</p><pre className="mt-5 overflow-auto rounded-xl bg-black p-4 font-mono text-sm leading-6 text-[#66AAF9]">{nodeCode}</pre><p className="mt-4 text-xs text-[#71717A]">Ejemplo: el nodo 30 referencia a 20 por Izquierdo y a 40 por Derecho.</p></Card.Content></Card>
             <Card className="border border-white/10 bg-[#09090B]"><Card.Content className="p-6"><h3 className="text-xl font-bold text-white">Representación en arreglo</h3><p className="mt-3 text-sm leading-6 text-[#A1A1AA]">Se utiliza principalmente en árboles completos. Para un nodo situado en el índice i:</p><div className="mt-5 grid gap-3 font-mono text-sm"><p className="rounded-xl bg-[#0B1730] p-4 text-[#66AAF9]">izquierdo(i) = 2i + 1</p><p className="rounded-xl bg-[#0B1730] p-4 text-[#66AAF9]">derecho(i) = 2i + 2</p><p className="rounded-xl bg-[#0B1730] p-4 text-[#66AAF9]">padre(i) = ⌊(i − 1) / 2⌋</p></div><p className="mt-4 text-xs leading-5 text-[#71717A]">Ejemplo: para i = 2, sus hijos ocupan los índices 5 y 6; su padre ocupa el índice 0.</p></Card.Content></Card>
           </div>
-        </div>
       </section>
 
       <section className="border-b border-white/10 bg-black">
         <div className="mx-auto max-w-7xl px-5 py-16 sm:px-8 lg:px-12">
-          <SectionTitle number="05" title="Árbol binario de búsqueda" subtitle="Orden e interacción" />
+          <SectionTitle number="06" title="Árbol binario de búsqueda" subtitle="Orden e interacción" />
           <Card className="mb-6 border border-[#006FEE]/30 bg-[#0B1730]"><Card.Content className="grid gap-5 p-6 lg:grid-cols-[1fr_.8fr]"><div><p className="font-mono text-xs text-[#66AAF9]">DEFINICIÓN</p><p className="mt-3 leading-7 text-white">Un árbol binario de búsqueda es un árbol binario que mantiene una relación de orden global en cada nodo.</p></div><div className="font-mono text-sm leading-7 text-[#D4D4D8]"><p>claves(izquierda) &lt; nodo</p><p>claves(derecha) &gt; nodo</p><p className="mt-2 text-[#71717A]">Ejemplo: para la raíz 50, 30 pertenece al subárbol izquierdo y 70 al derecho.</p></div></Card.Content></Card>
           <div className="grid gap-6 lg:grid-cols-[1.45fr_.55fr]">
             <Card className="overflow-hidden border border-white/15 bg-[#000000]">
@@ -256,7 +272,7 @@ export function TreesLabView() {
       </section>
 
       <section className="mx-auto max-w-7xl px-5 py-16 sm:px-8 lg:px-12">
-        <SectionTitle number="06" title="Fórmulas y cálculos" subtitle="Altura, niveles y capacidad" />
+        <SectionTitle number="07" title="Recorridos y cálculos" subtitle="Orden, altura, niveles y capacidad" />
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           {formulas.map((item) => <Card key={item.title} className="border border-white/10 bg-[#09090B]"><Card.Content className="p-6"><p className="text-sm font-bold text-[#66AAF9]">{item.title}</p><p className="my-5 font-mono text-2xl font-bold text-white">{item.formula}</p><p className="text-sm leading-6 text-[#A1A1AA]">{item.note}</p></Card.Content></Card>)}
         </div>
@@ -270,7 +286,7 @@ export function TreesLabView() {
 
       <section className="border-y border-white/10 bg-[#050505]">
         <div className="mx-auto max-w-7xl px-5 py-16 sm:px-8 lg:px-12">
-          <SectionTitle number="07" title="Operaciones y complejidad" subtitle="Búsqueda, inserción y eliminación" />
+          <SectionTitle number="08" title="Operaciones y complejidad" subtitle="Búsqueda, inserción y eliminación" />
           <div className="mb-6 grid gap-4 md:grid-cols-3">
             {[
               ["Búsqueda", "Se compara la clave con el nodo actual. Si es menor, se continúa a la izquierda; si es mayor, a la derecha.", "Buscar 60: 50 → 70 → 60."],
@@ -297,17 +313,23 @@ export function TreesLabView() {
       </section>
 
       <section className="mx-auto max-w-7xl px-5 py-16 sm:px-8 lg:px-12">
-        <SectionTitle number="08" title="Balance AVL" subtitle="Factor de balance y rotaciones" />
+        <SectionTitle number="09" title="Balance AVL" subtitle="Factor de balance y rotaciones" />
         <div className="grid gap-6 lg:grid-cols-[.7fr_1.3fr]">
           <Card className="border border-[#006FEE]/30 bg-[#0B1730]"><Card.Content className="p-7"><ScaleIcon className="size-7 text-[#66AAF9]" /><p className="mt-5 font-mono text-2xl font-bold text-white">FB(v) = h(izq) − h(der)</p><p className="mt-4 leading-7 text-[#D4D4D8]">Un AVL exige que el factor de cada nodo sea −1, 0 o 1. Si llega a ±2 después de insertar o eliminar, se aplica una rotación.</p></Card.Content></Card>
           <div className="grid gap-3 sm:grid-cols-2">{[["LL", "Rotación simple a la derecha", "+2 y el nuevo nodo está a la izquierda"], ["RR", "Rotación simple a la izquierda", "−2 y el nuevo nodo está a la derecha"], ["LR", "Izquierda y luego derecha", "+2 con inserción derecha-izquierda"], ["RL", "Derecha y luego izquierda", "−2 con inserción izquierda-derecha"]].map(([code, title, note]) => <Card key={code} className="border border-white/10 bg-[#09090B]"><Card.Content className="flex gap-4 p-5"><span className="grid size-12 shrink-0 place-items-center rounded-full bg-[#006FEE] font-mono font-black text-white">{code}</span><div><h3 className="font-bold text-white">{title}</h3><p className="mt-1 text-sm leading-5 text-[#A1A1AA]">{note}</p></div></Card.Content></Card>)}</div>
         </div>
         <Card className="mt-6 border border-white/10 bg-[#09090B]"><Card.Content className="p-6"><h3 className="font-bold text-white">Proceso de rebalanceo</h3><ol className="mt-4 grid gap-3 text-sm leading-6 text-[#D4D4D8] md:grid-cols-4"><li><span className="mr-2 font-mono text-[#006FEE]">1.</span>Insertar como en un ABB.</li><li><span className="mr-2 font-mono text-[#006FEE]">2.</span>Actualizar alturas desde el nodo insertado.</li><li><span className="mr-2 font-mono text-[#006FEE]">3.</span>Calcular el factor de balance.</li><li><span className="mr-2 font-mono text-[#006FEE]">4.</span>Aplicar LL, RR, LR o RL si |FB| = 2.</li></ol><p className="mt-5 border-t border-white/10 pt-4 text-xs leading-5 text-[#71717A]">Ejemplo LL: insertar 30, 20 y 10 produce FB(30) = +2. Una rotación derecha deja 20 como raíz, 10 a la izquierda y 30 a la derecha.</p></Card.Content></Card>
+        <div className="mt-5 grid gap-4 lg:grid-cols-3">
+          <ConceptExample title="Altura AVL" definition="La altura está acotada por una función logarítmica." example="h ≤ 1.4405 log₂(n + 2) − 0.3277" />
+          <ConceptExample title="Inserción AVL" definition="Una rotación simple o doble repara el primer nodo desbalanceado del camino de retorno." example="30, 20, 10 ⇒ caso LL" />
+          <ConceptExample title="Eliminación AVL" definition="La reducción de altura puede propagar el desbalance hacia la raíz." example="Puede requerir una rotación por nivel" />
+        </div>
+        <Card className="mt-5 border border-[#006FEE]/30 bg-[#0B1730]"><Card.Content className="p-6"><h3 className="font-bold text-white">Propiedad de las rotaciones</h3><p className="mt-3 text-sm leading-7 text-[#D4D4D8]">Una rotación reasigna referencias entre tres nodos y sus subárboles. El recorrido inorden no cambia. La clave intermedia queda como raíz del subárbol reparado y cada rotación cuesta O(1).</p><p className="mt-4 font-mono text-xs text-[#66AAF9]">LL: z.izquierdo = y.derecho; y.derecho = z</p><p className="mt-2 font-mono text-xs text-[#66AAF9]">RR: z.derecho = y.izquierdo; y.izquierdo = z</p></Card.Content></Card>
       </section>
 
       <section className="border-y border-white/10 bg-[#050505]">
         <div className="mx-auto max-w-7xl px-5 py-16 sm:px-8 lg:px-12">
-          <SectionTitle number="09" title="Implementación en C#" subtitle="Nodo y búsqueda iterativa" />
+          <SectionTitle number="10" title="Implementación en C#" subtitle="Nodo y búsqueda iterativa" />
           <div className="grid gap-5 lg:grid-cols-2">
             <Card className="border border-white/10 bg-[#09090B]"><Card.Header className="border-b border-white/10 p-5"><Card.Title className="text-white">Clase Nodo</Card.Title><Card.Description className="text-[#71717A]">Valor y dos referencias opcionales.</Card.Description></Card.Header><Card.Content className="p-0"><pre className="overflow-auto p-5 font-mono text-sm leading-6 text-[#66AAF9]">{nodeCode}</pre></Card.Content></Card>
             <Card className="border border-white/10 bg-[#09090B]"><Card.Header className="border-b border-white/10 p-5"><Card.Title className="text-white">Buscar</Card.Title><Card.Description className="text-[#71717A]">Desciende por un único camino.</Card.Description></Card.Header><Card.Content className="p-0"><pre className="overflow-auto p-5 font-mono text-sm leading-6 text-[#66AAF9]">{searchCode}</pre></Card.Content></Card>
@@ -316,12 +338,6 @@ export function TreesLabView() {
         </div>
       </section>
 
-      <section className="border-t border-white/10 bg-black px-5 py-16 sm:px-8 lg:px-12">
-        <div className="mx-auto max-w-7xl">
-          <SectionTitle number="10" title="Guía visual completa" subtitle="Lámina adjunta" />
-          <Card className="overflow-hidden border border-white/15 bg-[#09090B]"><Card.Content className="p-3 sm:p-6"><div className="max-h-[75vh] overflow-auto rounded-xl bg-white"><img src="/labs/arboles/guia-arboles.svg" alt="Guía completa de árboles, árboles binarios de búsqueda y AVL" className="h-auto min-w-[900px] w-full" /></div></Card.Content><Card.Footer className="flex flex-wrap items-center gap-3 border-t border-white/10 p-5"><BookOpenIcon className="size-5 text-[#006FEE]" /><p className="mr-auto text-sm text-[#A1A1AA]">Usa el desplazamiento para recorrer la lámina completa.</p><Button variant="secondary" onPress={() => window.open("/labs/arboles/guia-arboles.svg", "_blank")}>Abrir en tamaño completo</Button></Card.Footer></Card>
-        </div>
-      </section>
     </main>
   )
 }
@@ -336,4 +352,8 @@ function Metric({ label, value, detail }: { label: string; value: number; detail
 
 function Traversal({ title, rule, values, use }: { title: string; rule: string; values: number[]; use: string }) {
   return <Card className="border border-white/10 bg-[#09090B]"><Card.Content className="p-5"><div className="flex items-center gap-2 text-[#66AAF9]"><GitBranchIcon className="size-4" /><h3 className="font-bold">{title}</h3></div><p className="mt-2 font-mono text-xs text-[#71717A]">{rule}</p><p className="my-4 break-words font-mono text-sm font-bold leading-6 text-white">{values.join(" → ")}</p><p className="text-xs text-[#A1A1AA]">{use}</p></Card.Content></Card>
+}
+
+function ConceptExample({ title, definition, example }: { title: string; definition: string; example: string }) {
+  return <Card className="border border-white/10 bg-[#09090B]"><Card.Content className="p-5"><h3 className="font-bold text-white">{title}</h3><p className="mt-3 text-sm leading-6 text-[#D4D4D8]">{definition}</p><p className="mt-4 font-mono text-xs leading-5 text-[#66AAF9]">Ejemplo: {example}</p></Card.Content></Card>
 }
