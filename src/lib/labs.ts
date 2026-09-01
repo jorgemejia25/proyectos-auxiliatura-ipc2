@@ -10,6 +10,7 @@ export type LabSlug =
   | "xml-lab"
   | "tda-lab"
   | "poo-lab"
+  | "arquitecturas-web"
 
 export type Lab = {
   /** URL segment under /laboratorios. */
@@ -27,6 +28,15 @@ export type Lab = {
 }
 
 export const labs: Lab[] = [
+  {
+    slug: "arquitecturas-web",
+    label: "Arquitecturas Web",
+    title: "UML, despliegue y desarrollo web",
+    summary:
+      "Curso-laboratorio de 12 clases: UML, stand-alone, cliente-servidor, N-capas, cloud, HTML, CSS, JavaScript, backend, JSON y XML.",
+    theme: "blue",
+    tags: ["UML", "Web", "Cloud", "Full stack"],
+  },
   {
     slug: "git-flow",
     label: "Git Flow",

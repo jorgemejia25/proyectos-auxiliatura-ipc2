@@ -43,6 +43,13 @@ const TreesLabView = dynamic(
   () => import("@/components/labs/arboles").then((mod) => mod.TreesLabView),
   { ssr: false }
 )
+const ArchitecturesWebView = dynamic(
+  () =>
+    import("@/components/labs/arquitecturas-web").then(
+      (mod) => mod.ArchitecturesWebView
+    ),
+  { ssr: false }
+)
 
 type LabViewProps = {
   lab: Lab
@@ -57,6 +64,7 @@ export function LabView({ lab }: LabViewProps) {
     <div className="flex min-h-dvh flex-col [--project-chrome-h:58px]">
       <LabChrome lab={lab} />
       <div className="min-h-0 flex-1 overflow-auto pt-[58px]">
+        {lab.slug === "arquitecturas-web" ? <ArchitecturesWebView /> : null}
         {lab.slug === "git-flow" ? <GitFlowView /> : null}
         {lab.slug === "csharp-basico" ? <CsharpBasicsView /> : null}
         {lab.slug === "graphviz-csharp" ? <GraphvizCsharpView /> : null}
