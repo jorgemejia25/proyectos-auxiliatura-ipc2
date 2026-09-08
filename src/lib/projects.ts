@@ -1,7 +1,7 @@
 /**
  * Catalog of IPC2 auxiliary projects exposed by the hub.
  */
-export type ProjectSlug = "practica1" | "proyecto1" | "proyecto2"
+export type ProjectSlug = "practica1" | "practica2" | "proyecto1" | "proyecto2"
 
 export type Project = {
   /** URL segment used by App Router. */
@@ -39,6 +39,17 @@ export const projects: Project[] = [
     deadlineAt: "2026-08-14T23:59:59-06:00",
     theme: "cyan",
     tags: ["C#", "Consola", "POO", "Herencia"],
+  },
+  {
+    slug: "practica2",
+    label: "Práctica 2",
+    title: "Reproductor de música",
+    summary:
+      "Guía paso a paso para construir una cola FIFO y un ABB por título con JSON, Windows Forms y Graphviz.",
+    delivery: "17 SEP · 11:59 pm · UEDI",
+    deadlineAt: "2026-09-17T23:59:00-06:00",
+    theme: "cyan",
+    tags: ["C#", "Cola", "ABB", "JSON", "Graphviz"],
   },
   {
     slug: "proyecto1",
