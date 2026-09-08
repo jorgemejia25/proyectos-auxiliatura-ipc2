@@ -50,6 +50,13 @@ const ArchitecturesWebView = dynamic(
     ),
   { ssr: false }
 )
+const WindowsFormsView = dynamic(
+  () =>
+    import("@/components/labs/windows-forms").then(
+      (mod) => mod.WindowsFormsView
+    ),
+  { ssr: false }
+)
 
 type LabViewProps = {
   lab: Lab
@@ -65,6 +72,7 @@ export function LabView({ lab }: LabViewProps) {
       <LabChrome lab={lab} />
       <div className="min-h-0 flex-1 overflow-auto pt-[58px]">
         {lab.slug === "arquitecturas-web" ? <ArchitecturesWebView /> : null}
+        {lab.slug === "windows-forms" ? <WindowsFormsView /> : null}
         {lab.slug === "git-flow" ? <GitFlowView /> : null}
         {lab.slug === "csharp-basico" ? <CsharpBasicsView /> : null}
         {lab.slug === "graphviz-csharp" ? <GraphvizCsharpView /> : null}

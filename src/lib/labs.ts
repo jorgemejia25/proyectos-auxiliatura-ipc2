@@ -11,6 +11,7 @@ export type LabSlug =
   | "tda-lab"
   | "poo-lab"
   | "arquitecturas-web"
+  | "windows-forms"
 
 export type Lab = {
   /** URL segment under /laboratorios. */
@@ -54,6 +55,15 @@ export const labs: Lab[] = [
       "Sintaxis, tipos, entrada y salida, decisiones, ciclos, colecciones, métodos y excepciones con práctica guiada.",
     theme: "rose",
     tags: ["C#", "Fundamentos", "Consola", "Métodos"],
+  },
+  {
+    slug: "windows-forms",
+    label: "Windows Forms",
+    title: "Diseño de interfaces en C#",
+    summary:
+      "Formularios, controles, propiedades, layouts, eventos y validación con una práctica visual de registro.",
+    theme: "blue",
+    tags: ["C#", "WinForms", "UI", "Eventos"],
   },
   {
     slug: "graphviz-csharp",
