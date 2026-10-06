@@ -3,6 +3,7 @@ import { Practica1View } from "@/components/projects/practica1"
 import { Practica2View } from "@/components/projects/practica2"
 import { Proyecto1View } from "@/components/projects/proyecto1"
 import { Proyecto2View } from "@/components/projects/proyecto2"
+import { Proyecto3View } from "@/components/projects/proyecto3"
 import type { Project } from "@/lib/projects"
 
 type ProjectViewProps = {
@@ -22,6 +23,7 @@ export function ProjectView({ project }: ProjectViewProps) {
         {project.slug === "practica2" ? <Practica2View /> : null}
         {project.slug === "proyecto1" ? <Proyecto1View /> : null}
         {project.slug === "proyecto2" ? <Proyecto2View /> : null}
+        {project.slug === "proyecto3" ? <Proyecto3View /> : null}
       </div>
     </div>
   )

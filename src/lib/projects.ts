@@ -1,7 +1,7 @@
 /**
  * Catalog of IPC2 auxiliary projects exposed by the hub.
  */
-export type ProjectSlug = "practica1" | "practica2" | "proyecto1" | "proyecto2"
+export type ProjectSlug = "practica1" | "practica2" | "proyecto1" | "proyecto2" | "proyecto3"
 
 export type Project = {
   /** URL segment used by App Router. */
@@ -72,6 +72,17 @@ export const projects: Project[] = [
     deadlineAt: "2026-09-24T23:59:00-06:00",
     theme: "violet",
     tags: ["C#", "Árbol N-ario", "ABB", "Graphviz", "XML"],
+  },
+  {
+    slug: "proyecto3",
+    label: "Proyecto 3",
+    title: "API de facturas SAT",
+    summary:
+      "API HTTP en .NET que valida NIT, autoriza DTE con correlativo diario y alimenta reportes en Razor Pages.",
+    delivery: "22 OCT · 11:59 pm · UEDI",
+    deadlineAt: "2026-10-22T23:59:00-06:00",
+    theme: "violet",
+    tags: ["C#", "Web API", "Razor Pages", "JSON", "Regex"],
   },
 ]
 
